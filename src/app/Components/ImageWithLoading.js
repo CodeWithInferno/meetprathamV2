@@ -1,6 +1,7 @@
 // ImageWithLoading.js
 import { useState } from 'react';
 
+
 export default function ImageWithLoading({ src, alt }) {
   const [isLoading, setIsLoading] = useState(true);
 

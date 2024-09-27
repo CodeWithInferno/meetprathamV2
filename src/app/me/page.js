@@ -99,7 +99,7 @@ function Me() {
       </div>
       <div className="bg-gray-200 p-4 mb-1 mt-1 text-black text-2xl overflow-hidden h-16 flex items-center">
       <Marquee velocity={25}>
-        {[<div  style={{ whiteSpace: 'nowrap' }}>"You have the right to work, but never to the fruit of work."  -Bhagavad Gita, Chapter 2 Verse 47</div>]}
+        {[<div key="quote" style={{ whiteSpace: 'nowrap' }}>&quot;You have the right to work, but never to the fruit of work.&quot;  -Bhagavad Gita, Chapter 2 Verse 47</div>]}
       </Marquee>
 
       </div>
