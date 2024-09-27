@@ -23,7 +23,7 @@ const AboutMe = () => {
         <p className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4">
           I am Pratham Patel (CodeWithInferno). Explore more to get a sneak peek into my life and work.
         </p>
-        <Link href="/sneekpeak" passHref>
+        <Link href="/sneakpeak" passHref>
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 ease-in-out">
             Click me
           </button>

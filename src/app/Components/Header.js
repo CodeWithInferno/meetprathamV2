@@ -76,7 +76,7 @@ const Header = () => {
               </label>
 
               {/* Menu items */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-lg">
+              <div className="grid z-50 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-lg">
                 <Link href="/wallpapers" className="block px-4 py-2 text-sm">Wallpapers</Link>
                 <Link href="/workingon" className="block px-4 py-2 text-sm">Projects</Link>
                 <a href="http://github.com/CodeWithInferno" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm">GitHub</a>
