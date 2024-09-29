@@ -8,13 +8,12 @@ import { Fade } from 'react-awesome-reveal';
 function App() {
   return (
     <div className="bg-white text-black min-h-screen">
-      <Fade>
+      
         <Header />
-      </Fade>
+      
       <Fade>
         <div className="text-4xl font-normal text-left mt-24 ml-40 mb-20">
           <p>Hi, I’m a computer science student </p>
-          <p>and a coding enthusiast</p>
           <p>my daily life and projects.</p>
         </div>
       </Fade>
@@ -60,9 +59,6 @@ function App() {
 }
 
 export default App;
-
-
-
 
 
 
