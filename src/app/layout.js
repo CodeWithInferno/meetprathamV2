@@ -24,6 +24,9 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
+      <Analytics/>
+      <SpeedInsights/>
+
       <body className={`${inter.className} bg-white text-black min-h-screen bg-no-repeat`}>
         {children}
       </body>
