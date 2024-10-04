@@ -1,15 +1,4 @@
 'use client';
-
-
-
-
-
-
-
-
-
-
-
 import { useState } from 'react';
 
 export default function Home() {
@@ -32,29 +21,34 @@ export default function Home() {
 
   function renderSquare(i) {
     return (
-      <button className="w-24 h-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={() => handleClick(i)}>
+      <button
+        className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 bg-gradient-to-r from-purple-400 to-blue-500 hover:from-blue-500 hover:to-purple-400 text-white font-bold text-2xl rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
+        onClick={() => handleClick(i)}
+      >
         {board[i]}
       </button>
     );
   }
 
   return (
-    <div className='bg-white text-black min-h-screen h-full bg-no-repeat'>
-      <div className="flex flex-wrap justify-center">
-        <div className="grid grid-cols-3 gap-2">
-          {Array(9).fill(null).map((_, i) => (
-            <div key={i}>
-              {renderSquare(i)}
-            </div>
-          ))}
-        </div>
-        <div className="p-2">
-          {winner ? 'Winner: ' + winner : 'Next Player: ' + (xIsNext ? 'X' : 'O')}
-        </div>
-        <button className="bg-green-500 hover:bg-green-700 h-10 text-white font-bold py-2 px-4 rounded m-1" onClick={resetGame}>
-          Reset Game
-        </button>
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col justify-center items-center p-4">
+      <h1 className="text-4xl sm:text-5xl font-bold mb-6">Tic-Tac-Toe</h1>
+      <div className="grid grid-cols-3 gap-4">
+        {Array(9).fill(null).map((_, i) => (
+          <div key={i}>
+            {renderSquare(i)}
+          </div>
+        ))}
       </div>
+      <div className="mt-8 text-2xl">
+        {winner ? 'Winner: ' + winner : 'Next Player: ' + (xIsNext ? 'X' : 'O')}
+      </div>
+      <button
+        className="mt-6 bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
+        onClick={resetGame}
+      >
+        Reset Game
+      </button>
     </div>
   );
 }

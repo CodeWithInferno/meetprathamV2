@@ -9,7 +9,7 @@ import Footer from "../Components/Footer";
 const client = sanityClient({
   projectId: "1igdvz19",
   dataset: "production",
-  useCdn: false, // Enable if you want to use the CDN
+  useCdn: false,
 });
 
 const builder = imageUrlBuilder(client);
@@ -35,7 +35,7 @@ export default function BlogList() {
         }`
       )
       .then((data) => {
-        data = data.map(post => {
+        data = data.map((post) => {
           if (post.banner) {
             post.banner.url = urlFor(post.banner.asset).url();
           }
@@ -49,18 +49,19 @@ export default function BlogList() {
   return (
     <div className="min-h-screen bg-white bg-no-repeat">
       <Header />
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 p-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
         {postData &&
           postData.map((post, index) => (
             <Link key={index} href={"/blogs/" + post.slug.current}>
-              <div className="card max-w-md mx-auto bg-white rounded-xl md:max-w-2xl  overflow-hidden shadow-lg h-96 w-60 md:w-80 cursor-pointer m-auto transform transition-all duration-300 hover:scale-105">
-                <img className="h-56 w-full object-cover" src={post.banner?.url} alt={post.title} />
-                <div className="p-2">
-                  <h2 className="mt-4 font-bold text-xl">{post.title}</h2>
+              <div className="card bg-white rounded-xl overflow-hidden shadow-lg h-auto w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto cursor-pointer transform transition-all duration-300 hover:scale-105">
+                <img
+                  className="h-56 w-full object-cover"
+                  src={post.banner?.url}
+                  alt={post.title}
+                />
+                <div className="p-4">
+                  <h2 className="mt-2 font-bold text-lg sm:text-xl">{post.title}</h2>
                   <p className="mt-2 text-sm text-gray-500">{post.description}</p>
-                </div>
-                <div className="px-3">
-                  
                 </div>
               </div>
             </Link>

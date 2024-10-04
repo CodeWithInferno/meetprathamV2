@@ -9,7 +9,7 @@ import BlockContent from "@sanity/block-content-to-react";
 const client = sanityClient({
   projectId: "1igdvz19",
   dataset: "production",
-  useCdn: false, // Enable if you want to use the CDN
+  useCdn: false,
 });
 
 const builder = imageUrlBuilder(client);
@@ -33,7 +33,6 @@ async function getData(slug) {
   `;
   const data = await client.fetch(query);
 
-  // Add the image URL to the asset object for each block in the body array
   if (data.body) {
     data.body = data.body.map((block) => {
       if (block.asset) {
@@ -62,48 +61,45 @@ export default function BlogArticle({ params }) {
     );
 
   return (
-    <div className="bg-white text-black">
+    <div className="bg-gray-100 text-black font-serif">
       <Header />
 
-      <div className="bg-white text-black min-h-screen h-full bg-no-repeat flex flex-col items-center">
-        <div className="mt-12 w-full mb-28 max-w-4xl px-8 py-6 bg-gray-100 shadow-lg rounded-lg mx-auto">
-          <h1 className="font-bold text-4xl mb-4">{data.title}</h1>
-          <p className="text-gray-600">
-            Published at: {new Date(data.publishedAt).toLocaleDateString()}
+      <div className="bg-white text-black min-h-screen flex flex-col items-center px-4">
+        <div className="mt-12 w-full mb-28 max-w-2xl sm:max-w-3xl px-4 sm:px-8 py-8 bg-white shadow-lg rounded-lg mx-auto transition-all duration-300 transform hover:shadow-2xl">
+          <h1 className="font-bold text-4xl sm:text-5xl text-center mb-6 text-gray-800 break-words">
+            {data.title}
+          </h1>
+          <p className="text-gray-500 text-center text-sm sm:text-base mb-8">
+            Published on: {new Date(data.publishedAt).toLocaleDateString()}
           </p>
-          {data.body.map((block, index) => (
-  <div key={index} className="my-4">
-    {block._type === "block" && (
-      <BlockContent blocks={block} projectId="1igdvz19" dataset="production" />
-    )}
-    {block.asset && (
-      <img className="my-4 rounded" src={block.asset.url} alt="" />
-    )}
-  </div>
-))} 
+
+          <div className="space-y-6">
+            {data.body.map((block, index) => (
+              <div key={index} className="my-4">
+                {block._type === "block" && (
+                  <BlockContent
+                    blocks={block}
+                    projectId="1igdvz19"
+                    dataset="production"
+                    className="text-base sm:text-lg leading-relaxed text-gray-700"
+                  />
+                )}
+                {block.asset && (
+                  <div className="my-6 flex justify-center">
+                    <img
+                      className="rounded-lg border border-gray-300 shadow-lg transition-transform duration-300 transform hover:scale-105"
+                      src={block.asset.url}
+                      alt=""
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
+
         <Footer />
       </div>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
