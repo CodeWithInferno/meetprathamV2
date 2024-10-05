@@ -12,9 +12,9 @@ function App() {
 
       <Fade>
         <div className="text-2xl md:text-4xl font-normal text-left mt-12 md:mt-24 ml-4 md:ml-40 mb-10 md:mb-20">
-          <p>Hi, I’m a computer science student</p>
+          <p>Hi, I&apos;m a computer science student</p>
           <p>my daily life and projects.</p>
-          <p className="mt-4 text-lg md:text-2xl">Click on the hamburger menu to know more about me!</p> {/* New Line */}
+          <p className="mt-4 text-gray-500 text-lg md:text-2xl">Click on the hamburger menu to know more about me!</p> {/* New Line */}
         </div>
       </Fade>
 
@@ -46,7 +46,7 @@ function App() {
 
         <Fade>
           <div className="text-2xl md:text-4xl font-normal text-left mt-12 md:mt-24 ml-4 md:ml-40 mb-10 md:mb-20">
-            <p>Hi, I'm a software engineer</p>
+            <p>Hi, Im a software engineer</p>
             <a href='/portfolio'>
               <div className="bg-transparent mt-5 text-sm hover:underline">View Projects</div>
             </a>
