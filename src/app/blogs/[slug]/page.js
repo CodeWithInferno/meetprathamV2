@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import BlockContent from "@sanity/block-content-to-react";
+import LoadingAnimation from "../../Components/ui/loader/loader";
 
 const client = sanityClient({
   projectId: "1igdvz19",
   dataset: "production",
-  useCdn: false,
+  useCdn: true,
 });
 
 const builder = imageUrlBuilder(client);
@@ -33,7 +34,8 @@ async function getData(slug) {
   `;
   const data = await client.fetch(query);
 
-  if (data.body) {
+  // Check if data and data.body exist
+  if (data && data.body) {
     data.body = data.body.map((block) => {
       if (block.asset) {
         block.asset.url = urlFor(block.asset).url();
@@ -55,8 +57,10 @@ export default function BlogArticle({ params }) {
 
   if (!data)
     return (
-      <div className="bg-white text-black min-h-screen h-full bg-no-repeat">
-        Loading...
+      <div className="bg-white text-black min-h-screen flex items-center justify-center">
+      <div>
+        <LoadingAnimation />
+      </div>
       </div>
     );
 
@@ -74,7 +78,8 @@ export default function BlogArticle({ params }) {
           </p>
 
           <div className="space-y-6">
-            {data.body.map((block, index) => (
+            {/* Ensure data.body exists before mapping */}
+            {data.body && data.body.map((block, index) => (
               <div key={index} className="my-4">
                 {block._type === "block" && (
                   <BlockContent
