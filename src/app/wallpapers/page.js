@@ -164,6 +164,10 @@ import { Fade } from "react-awesome-reveal";
 import Link from 'next/link';
 
 function Wallpapers() {
+
+
+
+  
   return (
     <div className="bg-white text-black min-h-screen">
       <Header />
