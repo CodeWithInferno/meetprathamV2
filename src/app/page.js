@@ -13,15 +13,13 @@ function App() {
 
       <Fade>
         <div className="text-2xl md:text-4xl font-normal text-left mt-12 md:mt-24 ml-4 md:ml-40 mb-10 md:mb-20">
-          <p>Hello, I'm <span className="font-semibold">Pratham Patel</span>.</p>
+          <p>Hello, I&apos;m <span className="font-semibold">Pratham Patel</span>.</p>
           <p className="mt-2">Turning ideas into impactful digital solutions.</p>
           <p className="mt-4 text-gray-500 text-lg md:text-2xl">
-            Explore my journey, skills, and the projects I've crafted. Click the
+            Explore my journey, skills, and the projects I&apos;ve crafted. Click the
             <span className="inline-flex items-center ml-1 text-gray-700"><FaBars className="ml-1" /></span> menu to discover more!
           </p>
         </div>
-
-
       </Fade>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-10 ml-2">
@@ -52,7 +50,7 @@ function App() {
 
         <Fade>
           <div className="text-2xl md:text-4xl font-normal text-left mt-12 md:mt-24 ml-4 md:ml-40 mb-10 md:mb-20">
-            <p>Hi, Im a software engineer</p>
+            <p>Hi, I&apos;m a software engineer</p>
             <a href='/portfolio'>
               <div className="bg-transparent mt-5 text-sm hover:underline">View Projects </div>
             </a>
