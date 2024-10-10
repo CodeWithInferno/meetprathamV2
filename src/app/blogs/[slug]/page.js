@@ -173,7 +173,7 @@ import Footer from "../../Components/Footer";
 import BlockContent from "@sanity/block-content-to-react";
 import LoadingAnimation from "../../Components/ui/loader/loader";
 import Head from "next/head"; // Import the Head component
-import Comment from "../../Components/Comment";
+// import Comment from "../../Components/Comment";
 
 const client = sanityClient({
   projectId: "1igdvz19",
@@ -311,7 +311,7 @@ export default function BlogArticle({ params }) {
                 </div>
               ))}
             </div>
-            <Comment postId={data._id} comments={commentList} />
+            {/* <Comment postId={data._id} comments={commentList} /> */}
           </div>
 
           <Footer />
@@ -320,7 +320,6 @@ export default function BlogArticle({ params }) {
     </>
   );
 }
-
 
 
 
