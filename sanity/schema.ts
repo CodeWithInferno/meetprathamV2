@@ -3,8 +3,8 @@ import Image from "./Docs/Image";
 import Work from "./Docs/work";
 import post from "./Docs/blog";
 import imagePost from "./Docs/sneakpeak";
-import comment from "./Docs/comment";
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [Image,Work,post,imagePost,comment],
+  types: [Image,Work,post,imagePost],
 }
