@@ -342,7 +342,6 @@ import Footer from "../../Components/Footer";
 import BlockContent from "@sanity/block-content-to-react";
 import LoadingAnimation from "../../Components/ui/loader/loader";
 import Head from "next/head"; // Import the Head component
-import Comment from "../../Components/Comment";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 const client = sanityClient({
