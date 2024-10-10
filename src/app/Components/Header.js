@@ -143,12 +143,16 @@ const Header = () => {
   return (
     <>
       <header className="relative flex flex-wrap z-50 items-center justify-between p-5 bg-transparent text-3xl font-semibold text-black h-28">
-        <div className="lg:ml-48">Pratham</div>
+        <button className="lg:ml-48">
+          <Link href="/">Pratham</Link>
+        </button>
 
         {/* Links visible on large screens */}
         <div className="hidden lg:flex space-x-4 text-2xl font-normal mr-48">
-          <Link href="/wallpapers">Wallpapers</Link>
+        <Link href="/me">Me</Link>
+          <Link href="/bloglist">Blogs</Link>
           <Link href="/workingon">Projects</Link>
+          
           <a href="http://github.com/CodeWithInferno" target="_blank" rel="noopener noreferrer">GitHub</a>
 
           {/* Hamburger Menu for desktop */}
