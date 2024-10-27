@@ -24,6 +24,7 @@
     "markdown": "^0.5.0",
     "next": "^14.2.3",
     "next-sanity": "^7.1.4",
+    "prism-react-renderer": "^2.4.0",
     "react": "^18.3.1",
     "react-awesome-reveal": "^4.2.8",
     "react-dom": "^18.3.1",
