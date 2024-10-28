@@ -299,6 +299,7 @@
 import sanityClient from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { PortableText } from "@portabletext/react";
@@ -349,38 +350,18 @@ async function getData(slug) {
   return data;
 }
 
-// Custom components for handling rich text elements with Copy Code feature
+// Custom components for handling rich text elements
 const components = {
   types: {
     image: ({ value }) => (
-      <img
+      <Image
         src={urlFor(value.asset).url()}
         alt={value.alt || 'Blog Image'}
         className="rounded-lg border border-gray-300 shadow-lg transition-transform duration-300 transform hover:scale-105"
+        width={800} // Set appropriate dimensions for better performance
+        height={450}
       />
     ),
-    code: ({ value }) => {
-      const [copied, setCopied] = useState(false);
-      const handleCopy = () => {
-        navigator.clipboard.writeText(value.code);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      };
-
-      return (
-        <div className="relative bg-gray-800 text-gray-100 rounded-lg p-4 my-4 overflow-x-auto">
-          <button
-            onClick={handleCopy}
-            className="absolute top-2 right-2 bg-gray-700 text-white text-sm px-2 py-1 rounded hover:bg-gray-600"
-          >
-            {copied ? "Copied!" : "Copy Code"}
-          </button>
-          <pre className="whitespace-pre-wrap text-sm">
-            <code>{value.code}</code>
-          </pre>
-        </div>
-      );
-    },
   },
   marks: {
     link: ({ children, value }) => (
@@ -420,7 +401,7 @@ export default function BlogArticle({ params }) {
   useEffect(() => {
     getData(slug).then((fetchedData) => {
       setData(fetchedData);
-      setCommentList(fetchedData?.comments || []); 
+      setCommentList(fetchedData?.comments || []);
       setLikeCount(fetchedData?.likes || 0);
 
       const savedLikeStatus = localStorage.getItem(`liked-${slug}`);
