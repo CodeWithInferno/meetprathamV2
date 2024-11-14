@@ -429,11 +429,6 @@ export default function BlogArticle({ params }) {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [showComments, setShowComments] = useState(false);
-  const pageUrl = `https://meetpratham.me/blogs/${slug}`;
-  const pageTitle = data?.title || "Blog Post";
-  const pageDescription = `Published on: ${new Date(data?.publishedAt).toLocaleDateString()}`;
-  const pageImage = `/api/og?slug=${slug}`; // Your API endpoint for dynamic OG images
-
 
   useEffect(() => {
     getData(slug).then((fetchedData) => {
@@ -516,6 +511,12 @@ export default function BlogArticle({ params }) {
 
   const toggleCommentSection = () => setShowComments(!showComments);
 
+  const pageUrl = `https://www.meetpratham.me/blogs/${slug}`;
+  const pageTitle = data?.title || "Pratham's Tech Blog";
+  const pageDescription = `Published on: ${new Date(data?.publishedAt).toLocaleDateString()}`;
+  const pageImage = `https://www.meetpratham.me/api/og?slug=${slug}`; // Point to your dynamic OG image API
+
+
   if (!data)
     return (
       <div className="bg-white text-black min-h-screen flex items-center justify-center">
@@ -527,21 +528,23 @@ export default function BlogArticle({ params }) {
 
   return (
     <>
-<Head>
-  <title>{pageTitle}</title>
-  <meta name="description" content={pageDescription} />
-  <meta property="og:url" content={pageUrl} />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content={pageTitle} />
-  <meta property="og:description" content={pageDescription} />
-  <meta property="og:image" content={pageImage} />
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
 
-  {/* Twitter Card Meta Tags */}
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={pageTitle} />
-  <meta name="twitter:description" content={pageDescription} />
-  <meta name="twitter:image" content={pageImage} />
-</Head>
+        {/* Open Graph Meta Tags */}
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={pageImage} />
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={pageImage} />
+      </Head>
 
 
       <div className="bg-gray-100 text-black font-serif">
