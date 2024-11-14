@@ -432,6 +432,8 @@ export default function BlogArticle({ params }) {
   const pageUrl = `https://meetpratham.me/blogs/${slug}`;
   const pageTitle = data?.title || "Blog Post";
   const pageDescription = `Published on: ${new Date(data?.publishedAt).toLocaleDateString()}`;
+  const pageImage = `/api/og?slug=${slug}`; // Your API endpoint for dynamic OG images
+
 
   useEffect(() => {
     getData(slug).then((fetchedData) => {
@@ -525,24 +527,22 @@ export default function BlogArticle({ params }) {
 
   return (
     <>
-      <Head>
-        {/* General Meta Tags */}
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
+<Head>
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:image" content={pageImage} />
 
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content={`/api/og?slug=${slug}`} />
-        <meta property="og:type" content="article" />
+  {/* Twitter Card Meta Tags */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={pageDescription} />
+  <meta name="twitter:image" content={pageImage} />
+</Head>
 
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-        <meta name="twitter:image" content={`/api/og?slug=${slug}`} />
-      </Head>
 
       <div className="bg-gray-100 text-black font-serif">
         <Header />
