@@ -295,6 +295,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 "use client";
 import sanityClient from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
@@ -397,6 +429,9 @@ export default function BlogArticle({ params }) {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [showComments, setShowComments] = useState(false);
+  const pageUrl = `https://meetpratham.me/blogs/${slug}`;
+  const pageTitle = data?.title || "Blog Post";
+  const pageDescription = `Published on: ${new Date(data?.publishedAt).toLocaleDateString()}`;
 
   useEffect(() => {
     getData(slug).then((fetchedData) => {
@@ -491,13 +526,22 @@ export default function BlogArticle({ params }) {
   return (
     <>
       <Head>
-        <meta property="og:title" content={data.title} />
-        <meta property="og:description" content={`Published on: ${new Date(data.publishedAt).toLocaleDateString()}`} />
-        <meta property="og:image" content={featuredImage} />
-        <meta property="og:url" content={`https://meetpratham-v2.vercel.app/blogs/${slug}`} />
+        {/* General Meta Tags */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={`/api/og?slug=${slug}`} />
         <meta property="og:type" content="article" />
-        <meta property="og:locale" content="en_US" />
-        <link rel="canonical" href={`https://meetpratham-v2.vercel.app/blogs/${slug}`} />
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={`/api/og?slug=${slug}`} />
       </Head>
 
       <div className="bg-gray-100 text-black font-serif">
