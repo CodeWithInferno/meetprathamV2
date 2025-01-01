@@ -334,6 +334,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
+import CodeBlock from './components/CodeBlock';  // Create this file with the code from step 1
 import { PortableText } from "@portabletext/react";
 import LoadingAnimation from "../../Components/ui/loader/loader";
 import Head from "next/head";
@@ -390,7 +391,7 @@ const components = {
         src={urlFor(value.asset).url()}
         alt={value.alt || 'Blog Image'}
         className="rounded-lg border border-gray-300 shadow-lg transition-transform duration-300 transform hover:scale-105"
-        width={800} // Set appropriate dimensions for better performance
+        width={800}
         height={450}
       />
     ),
@@ -400,6 +401,11 @@ const components = {
       <a href={value.href} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
         {children}
       </a>
+    ),
+    code: ({ children }) => (
+      <code className="bg-gray-100 text-pink-500 px-1 py-0.5 rounded font-mono text-sm">
+        {children}
+      </code>
     ),
   },
   list: {
@@ -413,6 +419,9 @@ const components = {
     h2: ({ children }) => <h2 className="text-2xl font-bold mt-5 mb-3">{children}</h2>,
     h3: ({ children }) => <h3 className="text-xl font-semibold mt-4 mb-2">{children}</h3>,
     normal: ({ children }) => <p className="text-base sm:text-lg leading-relaxed text-gray-700">{children}</p>,
+    code: ({ children }) => {
+      return <CodeBlock language="javascript">{children}</CodeBlock>;
+    },
   },
 };
 
