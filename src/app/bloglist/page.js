@@ -1,209 +1,138 @@
-// 'use client';
-// import { useEffect, useState } from "react";
-// import Link from 'next/link';
-// import imageUrlBuilder from "@sanity/image-url";
-// import sanityClient from "@sanity/client";
-// import Header from "../Components/Header";
-// import Footer from "../Components/Footer";
-
-// const client = sanityClient({
-//   projectId: "1igdvz19",
-//   dataset: "production",
-//   useCdn: false,
-// });
-
-// const builder = imageUrlBuilder(client);
-// function urlFor(source) {
-//   return builder.image(source);
-// }
-
-// export default function BlogList() {
-//   const [postData, setPostData] = useState(null);
-
-//   useEffect(() => {
-//     client
-//       .fetch(
-//         `*[_type == "post"]{
-//           title,
-//           slug,
-//           description,
-//           banner{
-//             asset->{
-//               _id
-//             }
-//           },
-//           topics[]->{
-//             title,
-//             slug,
-//             description
-//           }
-//         }`
-//       )
-//       .then((data) => {
-//         data = data.map((post) => {
-//           if (post.banner) {
-//             post.banner.url = urlFor(post.banner.asset).url();
-//           }
-//           return post;
-//         });
-//         setPostData(data);
-//       })
-//       .catch(console.error);
-//   }, []);
-  
-
-//   return (
-//     <div className="min-h-screen bg-white bg-no-repeat">
-//       <Header />
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
-//         {postData &&
-//           postData.map((post, index) => (
-//             <Link key={index} href={"/blogs/" + post.slug.current}>
-//               <div className="card bg-white rounded-xl overflow-hidden shadow-lg h-auto w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto cursor-pointer transform transition-all duration-300 hover:scale-105">
-//                 <img
-//                   className="h-56 w-full object-cover"
-//                   src={post.banner?.url}
-//                   alt={post.title}
-//                 />
-//                 <div className="p-4">
-//                   <h2 className="mt-2 font-bold text-lg sm:text-xl">{post.title}</h2>
-//                   <p className="mt-2 text-sm text-gray-500">{post.description}</p>
-//                 </div>
-//               </div>
-//             </Link>
-//           ))}
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
+// src/app/blog/page.jsx
 'use client';
-import { useEffect, useState } from "react";
-import Link from 'next/link';
-import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "@sanity/client";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
 
+import React, { useEffect, useState } from 'react';
+import Link   from 'next/link';
+import Image  from 'next/image';
+import { motion } from 'framer-motion';
+
+import Header from '@/app/Components/Resuables/Header';
+import Footer from '@/app/Components/Resuables/Footer';
+
+import sanityClient from '@sanity/client';
+
+/* ── Sanity client ────────────────────────── */
 const client = sanityClient({
-  projectId: "1igdvz19",
-  dataset: "production",
-  useCdn: false,
+  projectId: '1igdvz19',
+  dataset:   'production',
+  useCdn:    true,
 });
 
-const builder = imageUrlBuilder(client);
-function urlFor(source) {
-  return builder.image(source);
-}
+/* fallback tile colours */
+const GREYS = ['#111827', '#1f2937', '#334155'];
 
-export default function BlogList() {
-  const [postData, setPostData] = useState(null);
-  const [categories, setCategories] = useState([]);
+/* ─────────────────────────────────────────── */
 
-  // Fetch posts
+export default function Blog() {
+  const [posts,  setPosts]  = useState([]);
+  const [topics, setTopics] = useState([]);
+  const [active, setActive] = useState('All');
+
+  /* fetch posts + topics */
   useEffect(() => {
-    client
-      .fetch(
-        `*[_type == "post"]{
+    (async () => {
+      const raw = await client.fetch(`
+        *[_type=="post"]|order(_createdAt desc){
           title,
           slug,
           description,
-          banner{
-            asset->{
-              _id
-            }
-          },
-          topics[]->{
-            title,
-            slug,
-            description
-          }
-        }`
-      )
-      .then((data) => {
-        data = data.map((post) => {
-          if (post.banner) {
-            post.banner.url = urlFor(post.banner.asset).url();
-          }
-          return post;
-        });
-        setPostData(data);
-      })
-      .catch(console.error);
+          "bannerUrl": banner.asset->url,
+          topics[]->{title}
+        }`);
+      const cooked = raw.map(p => ({
+        title: p.title,
+        slug:  p.slug.current,
+        description: p.description,
+        banner: p.bannerUrl,
+        topics: p.topics?.map(t => t.title) || [],
+      }));
+      setPosts(cooked);
+      setTopics(['All', ...new Set(cooked.flatMap(p => p.topics))]);
+    })();
   }, []);
 
-  // Fetch categories (topics)
-  useEffect(() => {
-    client
-      .fetch(
-        `*[_type == "topic"]{
-          title,
-          slug
-        }`
-      )
-      .then((data) => {
-        setCategories(data);
-      })
-      .catch(console.error);
-  }, []);
+  const visible = active === 'All'
+    ? posts
+    : posts.filter(p => p.topics.includes(active));
 
   return (
-    <div className="min-h-screen bg-white bg-no-repeat">
+    <div className="bg-white text-black">
       <Header />
 
-      {/* Category Buttons */}
-      <div className="flex justify-center space-x-4 px-5 mt-4">
-        {categories &&
-          categories.map((category, index) => (
-            <Link key={index} href={`/bloglist/${category.slug.current}`}>
-              <button className="bg-transparent  text-black border font-bold py-1 px-4 rounded">
-                {category.title}
-              </button>
-            </Link>
-          ))}
-      </div>
+      {/* 40-vh spacer */}
+      <section className="h-[40vh] flex items-end justify-center select-none">
+        <h1 className="text-[18vw] font-black text-gray-200 leading-none uppercase">Blog</h1>
+      </section>
 
-      {/* Blog Posts Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
-        {postData &&
-          postData.map((post, index) => (
-            <Link key={index} href={"/blogs/" + post.slug.current}>
-              <div className="card bg-white rounded-xl overflow-hidden shadow-lg h-auto w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto cursor-pointer transform transition-all duration-300 hover:scale-105">
-                <img
-                  className="h-56 w-full object-cover"
-                  src={post.banner?.url}
-                  alt={post.title}
-                />
-                <div className="p-4">
-                  <h2 className="mt-2 font-bold text-lg sm:text-xl">{post.title}</h2>
+      <TopicBar topics={topics} active={active} setActive={setActive} />
 
-                  {/* Display Categories as Links */}
-                  <div className="flex flex-wrap mt-2">
-                    {post.topics &&
-                      post.topics.map((topic, i) => (
-                        <Link key={i} href={`/bloglist/${topic.slug.current}`}>
-                          <span className="text-gray-500 hover:text-blue-700 py-2 m-1 rounded-lg transition duration-300 ease-in-out text-xs">
-                            {topic.title}
-                          </span>
-                        </Link>
-                      ))}
-                  </div>
-
-                  <p className="mt-2 text-sm text-gray-500">{post.description}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
+      {/* document-level scroll, each slide 100 vh */}
+      <div className="snap-y snap-mandatory">
+        {visible.map((post, i) => (
+          <Slide key={post.slug} post={post} index={i} />
+        ))}
       </div>
 
       <Footer />
     </div>
+  );
+}
+
+/* ───────── topic pills ───────── */
+function TopicBar({ topics, active, setActive }) {
+  return (
+    <div className="sticky top-[40vh] md:top-0 z-30 flex gap-3 px-6 md:px-20 py-4 bg-white/70 backdrop-blur">
+      {topics.map(t => (
+        <button
+          key={t}
+          onClick={() => setActive(t)}
+          className={`px-4 py-1 rounded-full border transition
+                      ${active === t ? 'bg-black text-white' : ''}`}
+        >
+          {t}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ───────── one full-viewport slide ───────── */
+function Slide({ post, index }) {
+  const fallback = GREYS[index % GREYS.length];
+  const firstTopic = post.topics[0] || 'Untitled';
+
+  return (
+    <motion.section
+      className="snap-start h-screen w-screen relative group"
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.6 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+    >
+      {/* banner or colour tile */}
+      {post.banner ? (
+        <Image src={post.banner} alt="" fill className="object-cover " />
+      ) : (
+        <div className="absolute inset-0" style={{ background: fallback }} />
+      )}
+
+      {/* grain overlay (optional) */}
+      <div className="absolute inset-0 bg-[url('/grain.png')] opacity-20 mix-blend-overlay pointer-events-none" />
+
+      {/* hover meta — bottom-left */}
+      <div className="absolute bottom-8 left-8 z-20 max-w-lg
+                      opacity-0 group-hover:opacity-100 transition">
+        <h2 className="text-3xl md:text-4xl font-bold text-white">{post.title}</h2>
+        <p className="mt-2 text-white/90 line-clamp-2">{post.description}</p>
+      </div>
+
+      {/* topic chip — top-right */}
+      <span className="absolute top-6 right-6 z-20 text-xs uppercase bg-white/90 text-black px-3 py-1 rounded-full">
+        {firstTopic}
+      </span>
+
+      {/* click hotspot */}
+      <Link href={`/blogs/${post.slug}`} className="absolute inset-0" />
+    </motion.section>
   );
 }

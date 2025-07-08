@@ -1,5 +1,12 @@
+// tsconfig.json
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    },
     "lib": [
       "dom",
       "dom.iterable",
@@ -21,12 +28,15 @@
         "name": "next"
       }
     ]
+    // …the rest of your existing options…
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
   ],
   "exclude": [
     "node_modules"

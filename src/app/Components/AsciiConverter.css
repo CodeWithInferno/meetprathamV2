@@ -1,0 +1,36 @@
+/* src/components/AsciiConverter.css */
+
+.ascii-container {
+  position: relative; height: 70vh; display: flex; background: #000;
+  color: #0f0; font-family: monospace; overflow: hidden;
+}
+.ascii-preview {
+  position: absolute; top: 0; bottom: 0; right: 0;
+  background: #000; display: flex; align-items: center;
+  justify-content: center; overflow: auto;
+}
+.ascii-preview.loading .ascii-msg,
+.ascii-error {
+  color: #f44; font-size: 1.2rem; padding:1rem;
+}
+.ascii-canvas {
+  max-width: 100%; height: auto;
+}
+.ascii-controls {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  background: #111; padding: 1rem; overflow-y: auto;
+}
+.ascii-divider {
+  position: absolute; top: 0; bottom: 0; width: 4px;
+  background: #222; cursor: col-resize; display: flex;
+  align-items: center; justify-content: center;
+}
+.ascii-switches {
+  display: flex; gap: 0.5rem; align-items: center; margin:1rem 0;
+}
+.ascii-buttons {
+  display: flex; gap: 0.5rem; margin-top:1rem;
+}
+.hidden-canvas {
+  visibility: hidden; width:0; height:0;
+}

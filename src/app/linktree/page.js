@@ -4,10 +4,14 @@ import { FaInstagram, FaSnapchat, FaLinkedin } from 'react-icons/fa';
 
 const LinkTree = () => {
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
-      
-      {/* Avatar and Profile */}
-      <div className="mt-16 shadow-xl rounded-full border-4 border-white overflow-hidden w-44 h-44">
+    <div className="relative flex flex-col items-center min-h-screen bg-black text-white font-mono overflow-hidden">
+
+      {/* Accent elements */}
+      <div className="absolute top-0 left-0 w-full h-2 bg-yellow-400" />
+      <div className="absolute bottom-0 right-0 w-2 h-full bg-pink-500" />
+
+      {/* Avatar */}
+      <div className="relative mt-20 border-8 border-white shadow-[12px_12px_0_0_#ff00ff] w-44 h-44 overflow-hidden animate-pulse">
         <Image
           src="/IMG_1663.jpeg"
           alt="Avatar"
@@ -16,23 +20,35 @@ const LinkTree = () => {
           className="object-cover"
         />
       </div>
-      <h3 className="text-4xl font-extrabold mt-6">@Pratham_Disc</h3>
-      <p className="text-gray-200 text-sm italic mb-8">Welcome to my LinkTree!</p>
+
+      {/* Profile */}
+      <h3 className="text-5xl font-extrabold mt-6 tracking-tighter uppercase text-yellow-400 text-center">
+        @Pratham_Disc
+      </h3>
+      <p className="text-white text-base mt-2 mb-8 uppercase text-center">
+        Unfiltered. Unapologetic. Me.
+      </p>
 
       {/* Social Media Icons */}
-      <div className="flex items-center justify-center gap-8 mb-8">
-        <FaInstagram className="text-4xl text-pink-400 hover:text-pink-600 transition-transform duration-300 hover:scale-125" />
-        <FaSnapchat className="text-4xl text-yellow-400 hover:text-yellow-500 transition-transform duration-300 hover:scale-125" />
-        <FaLinkedin className="text-4xl text-blue-500 hover:text-blue-700 transition-transform duration-300 hover:scale-125" />
+      <div className="flex gap-8 mb-12">
+        <a href="https://www.instagram.com/pratham_disc/" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
+          <FaInstagram className="text-5xl text-pink-500 hover:text-pink-300" />
+        </a>
+        <a href="https://www.snapchat.com/add/your_snap" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
+          <FaSnapchat className="text-5xl text-yellow-400 hover:text-yellow-200" />
+        </a>
+        <a href="https://www.linkedin.com/in/pratham-patel-6a40b5323/" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
+          <FaLinkedin className="text-5xl text-blue-500 hover:text-blue-300" />
+        </a>
       </div>
 
-      {/* Buttons for Links */}
-      <div className="w-full max-w-xs space-y-4">
+      {/* Links */}
+      <div className="w-full max-w-xs space-y-6">
         <a
           href="https://github.com/codewithinferno"
           target="_blank"
           rel="noreferrer"
-          className="block text-center py-3 px-6 rounded-full shadow-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 ease-in-out"
+          className="block text-center py-5 px-6 rounded-none border-4 border-yellow-400 shadow-[8px_8px_0_0_#ff00ff] bg-black hover:bg-yellow-400 hover:text-black transition-all duration-300 ease-in-out uppercase text-xl font-extrabold"
         >
           Github
         </a>
@@ -40,7 +56,7 @@ const LinkTree = () => {
           href="https://www.instagram.com/pratham_disc/"
           target="_blank"
           rel="noreferrer"
-          className="block text-center py-3 px-6 rounded-full shadow-lg bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 transform hover:scale-105 transition-all duration-300 ease-in-out"
+          className="block text-center py-5 px-6 rounded-none border-4 border-pink-500 shadow-[8px_8px_0_0_#00ffff] bg-black hover:bg-pink-500 hover:text-black transition-all duration-300 ease-in-out uppercase text-xl font-extrabold"
         >
           Instagram
         </a>
@@ -48,15 +64,15 @@ const LinkTree = () => {
           href="https://www.linkedin.com/in/pratham-patel-6a40b5323/"
           target="_blank"
           rel="noreferrer"
-          className="block text-center py-3 px-6 rounded-full shadow-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 ease-in-out"
+          className="block text-center py-5 px-6 rounded-none border-4 border-blue-500 shadow-[8px_8px_0_0_#ffff00] bg-black hover:bg-blue-500 hover:text-black transition-all duration-300 ease-in-out uppercase text-xl font-extrabold"
         >
           LinkedIn
         </a>
       </div>
 
       {/* Footer */}
-      <div className="text-sm text-gray-200 mt-auto mb-6">
-        <p>© 2024 @pratham_disc | Built by Pratham</p>
+      <div className="text-xs text-gray-400 mt-auto mb-6 uppercase tracking-wide">
+        <p>© 2024 Pratham Patel | Neo-Brutalist by Design</p>
       </div>
     </div>
   );
