@@ -1,42 +1,44 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+import React, { useState, useEffect, useRef } from 'react';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/github-dark.css'; // or whichever theme you prefer
+import 'highlight.js/styles/atom-one-dark.css'; // A great, readable theme
 
-export default function CodeBlock({ children, language = "javascript" }) {
+export default function CodeBlock({ children, language }) {
+  const codeRef = useRef(null);
   const [copied, setCopied] = useState(false);
 
-  // Re-run highlight on the <code> element anytime the children change
+  // Use a ref to target this specific code block for highlighting
   useEffect(() => {
-    document.querySelectorAll('pre code').forEach((block) => {
-      hljs.highlightBlock(block);
-    });
-  }, [children]);
+    if (codeRef.current) {
+      hljs.highlightElement(codeRef.current);
+    }
+  }, [children]); // Re-run only when the code content changes
 
   const handleCopy = async () => {
-    // Copy the code string to the user’s clipboard
-    await navigator.clipboard.writeText(children);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    if (children) {
+      await navigator.clipboard.writeText(children);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
-    <div className="relative my-4 rounded-md overflow-hidden bg-gray-900 group">
-      {/* Copy button */}
+    <div className="relative my-6 rounded-lg overflow-hidden bg-[#282c34] group">
       <button
         onClick={handleCopy}
-        className="absolute top-3 right-3 p-1 rounded bg-gray-800 text-gray-300 
-                   opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-2 right-2 px-3 py-1 rounded-md bg-gray-700/50 text-xs font-semibold text-gray-300 
+                   opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-gray-600/70"
         aria-label="Copy code"
       >
         {copied ? 'Copied!' : 'Copy'}
       </button>
       
-      {/* Actual code block */}
-      <pre className={`p-4 text-sm text-gray-100`}>
-        <code className={`language-${language}`}>
+      <pre className="p-4 text-sm leading-relaxed overflow-x-auto">
+        <code ref={codeRef} className={`language-${language || 'plaintext'}`}>
           {children}
         </code>
       </pre>
     </div>
   );
+
 }

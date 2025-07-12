@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://meetpratham.me
-
-# Sitemaps
-Sitemap: https://meetpratham.me/sitemap.xml

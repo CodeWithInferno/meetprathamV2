@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import sanityClient from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import { motion } from 'framer-motion';
-import ArtisticHeader from "../Components/Resuables/Header";
-import ArtisticFooter from "../Components/Resuables/Footer"
+import ArtisticHeader from "../Components/Reusable/Header";
+import ArtisticFooter from "../Components/Reusable/Footer"
 
 const client = sanityClient({
   projectId: '1igdvz19',

@@ -1,85 +1,25 @@
+/* app/globals.css */
 
+/*
+ * =================================================================
+ * 1. TAILWIND DIRECTIVES (MUST BE FIRST)
+ * =================================================================
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap');
 
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-.scrollbar-hidden::-webkit-scrollbar{display:none;}
-.scrollbar-hidden{scrollbar-width:none;-ms-overflow-style:none;}
-
-body {
-  cursor: none;
-}
-a, button {
-  cursor: none; /* remove default pointer on links/buttons */
-}
-
-#cursor-circle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.1); /* slightly more transparent */
-  border: 1px solid rgba(255, 255, 255, 0.8); /* white border for visibility */
-  border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: difference;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-}
-
-#cursor-circle.enlarged {
-  transform: translate(-50%, -50%) scale(2);
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 1);
-}
-.line-clamp-2{
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-
-
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-@keyframes marquee-vert {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-50%); }
-}
-
-.marquee-col {
-  /* height of this content is 2× the visible area, so -50% loops nicely */
-  animation: marquee-vert 20s linear infinite;
-}
-
-
-
-
-
+/*
+ * =================================================================
+ * 2. BASE LAYER & THEME VARIABLES
+ * =================================================================
+ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --background: 0 0% 100%; /* Default background: white */
+    --foreground: 0 0% 3.9%;   /* Default text: almost black */
+    /* ... (all other theme variables are correct) ... */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
@@ -97,16 +37,13 @@ a, button {
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 3.9%; /* Dark mode background: almost black */
+    --foreground: 0 0% 98%;   /* Dark mode text: white */
+    /* ... (all other dark theme variables are correct) ... */
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
@@ -124,23 +61,468 @@ a, button {
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    /* <<< THE FIX: Use theme variables for sitewide consistency */
+    @apply bg-background text-foreground;
+    font-family: 'Satoshi', sans-serif;
+
+    cursor: none; /* Custom cursor is fine */
+  }
+
+  a, button {
+    cursor: none;
+  }
+}
+
+/*
+ * =================================================================
+ * 3. CUSTOM UTILITIES & ANIMATIONS
+ * =================================================================
+ */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
+  .scrollbar-hidden { scrollbar-width: none; -ms-overflow-style: none; }
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/*
+ * =================================================================
+ * 4. COMPONENT-SPECIFIC CUSTOM STYLES (MUST BE LAST)
+ * =================================================================
+ */
+
+/* --- Custom Cursor --- */
+#cursor-circle {
+  position: fixed; top: 0; left: 0; width: 24px; height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%; pointer-events: none; mix-blend-mode: difference;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transform: translate(-50%, -50%); z-index: 9999;
+}
+#cursor-circle.enlarged {
+  transform: translate(-50%, -50%) scale(2);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 1);
+}
+
+/* --- Hero & Workbench Base --- */
+.workbench-container {
+  height: 500vh;
+  position: relative;
+}
+.hero-bg-svg { transform: scale(1.1); }
+.blinking-text { animation: blink 1.5s step-end infinite; }
+.workbench-bg { background-color: #f0f0f0; background-image: url('/images/grid.jpg'); }
+.workbench-track { display: flex; align-items: center; height: 90vh; width: 200vw; position: relative; }
+.workbench-zone { position: relative; flex-shrink: 0; width: 100vw; height: 100%; }
+
+/* --- Combined Zone (Timeline & Toolkit) --- */
+.combined-zone { position: relative; display: block; }
+.timeline-spine { position: absolute; top: 50%; left: 5%; width: 90%; height: 3px; background-color: #000; transform: translateY(-50%); }
+.timeline-item-center { position: absolute; top: 50%; transform: translateY(-50%); }
+.timeline-connector { position: absolute; width: 3px; background-color: #000; left: 50%; }
+.timeline-connector.top { height: 60px; bottom: 0; }
+.timeline-connector.bottom { height: 60px; top: 0; }
+.timeline-content-center { position: absolute; left: 50%; transform: translateX(-50%); width: 300px; padding: 1rem; background: #f0f0f0; border: 2px solid #000; font-family: monospace; }
+.timeline-content-center.top { bottom: 60px; }
+.timeline-content-center.bottom { top: 60px; }
+.toolkit-foundation { position: absolute; bottom: 5%; width: 100%; left: 0; text-align: center; }
+.toolkit-title { font-family: monospace; font-size: 1.5rem; margin-bottom: 2rem; display: inline-block; border: 2px solid #000; padding: 0.25rem 1rem; }
+.toolkit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.skill-item { background: #fff; border: 2px solid #000; padding: 0.75rem 1.5rem; font-family: monospace; font-weight: bold; opacity: 0; animation: fadeIn 0.5s ease forwards; animation-delay: var(--delay); }
+
+/* --- Redesigned Languages Zone Styles --- */
+.languages-zone-redesigned { position: relative; }
+.languages-title-absolute { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-family: monospace; font-size: 2rem; text-align: center; border: 2px solid #000; padding: 0.5rem 1.5rem; background-color: #f0f0f0; z-index: 10; }
+.language-card-scattered { position: absolute; display: flex; align-items: center; gap: 1.5rem; background: #fff; border: 2px solid #000; padding: 1.5rem; box-shadow: 6px 6px 0px #0a0a0a; width: 300px; transition: all 0.2s ease-in-out; }
+.language-card-scattered:hover { transform: translate(-4px, -4px) scale(1.05) !important; box-shadow: 10px 10px 0px #0a0a0a; z-index: 20; }
+.language-icon { font-size: 2.5rem; }
+.language-details { display: flex; flex-direction: column; }
+.language-name { font-family: monospace; font-size: 1.5rem; font-weight: bold; }
+.language-level { font-family: monospace; color: #555; }
+
+/* --- Research Section Styles --- */
+.blueprint-card { position: relative; width: 100%; border: 2px solid #000; padding: 1.5rem 2rem; background: #e6f3ff; box-shadow: 6px 6px 0px #0a0a0a; transition: all 0.3s ease; color: #0a0a0a; }
+.blueprint-card.vertical-layout:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0px #0a0a0a; }
+.blueprint-title { font-family: monospace; font-size: 1.5rem; font-weight: bold; border-bottom: 2px dotted #000; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+.blueprint-abstract { font-family: 'Times New Roman', serif; font-style: italic; }
+.blueprint-annotations { position: absolute; inset: 0; pointer-events: none; }
+.annotation-line { position: absolute; height: 1px; background-color: #0056b3; }
+.annotation-text { position: absolute; font-family: monospace; font-size: 0.8rem; color: #0056b3; background: #e6f3ff; padding: 0 0.25rem; }
+
+/* --- Personal Desk / Peek Section Styles --- */
+.personal-note { border: 2px dashed #000; padding: 2rem; max-width: 600px; text-align: center; font-family: serif; font-size: 1.5rem; transform: rotate(-1deg); background: #fff; }
+.portal-button { display: inline-block; font-family: monospace; font-size: 1.25rem; color: #fff; background: #000; padding: 1rem 2rem; border: 2px solid #000; box-shadow: 6px 6px 0px #888; transition: all 0.2s ease; }
+.portal-button:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0px #888; }
+
+
+
+
+
+
+
+/* app/globals.css */
+
+/* ... (Keep all your previous styles) ... */
+
+/*
+ * =================================================================
+ * 5. MUSIC CHOICE SECTION STYLES
+ * =================================================================
+ */
+
+.music-choice-container {
+  --bg: #1a1a1a; /* Using a slightly lighter black for this section */
+  --min-size: 200px;
+  position: relative;
+  height: 100vh; /* It occupies a full screen height */
+  background: var(--bg);
+  padding: 0;
+  margin: 0;
+  overflow: hidden; /* Important to contain the animation */
+  color: #fff; /* Set default text color for this section */
+}
+
+.music-section-title {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: monospace;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 1px solid #fff;
+  padding: 0.5rem 1.5rem;
+  z-index: 400;
+  color: #fff;
+}
+
+.music-choice-container .drag-proxy {
+  visibility: hidden;
+  position: absolute;
+}
+
+.music-choice-container .controls {
+  position: absolute;
+  top: calc(50% + clamp(var(--min-size), 20vmin, 20vmin));
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.5);
+  display: flex;
+  justify-content: space-between;
+  min-width: var(--min-size);
+  height: 44px;
+  width: 20vmin;
+  z-index: 300;
+}
+
+.music-choice-container button {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0%;
+  outline: transparent;
+  cursor: pointer;
+  background: none;
+  appearance: none;
+  border: 0;
+  transition: transform 0.1s;
+  transform: translate(0, var(--y, 0));
+}
+
+.music-choice-container button:before {
+  border: 2px solid hsl(0, 0%, 90%);
+  background: linear-gradient(hsla(0, 0%, 80%, 0.65), hsl(0, 0%, 0%)) hsl(0, 0%, 0%);
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
+}
+
+.music-choice-container button:active:before {
+  background: linear-gradient(hsl(0, 0%, 0%), hsla(0, 0%, 80%, 0.65)) hsl(0, 0%, 0%);
+}
+
+.music-choice-container button.next {
+  right: 100%;
+}
+
+.music-choice-container button.prev {
+  left: 100%;
+}
+
+.music-choice-container button span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.music-choice-container button:hover {
+  --y: -5%;
+}
+
+.music-choice-container button svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg) translate(2%, 0);
+  height: 30%;
+  fill: hsl(0, 0%, 90%);
+}
+
+.music-choice-container button.next svg {
+  transform: translate(-50%, -50%) rotate(180deg) translate(2%, 0);
+}
+/* This is the new wrapper div from page.jsx */
+.music-container {
+  /* The height is 100vh (for the view) + 200vh (for the scroll) */
+  height: 100vh;
+  position: relative;
+}
+
+/* The <section> element is now positioned absolutely within its container */
+/* This allows it to be pinned from the top of the container */
+.music-choice-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  
+  --bg: #1a1a1a;
+  --min-size: 200px;
+  background: var(--bg);
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  color: #fff;
+}
+/* ... (the rest of the music choice CSS from before remains the same) ... */
+
+
+.music-choice-container .boxes {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  transform-style: preserve-3d;
+  perspective: 800px;
+  touch-action: none;
+}
+
+.music-choice-container .box {
+  transform-style: preserve-3d;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 20vmin;
+  width: 20vmin;
+  min-height: var(--min-size);
+  min-width: var(--min-size);
+  display: none; /* GSAP will set this to 'block' */
+}
+
+.music-choice-container .box img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+/* This creates the reflection effect */
+@supports (-webkit-box-reflect: below) {
+  .music-choice-container .box {
+    -webkit-box-reflect: below 0.5vmin linear-gradient(transparent 40%, hsla(0, 0%, 100%, 0.5) 100%);
   }
 }
 
 
+/* app/globals.css */
 
+/* ... (Keep your base styles and variables) ... */
 
+/*
+ * =================================================================
+ * 5. CYBERPUNK TERMINAL STYLES
+ * =================================================================
+ */
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+@keyframes text-flicker {
+  0% { opacity: 0.8; }
+  5% { opacity: 0.5; }
+  10% { opacity: 0.9; }
+  /* ... more steps for random flicker ... */
+  100% { opacity: 0.8; }
+}
+
+.terminal-container {
+  background-color: #0d0d15; /* A deep, dark blue-black */
+  color: #00ff41; /* Classic green terminal text */
+  font-family: 'IBM Plex Mono', 'Courier New', monospace; /* A proper tech font */
+  min-height: 100vh;
+  padding: 1rem;
+  overflow: hidden;
+  position: relative;
+  /* The throbbing grid background */
+  background-image:
+    linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+}
+
+.scanline-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  animation: scanline 0.2s linear infinite;
+  z-index: 999;
+}
+
+.terminal-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Fixed sidebar, flexible content */
+  gap: 2rem;
+  height: calc(100vh - 8rem); /* Adjust based on header/footer height */
+  padding-top: 4rem;
+  position: relative;
+  z-index: 10;
+}
+
+.project-directory {
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  padding: 1rem;
+  backdrop-filter: blur(5px);
+  background-color: rgba(13, 13, 21, 0.5);
+  overflow-y: auto;
+}
+
+.directory-header {
+  border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.directory-item {
+  list-style: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.directory-item:hover {
+  background-color: rgba(0, 255, 65, 0.2);
+}
+.directory-item.selected {
+  background-color: #00ff41;
+  color: #0d0d15;
+}
+.item-prefix {
+  margin-right: 0.5rem;
+  opacity: 0.5;
+}
+
+.display-panel {
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  padding: 1.5rem;
+  backdrop-filter: blur(5px);
+  background-color: rgba(13, 13, 21, 0.5);
+  overflow: hidden;
+  position: relative; /* for AnimatePresence */
+}
+
+.display-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.image-crt-wrapper {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 65, 0.1);
+}
+.image-crt-wrapper:after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+  pointer-events: none;
+}
+.image-crt-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  animation: text-flicker 0.1s infinite; /* Re-using flicker for image distortion */
+  filter: saturate(0.8);
+}
+
+.data-stream {
+  display: flex;
+  flex-direction: column;
+}
+.data-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px #00ff41;
+}
+.data-description {
+  min-height: 100px; /* Reserve space for text */
+  line-height: 1.6;
+}
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  opacity: 0.7;
+}
+.data-link {
+  margin-top: 2rem;
+  border: 1px solid #00ff41;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.data-link:hover {
+  background-color: #00ff41;
+  color: #0d0d15;
 }

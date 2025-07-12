@@ -7,6 +7,8 @@ import Footer from "../../Components/Footer";
 import LoadingAnimation from "../../Components/ui/loader/loader";
 import Head from "next/head";
 import Link from "next/link"; // For linking to individual posts
+import Image from "next/image"; // <-- IMPORT NEXT/IMAGE
+
 
 // Sanity client initialization
 const client = sanityClient({
@@ -96,7 +98,7 @@ export default function CategoryBlogList({ params }) {
               <Link key={index} href={`/blogs/${post.slug.current}`}>
                 <div className="card bg-white rounded-xl overflow-hidden shadow-lg h-auto w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto cursor-pointer transform transition-all duration-300 hover:scale-105">
                   {post.banner && (
-                    <img
+                    <Image
                       className="h-56 w-full object-cover"
                       src={post.banner.url}
                       alt={post.title}

@@ -1,138 +1,203 @@
 // src/app/blog/page.jsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Link   from 'next/link';
-import Image  from 'next/image';
-import { motion } from 'framer-motion';
-
-import Header from '@/app/Components/Resuables/Header';
-import Footer from '@/app/Components/Resuables/Footer';
-
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 import sanityClient from '@sanity/client';
 
-/* ── Sanity client ────────────────────────── */
+// IMPORT YOUR HEADER COMPONENT
+import ArtisticHeader from '@/app/Components/Reusable/Header'; // Adjust the path to your header file
+
 const client = sanityClient({
   projectId: '1igdvz19',
-  dataset:   'production',
-  useCdn:    true,
+  dataset: 'production',
+  useCdn: true,
 });
 
-/* fallback tile colours */
-const GREYS = ['#111827', '#1f2937', '#334155'];
-
-/* ─────────────────────────────────────────── */
-
+// Main Page Component
 export default function Blog() {
-  const [posts,  setPosts]  = useState([]);
+  const [posts, setPosts] = useState([]);
   const [topics, setTopics] = useState([]);
-  const [active, setActive] = useState('All');
+  const [activeTopic, setActiveTopic] = useState('All');
+  const [hoveredTopic, setHoveredTopic] = useState(null);
+  const mainFeedRef = useRef(null);
 
-  /* fetch posts + topics */
   useEffect(() => {
     (async () => {
-      const raw = await client.fetch(`
+      const query = `
         *[_type=="post"]|order(_createdAt desc){
-          title,
-          slug,
-          description,
-          "bannerUrl": banner.asset->url,
-          topics[]->{title}
-        }`);
-      const cooked = raw.map(p => ({
+          title, slug, "bannerUrl": banner.asset->url, topics[]->{title}
+        }`;
+      const raw = await client.fetch(query);
+      const cookedPosts = raw.map(p => ({
         title: p.title,
-        slug:  p.slug.current,
-        description: p.description,
+        slug: p.slug.current,
         banner: p.bannerUrl,
-        topics: p.topics?.map(t => t.title) || [],
+        topic: p.topics?.[0]?.title || 'Misc',
       }));
-      setPosts(cooked);
-      setTopics(['All', ...new Set(cooked.flatMap(p => p.topics))]);
+      setPosts(cookedPosts);
+      const uniqueTopics = ['All', ...new Set(cookedPosts.map(p => p.topic))];
+      setTopics(uniqueTopics);
     })();
   }, []);
 
-  const visible = active === 'All'
-    ? posts
-    : posts.filter(p => p.topics.includes(active));
+  // useMemo is still good practice for performance, so we keep it.
+  const visiblePosts = useMemo(() => {
+    if (activeTopic === 'All') {
+      return posts;
+    }
+    return posts.filter(p => p.topic === activeTopic);
+  }, [posts, activeTopic]);
+
+
+  // =================================================================
+  // THE REAL FIX: Reimagined Logic
+  // The animation now depends on `activeTopic` and `posts`.
+  // It will ONLY re-run when you click a new category or when the posts
+  // initially load. It will NOT re-run on a simple hover state change.
+  // =================================================================
+  useGSAP(() => {
+    if (!mainFeedRef.current?.children.length) return;
+    
+    gsap.from(mainFeedRef.current.children, {
+        opacity: 0,
+        y: 30,
+        duration: 0.5,
+        stagger: 0.07,
+        ease: 'power3.out',
+    });
+    // The dependency array is the key. We are no longer depending on `visiblePosts`.
+  }, { dependencies: [activeTopic, posts], scope: mainFeedRef });
 
   return (
     <div className="bg-white text-black">
-      <Header />
+      <FloatingTag topic={hoveredTopic} />
+      
+      <ArtisticHeader />
 
-      {/* 40-vh spacer */}
-      <section className="h-[40vh] flex items-end justify-center select-none">
-        <h1 className="text-[18vw] font-black text-gray-200 leading-none uppercase">Blog</h1>
-      </section>
+      <div className="grid lg:grid-cols-3 xl:grid-cols-4">
+        
+        <aside className="hidden lg:block lg:col-span-1 xl:col-span-1 p-8 border-r-2 border-black">
+          <div className="sticky top-8">
+            <h1 className="text-7xl font-bold uppercase tracking-tighter">Index</h1>
+            <p className="mt-8 text-lg text-neutral-600">
+              A collection of thoughts, explorations, and processes. Raw, unfiltered, and direct.
+            </p>
+            <FilterList 
+              topics={topics}
+              activeTopic={activeTopic}
+              setActiveTopic={setActiveTopic}
+            />
+             <div className="mt-24">
+              <Link href="/" className="font-bold text-lg hover:text-yellow-400">[ Home ]</Link>
+            </div>
+          </div>
+        </aside>
 
-      <TopicBar topics={topics} active={active} setActive={setActive} />
-
-      {/* document-level scroll, each slide 100 vh */}
-      <div className="snap-y snap-mandatory">
-        {visible.map((post, i) => (
-          <Slide key={post.slug} post={post} index={i} />
-        ))}
+        <main className="lg:col-span-2 xl:col-span-3">
+          <div ref={mainFeedRef}>
+            {visiblePosts.map((post) => (
+              <PostItem 
+                key={post.slug}
+                post={post}
+                setHoveredTopic={setHoveredTopic}
+              />
+            ))}
+          </div>
+        </main>
       </div>
-
-      <Footer />
     </div>
   );
 }
 
-/* ───────── topic pills ───────── */
-function TopicBar({ topics, active, setActive }) {
+// ---- ALL CHILD COMPONENTS BELOW ARE UNCHANGED AND CORRECT ----
+
+function FilterList({ topics, activeTopic, setActiveTopic }) {
   return (
-    <div className="sticky top-[40vh] md:top-0 z-30 flex gap-3 px-6 md:px-20 py-4 bg-white/70 backdrop-blur">
-      {topics.map(t => (
-        <button
-          key={t}
-          onClick={() => setActive(t)}
-          className={`px-4 py-1 rounded-full border transition
-                      ${active === t ? 'bg-black text-white' : ''}`}
-        >
-          {t}
-        </button>
-      ))}
-    </div>
-  );
+    <nav className="mt-16">
+        <h2 className="text-lg font-bold uppercase text-neutral-800">[ Categories ]</h2>
+        <ul className="mt-4 flex flex-col items-start gap-2">
+            {topics.map(topic => (
+                <li key={topic}>
+                    <button
+                        onClick={() => setActiveTopic(topic)}
+                        className={`px-3 py-1 text-xl font-bold uppercase transition-colors duration-200
+                        ${ activeTopic === topic 
+                            ? 'bg-yellow-300 text-black' 
+                            : 'text-neutral-500 hover:text-black'
+                        }`}
+                    >
+                        {topic}
+                    </button>
+                </li>
+            ))}
+        </ul>
+    </nav>
+  )
 }
 
-/* ───────── one full-viewport slide ───────── */
-function Slide({ post, index }) {
-  const fallback = GREYS[index % GREYS.length];
-  const firstTopic = post.topics[0] || 'Untitled';
+function FloatingTag({ topic }) {
+   const tagRef = useRef(null);
+    const isVisible = !!topic;
+    useGSAP(() => {
+        const xTo = gsap.quickTo(tagRef.current, "x", { duration: 0.4, ease: "power3" });
+        const yTo = gsap.quickTo(tagRef.current, "y", { duration: 0.4, ease: "power3" });
+        const handleMouseMove = (e) => {
+            xTo(e.clientX + 15);
+            yTo(e.clientY + 15);
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
+    useGSAP(() => {
+      gsap.to(tagRef.current, {
+          scale: isVisible ? 1 : 0,
+          opacity: isVisible ? 1 : 0,
+          duration: 0.2,
+          ease: 'power2.out'
+      });
+  }, {dependencies: [isVisible]});
+
+    return (
+        <div ref={tagRef} className="fixed top-0 left-0 z-50 pointer-events-none">
+            <div className="bg-yellow-300 text-black px-3 py-1 font-bold uppercase text-sm">
+                {topic}
+            </div>
+        </div>
+    )
+}
+
+const PostItem = React.memo(function PostItem({ post, setHoveredTopic }) {
   return (
-    <motion.section
-      className="snap-start h-screen w-screen relative group"
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.6 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+    <div 
+      onMouseEnter={() => setHoveredTopic(post.topic)}
+      onMouseLeave={() => setHoveredTopic(null)}
+      className="border-b-2 border-black group transition-colors duration-200 hover:border-yellow-300"
     >
-      {/* banner or colour tile */}
-      {post.banner ? (
-        <Image src={post.banner} alt="" fill className="object-cover " />
-      ) : (
-        <div className="absolute inset-0" style={{ background: fallback }} />
-      )}
-
-      {/* grain overlay (optional) */}
-      <div className="absolute inset-0 bg-[url('/grain.png')] opacity-20 mix-blend-overlay pointer-events-none" />
-
-      {/* hover meta — bottom-left */}
-      <div className="absolute bottom-8 left-8 z-20 max-w-lg
-                      opacity-0 group-hover:opacity-100 transition">
-        <h2 className="text-3xl md:text-4xl font-bold text-white">{post.title}</h2>
-        <p className="mt-2 text-white/90 line-clamp-2">{post.description}</p>
-      </div>
-
-      {/* topic chip — top-right */}
-      <span className="absolute top-6 right-6 z-20 text-xs uppercase bg-white/90 text-black px-3 py-1 rounded-full">
-        {firstTopic}
-      </span>
-
-      {/* click hotspot */}
-      <Link href={`/blogs/${post.slug}`} className="absolute inset-0" />
-    </motion.section>
+      <Link href={`/blog/${post.slug}`} className="block p-8">
+        <div className="flex justify-between items-start gap-8">
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight w-3/4">
+                {post.title}
+            </h2>
+            <span className="arrow text-5xl transition-transform duration-300 group-hover:translate-x-2">→</span>
+        </div>
+        {post.banner && (
+            <div className="mt-8 overflow-hidden">
+                <Image
+                    src={post.banner}
+                    alt=""
+                    width={1000}
+                    height={600}
+                    className="post-image w-full h-auto filter grayscale transition-all duration-300 group-hover:grayscale-0"
+                    loading="lazy"
+                />
+            </div>
+        )}
+      </Link>
+    </div>
   );
-}
+});

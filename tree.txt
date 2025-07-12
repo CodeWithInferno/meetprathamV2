@@ -1,0 +1,259 @@
+.
+├── CNAME
+├── components.json
+├── fetchSanityPaths.js
+├── generate.js
+├── jest.config.ts
+├── jsconfig.txt
+├── next-env.d.ts
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── public
+│   ├── A - Cyan.png
+│   ├── A - Green.png
+│   ├── A - Pink.png
+│   ├── A - Purple.png
+│   ├── A_1.123.1.jpg
+│   ├── A.png
+│   ├── Audio
+│   │   ├── Glitch.mp3
+│   │   ├── Hover.mp3
+│   │   ├── track.wav
+│   │   └── Typing.mp3
+│   ├── B - Cyan.png
+│   ├── B - Green.png
+│   ├── B - Purple.png
+│   ├── B - Red.png
+│   ├── B_1.130.1.jpg
+│   ├── B.png
+│   ├── C_1.6.1.jpg
+│   ├── c++.png
+│   ├── D_1.3.1.jpg
+│   ├── Deep Purple.jpg
+│   ├── docker.png
+│   ├── Dragon Red.jpg
+│   ├── E_1.76.1.jpg
+│   ├── Elixir Pink.jpg
+│   ├── Espresso.jpg
+│   ├── F_1.2.1.jpg
+│   ├── Facets-1.jpg
+│   ├── Facets-2.jpg
+│   ├── Facets-3.jpg
+│   ├── Facets-4.jpg
+│   ├── Facets-5.jpg
+│   ├── favicon.ico
+│   ├── fonts
+│   │   └── tusker-grotesk.woff2
+│   ├── Forest Green.jpg
+│   ├── G_1.93.1.jpg
+│   ├── grain.jpg
+│   ├── image-5.png
+│   ├── images
+│   │   ├── animated.svg
+│   │   ├── ascii-art.png
+│   │   ├── Banner.png
+│   │   ├── BGPROJECT.png
+│   │   ├── blog
+│   │   │   ├── one.png
+│   │   │   ├── one1.png
+│   │   │   └── one2.png
+│   │   ├── Chaotic Historical Painting Remix (1).png
+│   │   ├── Chaotic Historical Painting Remix.png
+│   │   ├── Cluster of Stars Photo.jpg
+│   │   ├── default.png
+│   │   ├── Fibonacci_spiral.svg.png
+│   │   ├── golden_log_spiral_reversed.svg
+│   │   ├── golden.png
+│   │   ├── grid.jpg
+│   │   ├── image.png
+│   │   ├── make-a-sag-of-white-colored-waves-with-transparent-bg-make-it-ja.svg
+│   │   └── Me_banner.png
+│   ├── IMG_1662.jpeg
+│   ├── IMG_1663.jpeg
+│   ├── IMG_1664.jpeg
+│   ├── IMG_1665.jpeg
+│   ├── IMG_1666.jpeg
+│   ├── java.png
+│   ├── landing
+│   │   ├── banner_here.jpg
+│   │   └── banner.jpg
+│   ├── Logo.svg
+│   ├── Mana Purple.jpg
+│   ├── models
+│   │   ├── Greek.glb
+│   │   ├── old_sphere
+│   │   │   ├── scene.bin
+│   │   │   └── scene.gltf
+│   │   ├── sphere
+│   │   │   ├── Low.obj
+│   │   │   └── textures
+│   │   │       ├── Wavesphere_heights.jpg
+│   │   │       └── Wavesphere_normals.jpg
+│   │   └── tesseract
+│   │       ├── license.txt
+│   │       ├── scene.bin
+│   │       └── scene.gltf
+│   ├── mongo.png
+│   ├── NetRunner Teal.jpg
+│   ├── NRI-Affidavit-AU.pdf
+│   ├── Ocean Blue.jpg
+│   ├── prathamdown.jpeg
+│   ├── prathamfront.jpeg
+│   ├── python.png
+│   ├── react.png
+│   ├── River Blue.jpg
+│   ├── sanity.png
+│   ├── Seo.png
+│   ├── tailwind.png
+│   ├── Untitled design.png
+│   ├── video
+│   │   ├── Fx.mp4
+│   │   └── Fx1.mp4
+│   ├── Warp-1.jpg
+│   ├── Warp-2.jpg
+│   ├── Warp-3.jpg
+│   ├── Warp-4.jpg
+│   └── Warp-5.jpg
+├── README.md
+├── sanity
+│   ├── Docs
+│   │   ├── blog.js
+│   │   ├── comment.js
+│   │   ├── Image.js
+│   │   ├── sneakpeak.js
+│   │   ├── topic.js
+│   │   └── work.js
+│   ├── env.ts
+│   ├── lib
+│   │   ├── client.ts
+│   │   └── image.ts
+│   └── schema.ts
+├── sanity.cli.ts
+├── sanity.config.ts
+├── src
+│   ├── app
+│   │   ├── admin
+│   │   │   └── [[...index]]
+│   │   │       └── page.tsx
+│   │   ├── api
+│   │   │   ├── comment
+│   │   │   │   └── route.js
+│   │   │   ├── like
+│   │   │   │   └── route.js
+│   │   │   └── og
+│   │   │       └── route.js
+│   │   ├── bloglist
+│   │   │   ├── [category]
+│   │   │   │   └── page.js
+│   │   │   └── page.js
+│   │   ├── blogs
+│   │   │   └── [slug]
+│   │   │       ├── components
+│   │   │       │   ├── BlogActions.js
+│   │   │       │   └── CodeBlock.js
+│   │   │       └── page.js
+│   │   ├── Components
+│   │   │   ├── aboutme
+│   │   │   │   └── links.js
+│   │   │   ├── aboutme.js
+│   │   │   ├── AsciiConverter.css
+│   │   │   ├── AsciiConverter.jsx
+│   │   │   ├── BannerSwitcher.jsx
+│   │   │   ├── Blog
+│   │   │   ├── ClientLayout.jsx
+│   │   │   ├── comment.js
+│   │   │   ├── CreditsSidebar.jsx
+│   │   │   ├── CustomCursor.jsx
+│   │   │   ├── FibonacciSpiral.jsx
+│   │   │   ├── Footer.js
+│   │   │   ├── Header.js
+│   │   │   ├── ImageWithLoading.js
+│   │   │   ├── Landing
+│   │   │   │   ├── BlogBanner.js
+│   │   │   │   ├── Dock.js
+│   │   │   │   ├── Header.js
+│   │   │   │   ├── Hero.js
+│   │   │   │   ├── MoreBanner.js
+│   │   │   │   ├── MutedVisualizer.jsx
+│   │   │   │   ├── ProjectBanner.js
+│   │   │   │   ├── ThreeSphere.js
+│   │   │   │   └── WhoAmIBanner.jsx
+│   │   │   ├── languages.js
+│   │   │   ├── like.js
+│   │   │   ├── me
+│   │   │   │   ├── HeroSection.jsx
+│   │   │   │   ├── MusicChoiceSection.jsx
+│   │   │   │   ├── PeekSection.js
+│   │   │   │   ├── ResearchSection.js
+│   │   │   │   └── WorkbenchSection.js
+│   │   │   ├── ProjectBanner.jsx
+│   │   │   ├── projects
+│   │   │   │   ├── ProjectCard.jsx
+│   │   │   │   ├── TerminalFooter.jsx
+│   │   │   │   └── TerminalHeader.jsx
+│   │   │   ├── Reusable
+│   │   │   │   ├── Footer.js
+│   │   │   │   └── Header.js
+│   │   │   └── ui
+│   │   │       └── loader
+│   │   │           ├── loader.css
+│   │   │           └── loader.js
+│   │   ├── fonts
+│   │   │   └── OPTIPosterBodoni-Compr.otf
+│   │   ├── globals.css
+│   │   ├── layout.js
+│   │   ├── linktree
+│   │   │   └── page.js
+│   │   ├── loader
+│   │   │   └── page.js
+│   │   ├── me
+│   │   │   ├── knowme
+│   │   │   │   └── page.js
+│   │   │   └── page.js
+│   │   ├── pacman
+│   │   │   └── page.js
+│   │   ├── page.js
+│   │   ├── projects
+│   │   │   └── page.js
+│   │   ├── robots.js
+│   │   ├── sitemap.js
+│   │   ├── sneakpeak
+│   │   │   └── page.js
+│   │   ├── styles
+│   │   │   └── nextSection.css
+│   │   ├── test
+│   │   │   └── page.js
+│   │   ├── tic-tak-toe
+│   │   │   └── page.js
+│   │   ├── wallpapers
+│   │   │   ├── alien
+│   │   │   │   └── page.js
+│   │   │   ├── facets
+│   │   │   │   └── page.js
+│   │   │   ├── page.js
+│   │   │   ├── warp
+│   │   │   │   └── page.js
+│   │   │   └── waves
+│   │   │       └── page.js
+│   │   └── workingon
+│   │       └── page.js
+│   ├── components
+│   │   ├── magicui
+│   │   │   └── globe.jsx
+│   │   └── ui
+│   │       ├── button.jsx
+│   │       ├── label.jsx
+│   │       ├── select.jsx
+│   │       ├── slider.jsx
+│   │       └── switch.jsx
+│   └── lib
+│       └── utils.js
+├── static
+│   └── favicon.ico
+├── tailwind.config.js
+├── tree.txt
+└── tsconfig.json
+
+60 directories, 197 files
