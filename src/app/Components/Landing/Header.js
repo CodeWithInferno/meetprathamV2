@@ -16,7 +16,7 @@ export default function Header() {
         "
       >
         {/* Left nav */}
-        <Link href="/about" legacyBehavior>
+        <Link href="/me" legacyBehavior>
           <a className="
             text-white 
             text-sm md:text-base 
@@ -42,7 +42,7 @@ export default function Header() {
         </Link>
 
         {/* Right nav */}
-        <Link href="/contact" legacyBehavior>
+        <Link href="/linktree" legacyBehavior>
           <a className="
             text-white 
             text-sm md:text-base 

@@ -7,12 +7,12 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const PROJECTS = [
-  { title: 'InboxIQ',     image: '/A.png',              href: '/projects/inboxiq' },
-  { title: 'LetsConnect', image: '/B - Purple.png',      href: '/projects/letsconnect' },
-  { title: 'MeetPratham', image: '/Dragon Red.jpg',      href: '/projects/meetpratham' },
-  { title: 'Tess AI',     image: '/Facets-1.jpg',        href: '/projects/tess-ai' },
-  { title: 'SignSpeak',   image: '/Facets-2.jpg',        href: '/projects/signspeak' },
-  { title: 'Deliciae',    image: '/Facets-3.jpg',        href: '/projects/deliciae' },
+  { title: 'InboxIQ',     image: '/A.png',              href: '/projects/' },
+  { title: 'LetsConnect', image: '/B - Purple.png',      href: '/projects/' },
+  { title: 'MeetPratham', image: '/Dragon Red.jpg',      href: '/projects/' },
+  { title: 'Tess AI',     image: '/Facets-1.jpg',        href: '/projects/' },
+  { title: 'SignSpeak',   image: '/Facets-2.jpg',        href: '/projects/' },
+  { title: 'Deliciae',    image: '/Facets-3.jpg',        href: '/projects/' },
 ];
 
 // duplicate so marquee scrolls seamlessly

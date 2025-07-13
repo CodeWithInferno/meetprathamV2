@@ -54,12 +54,8 @@ export default function WhoAmIBanner() {
   className="mt-6 text-l sm:text-xl md:text-2xl leading-relaxed text-white/80"
   style={{ fontFamily: 'var(--font-playfair)' }}
 >
-  I am a researcher and computer scientist driven by curiosity and precision,
-  weaving together the worlds of technology and creative expression. My
-  passion lies in crafting seamless digital experiences, exploring the
-  boundaries of AI, and pushing ideas from concept to reality. A lover of art,
-  design, and the hidden beauty of algorithms, I strive to turn complexity
-  into simple, engaging solutions that leave a lasting impression.
+  I’m Pratham Patel—born and raised in India, a perpetual tinkerer who sees everything as a puzzle to solve. When I’m not buried in code or experimenting with hardware, you’ll find me on the badminton court or sketching abstract designs over a cup of masala chai. I thrive on the thrill of learning something new—whether that’s untangling an algorithm, exploring space‑debris simulations, or simply discovering the perfect recipe for the weekend’s biryani. Let’s see what we can uncover next.
+
 </p>
 
         </motion.div>
@@ -86,7 +82,7 @@ export default function WhoAmIBanner() {
             style={{ fontFamily: 'var(--font-playfair)' }}
           >
             This is <span className="line-through">Greek god</span>{' '}
-            <b>Pratham Patel</b> →
+            <b>Pratham Patel</b> 
           </p>
         </div>
       </div>

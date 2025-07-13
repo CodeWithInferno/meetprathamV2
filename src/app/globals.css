@@ -63,8 +63,9 @@
     --ring: 0 0% 83.1%;
   }
 
-  * {
+   * {
     @apply border-border;
+    cursor: none !important;
   }
 .bg-parchment {
   background-image: url('/images/parchment-texture.jpg');
@@ -110,15 +111,74 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%; pointer-events: none; mix-blend-mode: difference;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+              width 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+              height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+              background-color 0.2s ease, border-color 0.2s ease;
   transform: translate(-50%, -50%); z-index: 9999;
+  display: flex; /* Added for centering text */
+  align-items: center; /* Added for centering text */
+  justify-content: center; /* Added for centering text */
 }
+/* This is the state when hovering over a non-link element that just enlarges the cursor */
 #cursor-circle.enlarged {
-  transform: translate(-50%, -50%) scale(2);
-  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+/* NEW: This is the state when hovering over a link */
+#cursor-circle.link-hover {
+  width: 80px;  /* Make it much bigger */
+  height: 80px;
+  background: rgba(255, 255, 255, 1); /* Make it solid */
   border-color: rgba(255, 255, 255, 1);
 }
 
+/* NEW: The text that will appear inside the cursor */
+.cursor-text {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s ease-in-out;
+  text-transform: uppercase;
+}
+/* When the parent has .link-hover, the text becomes visible */
+#cursor-circle.link-hover .cursor-text {
+  opacity: 1;
+}
+
+/* --- FIX 3: Restore Default Cursor on Mobile --- */
+/* Media query to detect devices that primarily use touch */
+@media (pointer: coarse) {
+  * {
+    cursor: auto !important; /* Bring back the default cursor */
+  }
+  /* Hide our custom cursor element completely on these devices */
+  #cursor-circle {
+    display: none !important;
+  }
+}
+
+
+/* app/globals.css */
+
+/* ... (at the bottom of the file) ... */
+
+/* --- NEW: Brutalist Project Page Styles --- */
+.project-list-item {
+  /* Underline effect for hover/active state */
+  background-image: linear-gradient(to right, #000 0%, #000 100%);
+  background-size: 0% 2px;
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-list-item:hover,
+.project-list-item.selected {
+  background-size: 100% 2px;
+}
 
 
 /* --- Research Section Styles --- */

@@ -8,7 +8,7 @@ import Dock from './Dock'; // This Dock is for the internal banner image hover e
 // Define the static image paths for the hover effect within this banner.
 // These should correspond to the imagePath values in Dock.jsx
 const bannerImagePaths = {
-  default: '/landing/banner.jpg', // Main default banner image
+  default: '/landing/Banner.png', // Main default banner image
   whoami: '/landing/whoami_banner.jpg', 
   blog: '/landing/blog_banner.jpg',
   projects: '/landing/projects_banner.jpg',
