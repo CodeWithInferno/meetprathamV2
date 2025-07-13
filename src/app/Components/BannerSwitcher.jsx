@@ -8,7 +8,7 @@ import DefaultBanner  from './Landing/Hero';
 import WhoAmIBanner   from './Landing/WhoAmIBanner';
 import BlogBanner     from './Landing/BlogBanner';
 import ProjectBanner  from './Landing/ProjectBanner';
-import Dock           from './Landing/Dock';
+import Dock           from './Landing/Dock'; // This is the main Dock for component switching
 import MoreBanner     from './Landing/MoreBanner';
 
 const bannerMap = {
@@ -20,7 +20,6 @@ const bannerMap = {
 };
 
 export default function BannerSwitcher() {
-  // start on default
   const [activeKey, setActiveKey] = useState('default');
   const Active = bannerMap[activeKey] || DefaultBanner;
 
@@ -41,9 +40,11 @@ export default function BannerSwitcher() {
         </motion.div>
       </AnimatePresence>
 
+      {/* This Dock controls which *entire banner component* is active */}
       <Dock
-        onHoverItem={(key) => setActiveKey(key)} // desktop: preview on hover
+        onHoverItem={(item) => setActiveKey(item.key)} // Desktop hover: preview on hover
         onLeave={() => { /* do nothing — stay on last preview */ }}
+        activeKey={activeKey} // NEW: Pass the currently active banner key to Dock
       />
     </section>
   );

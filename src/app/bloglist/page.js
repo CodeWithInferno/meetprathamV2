@@ -1,4 +1,3 @@
-// src/app/blog/page.jsx
 'use client';
 
 import React, { useEffect, useState, useRef, useMemo } from 'react';
@@ -8,8 +7,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import sanityClient from '@sanity/client';
 
-// IMPORT YOUR HEADER COMPONENT
-import ArtisticHeader from '@/app/Components/Reusable/Header'; // Adjust the path to your header file
+import ArtisticHeader from '@/app/Components/Reusable/Header'; // Assuming this path is correct
 
 const client = sanityClient({
   projectId: '1igdvz19',
@@ -44,24 +42,13 @@ export default function Blog() {
     })();
   }, []);
 
-  // useMemo is still good practice for performance, so we keep it.
   const visiblePosts = useMemo(() => {
-    if (activeTopic === 'All') {
-      return posts;
-    }
+    if (activeTopic === 'All') return posts;
     return posts.filter(p => p.topic === activeTopic);
   }, [posts, activeTopic]);
 
-
-  // =================================================================
-  // THE REAL FIX: Reimagined Logic
-  // The animation now depends on `activeTopic` and `posts`.
-  // It will ONLY re-run when you click a new category or when the posts
-  // initially load. It will NOT re-run on a simple hover state change.
-  // =================================================================
   useGSAP(() => {
     if (!mainFeedRef.current?.children.length) return;
-    
     gsap.from(mainFeedRef.current.children, {
         opacity: 0,
         y: 30,
@@ -69,7 +56,6 @@ export default function Blog() {
         stagger: 0.07,
         ease: 'power3.out',
     });
-    // The dependency array is the key. We are no longer depending on `visiblePosts`.
   }, { dependencies: [activeTopic, posts], scope: mainFeedRef });
 
   return (
@@ -78,8 +64,21 @@ export default function Blog() {
       
       <ArtisticHeader />
 
+      {/* --- NEW: MOBILE FILTER SECTION --- */}
+      {/* This block is ONLY visible on screens smaller than 'lg' */}
+      <div className="lg:hidden px-6 pt-6 pb-4 border-b-2 border-black">
+        <FilterList 
+          topics={topics}
+          activeTopic={activeTopic}
+          setActiveTopic={setActiveTopic}
+          isMobile={true} // Pass a prop to change the layout
+        />
+      </div>
+
       <div className="grid lg:grid-cols-3 xl:grid-cols-4">
         
+        {/* --- DESKTOP SIDEBAR (UNCHANGED) --- */}
+        {/* This remains hidden on mobile and appears on desktop */}
         <aside className="hidden lg:block lg:col-span-1 xl:col-span-1 p-8 border-r-2 border-black">
           <div className="sticky top-8">
             <h1 className="text-7xl font-bold uppercase tracking-tighter">Index</h1>
@@ -90,8 +89,9 @@ export default function Blog() {
               topics={topics}
               activeTopic={activeTopic}
               setActiveTopic={setActiveTopic}
+              isMobile={false} // Default vertical layout
             />
-             <div className="mt-24">
+            <div className="mt-24">
               <Link href="/" className="font-bold text-lg hover:text-yellow-400">[ Home ]</Link>
             </div>
           </div>
@@ -113,9 +113,36 @@ export default function Blog() {
   );
 }
 
-// ---- ALL CHILD COMPONENTS BELOW ARE UNCHANGED AND CORRECT ----
+// ---- MODIFIED FilterList Component ----
+function FilterList({ topics, activeTopic, setActiveTopic, isMobile }) {
+  // If we are on mobile, use a horizontal scrollable layout
+  if (isMobile) {
+    return (
+      <nav>
+        <h2 className="text-sm font-bold uppercase text-neutral-600 mb-3">[ Categories ]</h2>
+        {/* Use flex and overflow-x-auto for a scrollable horizontal list */}
+        <ul className="flex items-center gap-2 overflow-x-auto pb-2">
+          {topics.map(topic => (
+            // Use whitespace-nowrap to prevent list items from wrapping to the next line
+            <li key={topic} className="whitespace-nowrap">
+              <button
+                onClick={() => setActiveTopic(topic)}
+                className={`block px-3 py-1 text-base font-bold uppercase transition-colors duration-200 rounded-sm
+                ${ activeTopic === topic 
+                    ? 'bg-yellow-300 text-black' 
+                    : 'text-neutral-500 hover:text-black'
+                }`}
+              >
+                {topic}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+  }
 
-function FilterList({ topics, activeTopic, setActiveTopic }) {
+  // Otherwise, return the original vertical layout for desktop
   return (
     <nav className="mt-16">
         <h2 className="text-lg font-bold uppercase text-neutral-800">[ Categories ]</h2>
@@ -139,6 +166,40 @@ function FilterList({ topics, activeTopic, setActiveTopic }) {
   )
 }
 
+// ---- MODIFIED PostItem Component ----
+const PostItem = React.memo(function PostItem({ post, setHoveredTopic }) {
+  return (
+    <div 
+      onMouseEnter={() => setHoveredTopic(post.topic)}
+      onMouseLeave={() => setHoveredTopic(null)}
+      className="border-b-2 border-black group transition-colors duration-200 hover:border-yellow-300"
+    >
+      <Link href={`/blog/${post.slug}`} className="block p-6 md:p-8">
+        <div className="flex justify-between items-start gap-8">
+            {/* --- NEW: Responsive text size for mobile --- */}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight w-3/4">
+                {post.title}
+            </h2>
+            <span className="arrow text-4xl md:text-5xl transition-transform duration-300 group-hover:translate-x-2">→</span>
+        </div>
+        {post.banner && (
+            <div className="mt-6 md:mt-8 overflow-hidden">
+                <Image
+                    src={post.banner}
+                    alt=""
+                    width={1000}
+                    height={600}
+                    className="post-image w-full h-auto filter grayscale transition-all duration-300 group-hover:grayscale-0"
+                    loading="lazy"
+                />
+            </div>
+        )}
+      </Link>
+    </div>
+  );
+});
+
+// Floating Tag remains unchanged
 function FloatingTag({ topic }) {
    const tagRef = useRef(null);
     const isVisible = !!topic;
@@ -170,34 +231,3 @@ function FloatingTag({ topic }) {
         </div>
     )
 }
-
-const PostItem = React.memo(function PostItem({ post, setHoveredTopic }) {
-  return (
-    <div 
-      onMouseEnter={() => setHoveredTopic(post.topic)}
-      onMouseLeave={() => setHoveredTopic(null)}
-      className="border-b-2 border-black group transition-colors duration-200 hover:border-yellow-300"
-    >
-      <Link href={`/blog/${post.slug}`} className="block p-8">
-        <div className="flex justify-between items-start gap-8">
-            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight w-3/4">
-                {post.title}
-            </h2>
-            <span className="arrow text-5xl transition-transform duration-300 group-hover:translate-x-2">→</span>
-        </div>
-        {post.banner && (
-            <div className="mt-8 overflow-hidden">
-                <Image
-                    src={post.banner}
-                    alt=""
-                    width={1000}
-                    height={600}
-                    className="post-image w-full h-auto filter grayscale transition-all duration-300 group-hover:grayscale-0"
-                    loading="lazy"
-                />
-            </div>
-        )}
-      </Link>
-    </div>
-  );
-});

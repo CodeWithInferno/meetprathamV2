@@ -408,7 +408,7 @@ export default async function BlogArticle({ params }) {
       {/* --- ARTICLE HERO SECTION --- */}
       <header className="py-20 px-6 bg-white border-b-2 border-black">
         <div className="max-w-4xl mx-auto">
-           <Link href="/blog" className="flex items-center gap-2 font-bold text-neutral-600 hover:text-black transition-colors mb-8">
+           <Link href="/bloglist" className="flex items-center gap-2 font-bold text-neutral-600 hover:text-black transition-colors mb-8">
             <ArrowLeft size={18} />
             <span>Back to Index</span>
           </Link>

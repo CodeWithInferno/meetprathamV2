@@ -25,39 +25,52 @@ const data = {
 export default function WorkbenchSection() {
   const mainRef = useRef(null);
   const workbenchRef = useRef(null);
-  const contentWrapperRef = useRef(null); // A new ref for the content that fades in
+  const contentWrapperRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: mainRef.current,
-        start: 'top top',
-        end: '+=400%', // Adjust scroll duration as needed
-        pin: true,
-        scrub: 1.5,
-      },
+    let mm = gsap.matchMedia();
+
+    // Setup for desktop (min-width: 769px)
+    mm.add("(min-width: 769px)", () => {
+      // Ensure content is hidden initially for desktop animation
+      gsap.set(contentWrapperRef.current, { autoAlpha: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: mainRef.current,
+          start: 'top top',
+          end: '+=400%',
+          pin: true,
+          scrub: 1.5,
+        },
+      });
+
+      tl.to(contentWrapperRef.current, { autoAlpha: 1, duration: 1, ease: 'power2.inOut' })
+        .to(workbenchRef.current, {
+          x: () => -(workbenchRef.current.scrollWidth - document.documentElement.clientWidth),
+          ease: 'none',
+          duration: 8,
+        }, "<"); // Use "<" to start horizontal scroll at the same time as fade-in completes.
+
+      return () => { // Cleanup for this matchMedia instance
+        tl.kill();
+      };
     });
 
-    // --- THE NEW, SIMPLIFIED & ELEGANT TIMELINE ---
+    // Setup for mobile (max-width: 768px)
+    mm.add("(max-width: 768px)", () => {
+      // CRUCIAL: Ensure elements are visible and not transformed on mobile
+      gsap.set(contentWrapperRef.current, { autoAlpha: 1, clearProps: "all" });
+      gsap.set(workbenchRef.current, { x: 0, clearProps: "all" });
 
-    // STEP 1: Fade in the entire workbench content.
-    // It starts invisible and becomes fully visible.
-    tl.fromTo(contentWrapperRef.current,
-      { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 1, ease: 'power2.inOut' }
-    );
-
-    // STEP 2: The horizontal scroll.
-    // This starts *after* the fade-in is complete.
-    tl.to(workbenchRef.current, {
-      x: () => -(workbenchRef.current.scrollWidth - document.documentElement.clientWidth),
-      ease: 'none',
-      duration: 8,
-    }, ">"); // The ">" ensures it starts after the fade-in finishes.
-
-    return () => {
-      tl.kill();
+      // Kill any ScrollTriggers that might have been created
+      // and are now irrelevant on mobile.
       ScrollTrigger.getAll().forEach(st => st.kill());
+    });
+
+    // General cleanup for all matchMedia instances when component unmounts
+    return () => {
+      mm.revert(); // Reverts all animations and matchMedia contexts created by this instance
     };
   }, []);
 

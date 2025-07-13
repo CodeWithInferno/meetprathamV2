@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect } from "react"; // CORRECT: Use useEffect for data fetching
-import { FiX, FiShare2, FiDownload, FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { useState, useEffect } from "react";
 import Image from 'next/image';
-import { createClient } from "@sanity/client"; // CORRECT: Use createClient
-import imageUrlBuilder from "@sanity/image-url";
+import { createClient } from "@sanity/client";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import { FiArrowLeft, FiArrowRight, FiX } from "react-icons/fi";
+import { motion } from "framer-motion";
 
-// CORRECT: Initialize Sanity client properly
+// --- Sanity Client ---
 const client = createClient({
   projectId: "1igdvz19",
   dataset: "production",
@@ -14,152 +16,122 @@ const client = createClient({
   apiVersion: '2024-07-08',
 });
 
-const builder = imageUrlBuilder(client);
-function urlFor(source) {
-  return builder.image(source);
-}
-
-const firstImage = "/image-5.png";
-
+// --- Main Component ---
 export default function SneakPeak() {
-  const [imagePosts, setImagePosts] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [images, setImages] = useState([]);
+  const [index, setIndex] = useState(-1);
+  const [loading, setLoading] = useState(true);
 
-  // CORRECT: Use useEffect for data fetching
+  const layouts = ['square', 'portrait', 'square', 'landscape', 'square', 'portrait'];
+
   useEffect(() => {
     client
-      .fetch(
-        `*[_type == "imagePost"]{
-          title,
-          image{
-            asset->{
-              _id,
-              url
-            }
-          }
-        }`
-      )
+      .fetch(`*[_type == "imagePost"]{ title, "imageUrl": image.asset->url, "altText": title }`)
       .then((data) => {
-        const postsWithImages = data.map((post) => {
-          if (post.image) {
-            post.image.url = urlFor(post.image.asset).url();
-          }
-          return post;
-        });
-        setImagePosts([firstImage, ...postsWithImages]);
+        const processedImages = data.map((post, i) => ({
+          src: post.imageUrl,
+          alt: post.altText || 'Image',
+          title: post.title,
+          layout: layouts[i % layouts.length], 
+        }));
+        setImages(processedImages);
       })
-      .catch(console.error);
-  }, []); // Empty dependency array runs this once on component mount
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
 
-  const openModal = (index) => {
-    setCurrentIndex(index);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setCurrentIndex(null);
-  };
-
-  const prevImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : imagePosts.length - 1));
-  };
-
-  const nextImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex < imagePosts.length - 1 ? prevIndex + 1 : 0));
+  const slides = images.map(({ src, title }) => ({ src, title }));
+  
+  const getGridItemClasses = (layout) => {
+    switch (layout) {
+      case 'portrait':
+        return 'md:col-span-1 md:row-span-2 aspect-[2/3]'; // On mobile, portrait images are square to prevent awkward gaps
+      case 'landscape':
+        return 'col-span-2 md:row-span-1 aspect-[4/3]';
+      case 'square':
+      default:
+        return 'col-span-1 row-span-1 aspect-square';
+    }
   };
 
   return (
-    <div className="bg-black text-white min-h-screen">
-      <div className="flex flex-col items-center justify-center py-10">
-        <h1 className="text-4xl font-bold mb-4">Sneak Peak Images</h1>
-        <p className="text-lg">Image Gallery with Sanity and Local Images</p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-8">
-        <div className="relative aspect-w-1 aspect-h-1 p-4 border-4 border-gray-500 rounded-lg shadow-lg">
-          {/* CORRECTED: Using `fill` requires the parent to be relative, which it is. */}
-          <Image
-            src={firstImage}
-            alt="Golden Gate Bridge"
-            fill
-            className="object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
-            onClick={() => openModal(0)}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-          <div className="relative z-10 text-center text-white pt-10 text-3xl font-bold">
-            Golden Gate Bridge
-          </div>
-          <p className="relative z-10 pt-5 text-center text-lg">
-            This is a gallery of pictures which I took or made using AI or other means. You can zoom and download any if you like.
-          </p>
-        </div>
-
-        {imagePosts.length > 0 && imagePosts.slice(1).map((post, index) => (
-            <div key={index + 1} className="relative aspect-w-1 aspect-h-1">
-              {/* CORRECTED: Using `fill` for responsive grid items */}
-              <Image
-                src={post.image?.url}
-                alt={post.title || 'Sneak peek image'}
-                fill
-                className="object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
-                onClick={() => openModal(index + 1)}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-            </div>
-        ))}
-      </div>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
-          <button className="absolute top-4 left-4 text-white text-3xl z-20" onClick={closeModal}>
-            <FiX />
-          </button>
-          
-          <div className="absolute top-4 right-4 flex space-x-4 z-20">
-            {/* ... share and download buttons ... */}
-          </div>
-
-          <button className="absolute left-4 text-white text-3xl z-20" onClick={prevImage}>
-            <FiArrowLeft />
-          </button>
-
-          <button className="absolute right-4 text-white text-3xl z-20" onClick={nextImage}>
-            <FiArrowRight />
-          </button>
-
-          <div className="relative w-full h-4/5">
-              {/* CORRECTED: Using `fill` for the large modal image */}
-              <Image
-                  src={ typeof imagePosts[currentIndex] === "string" ? imagePosts[currentIndex] : imagePosts[currentIndex]?.image?.url }
-                  alt="Enlarged"
-                  fill
-                  className="object-contain rounded-lg shadow-lg"
-                  sizes="100vw"
-              />
-          </div>
-
-          <div className="absolute bottom-4 w-full px-10">
-            <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
-              {imagePosts.map((post, idx) => (
-                // CORRECTED: Using fixed width and height for thumbnails
+    <div className="bg-[#111] text-neutral-300 min-h-screen font-sans">
+      
+      {/* Header remains centered and focused */}
+      <header className="max-w-5xl mx-auto px-6 md:px-8 pt-24 pb-16">
+        <motion.h1 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-2xl font-medium text-neutral-200 tracking-wide"
+        >
+          Sneak Peek
+        </motion.h1>
+      </header>
+      
+      {/* THE FIX: Main content area is now fluid with padding, not max-width */}
+      <main className="w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-10 pb-24">
+        {loading ? (
+          <div className="text-center text-neutral-500">Loading...</div>
+        ) : (
+          <motion.div
+            // THE FIX: Added more column breakpoints for large screens
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 md:gap-4"
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: {},
+              show: { transition: { staggerChildren: 0.06 } },
+            }}
+          >
+            {images.map((image, idx) => (
+              <motion.div
+                key={image.src + idx} // More robust key
+                className={`relative cursor-pointer group overflow-hidden rounded-[4px] ${getGridItemClasses(image.layout)}`}
+                onClick={() => setIndex(idx)}
+                variants={{ hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0 } }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                layout
+              >
                 <Image
-                  key={idx}
-                  src={typeof post === "string" ? post : post.image?.url}
-                  alt="Thumbnail"
-                  width={64} // Provide a fixed width
-                  height={64} // Provide a fixed height
-                  className={`object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200 ${
-                    idx === currentIndex ? "opacity-100 border-2 border-white" : "opacity-70"
-                  }`}
-                  onClick={() => setCurrentIndex(idx)}
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:brightness-110"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </main>
+
+      {/* Lightbox remains unchanged */}
+      <Lightbox
+        open={index >= 0}
+        close={() => setIndex(-1)}
+        index={index}
+        slides={slides}
+        styles={{ container: { backgroundColor: "rgba(0,0,0,0.9)" } }}
+        animation={{ fade: 300, swipe: 250 }}
+        controller={{ closeOnBackdropClick: true }}
+        render={{
+          buttonPrev: () => (
+            <button className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white text-4xl z-20 transition-colors">
+              <FiArrowLeft />
+            </button>
+          ),
+          buttonNext: () => (
+            <button className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white text-4xl z-20 transition-colors">
+              <FiArrowRight />
+            </button>
+          ),
+          buttonClose: () => (
+            <button onClick={() => setIndex(-1)} className="absolute top-4 right-4 md:top-6 md:right-6 text-neutral-400 hover:text-white text-3xl z-20 transition-colors">
+              <FiX />
+            </button>
+          ),
+        }}
+      />
     </div>
   );
 }

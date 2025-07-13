@@ -66,7 +66,10 @@
   * {
     @apply border-border;
   }
-
+.bg-parchment {
+  background-image: url('/images/parchment-texture.jpg');
+  background-size: cover;
+}
   body {
     /* <<< THE FIX: Use theme variables for sitewide consistency */
     @apply bg-background text-foreground;
@@ -116,41 +119,7 @@
   border-color: rgba(255, 255, 255, 1);
 }
 
-/* --- Hero & Workbench Base --- */
-.workbench-container {
-  height: 500vh;
-  position: relative;
-}
-.hero-bg-svg { transform: scale(1.1); }
-.blinking-text { animation: blink 1.5s step-end infinite; }
-.workbench-bg { background-color: #f0f0f0; background-image: url('/images/grid.jpg'); }
-.workbench-track { display: flex; align-items: center; height: 90vh; width: 200vw; position: relative; }
-.workbench-zone { position: relative; flex-shrink: 0; width: 100vw; height: 100%; }
 
-/* --- Combined Zone (Timeline & Toolkit) --- */
-.combined-zone { position: relative; display: block; }
-.timeline-spine { position: absolute; top: 50%; left: 5%; width: 90%; height: 3px; background-color: #000; transform: translateY(-50%); }
-.timeline-item-center { position: absolute; top: 50%; transform: translateY(-50%); }
-.timeline-connector { position: absolute; width: 3px; background-color: #000; left: 50%; }
-.timeline-connector.top { height: 60px; bottom: 0; }
-.timeline-connector.bottom { height: 60px; top: 0; }
-.timeline-content-center { position: absolute; left: 50%; transform: translateX(-50%); width: 300px; padding: 1rem; background: #f0f0f0; border: 2px solid #000; font-family: monospace; }
-.timeline-content-center.top { bottom: 60px; }
-.timeline-content-center.bottom { top: 60px; }
-.toolkit-foundation { position: absolute; bottom: 5%; width: 100%; left: 0; text-align: center; }
-.toolkit-title { font-family: monospace; font-size: 1.5rem; margin-bottom: 2rem; display: inline-block; border: 2px solid #000; padding: 0.25rem 1rem; }
-.toolkit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
-.skill-item { background: #fff; border: 2px solid #000; padding: 0.75rem 1.5rem; font-family: monospace; font-weight: bold; opacity: 0; animation: fadeIn 0.5s ease forwards; animation-delay: var(--delay); }
-
-/* --- Redesigned Languages Zone Styles --- */
-.languages-zone-redesigned { position: relative; }
-.languages-title-absolute { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-family: monospace; font-size: 2rem; text-align: center; border: 2px solid #000; padding: 0.5rem 1.5rem; background-color: #f0f0f0; z-index: 10; }
-.language-card-scattered { position: absolute; display: flex; align-items: center; gap: 1.5rem; background: #fff; border: 2px solid #000; padding: 1.5rem; box-shadow: 6px 6px 0px #0a0a0a; width: 300px; transition: all 0.2s ease-in-out; }
-.language-card-scattered:hover { transform: translate(-4px, -4px) scale(1.05) !important; box-shadow: 10px 10px 0px #0a0a0a; z-index: 20; }
-.language-icon { font-size: 2.5rem; }
-.language-details { display: flex; flex-direction: column; }
-.language-name { font-family: monospace; font-size: 1.5rem; font-weight: bold; }
-.language-level { font-family: monospace; color: #555; }
 
 /* --- Research Section Styles --- */
 .blueprint-card { position: relative; width: 100%; border: 2px solid #000; padding: 1.5rem 2rem; background: #e6f3ff; box-shadow: 6px 6px 0px #0a0a0a; transition: all 0.3s ease; color: #0a0a0a; }
@@ -168,13 +137,6 @@
 
 
 
-
-
-
-
-/* app/globals.css */
-
-/* ... (Keep all your previous styles) ... */
 
 /*
  * =================================================================
@@ -525,4 +487,375 @@
 .data-link:hover {
   background-color: #00ff41;
   color: #0d0d15;
+}
+
+/* --- Hero & Workbench Base --- */
+.workbench-container {
+  height: 500vh; /* Desktop: Provides scroll space for pin effect */
+  position: relative;
+}
+.hero-bg-svg { transform: scale(1.1); }
+.blinking-text { animation: blink 1.5s step-end infinite; }
+.workbench-bg { background-color: #f0f0f0; background-image: url('/images/grid.jpg'); }
+.workbench-track {
+  display: flex;
+  align-items: center;
+  height: 90vh; /* Desktop: Height for horizontal content */
+  width: 200vw; /* Desktop: Ensures horizontal scroll */
+  position: relative;
+}
+.workbench-zone {
+  position: relative;
+  flex-shrink: 0;
+  width: 100vw; /* Each zone takes 100% of viewport width */
+  height: 100%;
+}
+
+/* --- Combined Zone (Timeline & Toolkit) --- */
+.combined-zone { position: relative; display: block; }
+.timeline-spine {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  width: 90%;
+  height: 3px;
+  background-color: #000;
+  transform: translateY(-50%);
+}
+.timeline-item-center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.timeline-connector {
+  position: absolute;
+  width: 3px;
+  background-color: #000;
+  left: 50%;
+}
+.timeline-connector.top { height: 60px; bottom: 0; }
+.timeline-connector.bottom { height: 60px; top: 0; }
+.timeline-content-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  padding: 1rem;
+  background: #f0f0f0;
+  border: 2px solid #000;
+  font-family: monospace;
+}
+.timeline-content-center.top { bottom: 60px; }
+.timeline-content-center.bottom { top: 60px; }
+.toolkit-foundation {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  left: 0;
+  text-align: center;
+}
+.toolkit-title { font-family: monospace; font-size: 1.5rem; margin-bottom: 2rem; display: inline-block; border: 2px solid #000; padding: 0.25rem 1rem; }
+.toolkit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.skill-item { background: #fff; border: 2px solid #000; padding: 0.75rem 1.5rem; font-family: monospace; font-weight: bold; opacity: 0; animation: fadeIn 0.5s ease forwards; animation-delay: var(--delay); }
+
+/* --- Redesigned Languages Zone Styles --- */
+.languages-zone-redesigned { position: relative; }
+.languages-title-absolute { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-family: monospace; font-size: 2rem; text-align: center; border: 2px solid #000; padding: 0.5rem 1.5rem; background-color: #f0f0f0; z-index: 10; }
+.language-card-scattered {
+  position: absolute; /* Desktop: For scattered effect */
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: #fff;
+  border: 2px solid #000;
+  padding: 1.5rem;
+  box-shadow: 6px 6px 0px #0a0a0a;
+  width: 300px;
+  transition: all 0.2s ease-in-out;
+}
+.language-card-scattered:hover { transform: translate(-4px, -4px) scale(1.05); box-shadow: 10px 10px 0px #0a0a0a; z-index: 20; }
+.language-icon { font-size: 2.5rem; }
+.language-details { display: flex; flex-direction: column; }
+.language-name { font-family: monospace; font-size: 1.5rem; font-weight: bold; }
+.language-level { font-family: monospace; color: #555; }
+
+
+/* --- Research Section Styles --- */
+/* Existing desktop/default styles for Research Section */
+.blueprint-card { position: relative; width: 100%; border: 2px solid #000; padding: 1.5rem 2rem; background: #e6f3ff; box-shadow: 6px 6px 0px #0a0a0a; transition: all 0.3s ease; color: #0a0a0a; }
+.blueprint-card.vertical-layout:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0px #0a0a0a; }
+.blueprint-title { font-family: monospace; font-size: 1.5rem; font-weight: bold; border-bottom: 2px dotted #000; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+.blueprint-abstract { font-family: 'Times New Roman', serif; font-style: italic; }
+.blueprint-annotations { position: absolute; inset: 0; pointer-events: none; }
+.annotation-line { position: absolute; height: 1px; background-color: #0056b3; }
+.annotation-text { position: absolute; font-family: monospace; font-size: 0.8rem; color: #0056b3; background: #e6f3ff; padding: 0 0.25rem; }
+
+
+/*
+ * =================================================================
+ * RESPONSIVE WORKBENCH & RESEARCH STYLES (FOR MOBILE & TABLET)
+ * =================================================================
+ */
+@media (max-width: 768px) {
+  /* General container and section adjustments */
+  .workbench-container { /* This class is on the parent div in page.jsx */
+    height: auto !important; /* Allow content to define height */
+    position: relative !important; /* Ensure it's not pinned or positioned strangely */
+    overflow: visible !important; /* Prevent content from being clipped */
+  }
+
+  /* Target the section element within the container */
+  .workbench-container section {
+    height: auto !important; /* Override h-screen */
+    overflow: visible !important; /* Override overflow-hidden */
+    position: relative !important; /* Ensure it behaves normally */
+    padding-top: 2rem; /* Add some overall top padding */
+    padding-bottom: 2rem; /* Add some overall bottom padding */
+  }
+
+  /* Content wrapper (contentWrapperRef): Ensure it's visible and flows naturally */
+  .workbench-container section > div.workbench-bg { /* Targets the contentWrapperRef div */
+    visibility: visible !important; /* Make sure content is visible */
+    opacity: 1 !important; /* Ensure content is not transparent */
+    height: auto !important; /* Let content dictate height */
+    align-items: flex-start !important; /* Align content to start, not center vertically */
+    flex-direction: column; /* Ensure it stacks vertically */
+    padding: 0 1rem; /* Add horizontal padding to the main content area */
+  }
+
+  /* Workbench track (workbenchRef): Change to vertical flow */
+  .workbench-track {
+    flex-direction: column;
+    width: 100vw;
+    height: auto;
+    padding: 0; /* Remove horizontal track padding as zones will have it */
+    transform: translateX(0) !important; /* CRUCIAL: Reset GSAP's x transform */
+    display: flex; /* Ensure it's a flex container for column layout */
+    justify-content: center; /* Center content horizontally within the track */
+    align-items: center; /* Center content horizontally within the track */
+  }
+
+  /* Each workbench zone: Stack vertically with proper spacing */
+  .workbench-zone {
+    position: relative !important; /* Ensure it respects normal flow, overriding absolute */
+    width: 100%;
+    max-width: 600px; /* Limit overall width for readability on larger mobiles */
+    height: auto;
+    padding: 0; /* Remove zone padding, content elements will have their own */
+    margin-bottom: 4rem; /* More space between major zones (timeline, languages) */
+    display: flex; /* Make zones flex containers */
+    flex-direction: column; /* Stack content within zones */
+    align-items: center; /* Center content within zones */
+    background-color: transparent !important; /* Ensure background is handled by main section */
+  }
+  /* Remove margin from the last zone to avoid extra space at the bottom */
+  .workbench-zone:last-of-type {
+    margin-bottom: 0 !important;
+  }
+
+  /* Timeline and Toolkit within .combined-zone */
+  .combined-zone {
+    gap: 3rem; /* Space between timeline items and toolkit section */
+    width: 100%; /* Ensure combined zone takes full width for centering */
+    position: relative; /* Context for absolute spine */
+    padding-left: 20px; /* Provide space on the left for the vertical spine */
+  }
+
+  /* Vertical Timeline Spine */
+  .timeline-spine {
+    display: block !important; /* Make spine visible */
+    position: absolute !important;
+    left: 20px !important; /* Position it on the left side, aligned with padding */
+    top: 0 !important;
+    height: 100% !important; /* Span full height of combined-zone */
+    width: 3px !important;
+    background-color: #000 !important;
+    transform: none !important; /* Reset any desktop transforms */
+  }
+
+  /* Individual Timeline Items */
+  .timeline-item-center {
+    position: relative !important; /* Keep relative for positioning its children/pseudo-elements */
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important; /* Takes full width */
+    max-width: none !important; /* Remove max-width constraint */
+    margin-bottom: 2rem !important; /* Space between items */
+    display: flex; /* Use flexbox to align connector and content */
+    align-items: center; /* Vertically align items */
+    justify-content: flex-start; /* Align content to the left */
+    padding-left: 30px; /* Add internal padding to make space for the connector and dot */
+  }
+  /* Last item has no bottom margin */
+  .timeline-item-center:last-of-type {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Add a dot on the spine for each timeline item */
+  .timeline-item-center::before {
+    content: '';
+    position: absolute;
+    left: 17px; /* Position relative to the spine (20px left of parent + 3px width / 2) - Adjust as needed */
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    z-index: 3; /* Ensure it's above the spine */
+    transform: translateY(-50%); /* Center it vertically */
+    top: 50%;
+  }
+
+  /* Connectors from spine to content */
+  .timeline-connector {
+    display: block !important; /* Make connector visible */
+    position: absolute !important;
+    left: 20px !important; /* Start from spine's position */
+    top: 50% !important; /* Center vertically within the item */
+    transform: translateY(-50%) !important; /* Ensure vertical centering */
+    width: 20px !important; /* Horizontal length of connector */
+    height: 2px !important; /* Thickness of connector */
+    background-color: #000 !important;
+  }
+  /* Remove top/bottom specific styles for mobile connectors as they are all horizontal */
+  .timeline-connector.top,
+  .timeline-connector.bottom {
+    top: 50% !important;
+    bottom: auto !important;
+    height: 2px !important; /* Standardize height for horizontal line */
+  }
+
+  /* Content cards */
+  .timeline-content-center,
+  .timeline-content-center.top,
+  .timeline-content-center.bottom {
+    position: relative !important; /* Overwrite absolute positioning */
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important; /* Overwrite transforms */
+    width: auto !important; /* Content width adjusts automatically */
+    max-width: calc(100% - 50px) !important; /* Max width to leave space for spine/connector/dot */
+    padding: 1rem !important;
+    box-sizing: border-box;
+    margin-left: 20px; /* Space between connector end and card start */
+    text-align: left; /* Align text within card to the left */
+  }
+
+  /* Toolkit foundation (toolkit-title and toolkit-grid) */
+  .toolkit-foundation {
+    position: relative !important;
+    bottom: auto !important;
+    width: 100%;
+    left: auto !important;
+    text-align: center;
+    margin-top: 4rem !important; /* CRUCIAL: Push toolkit down from timeline items */
+    padding: 0 1rem; /* Add internal padding for consistency */
+    box-sizing: border-box;
+  }
+  .toolkit-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .toolkit-grid {
+    gap: 0.75rem;
+    justify-content: center;
+  }
+  .skill-item {
+    opacity: 1 !important;
+    animation: none !important;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  /* Redesigned Languages Zone Styles */
+  .languages-zone-redesigned {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 4rem !important; /* CRUCIAL: Add significant space from the previous section (Toolkit) */
+    width: 100%;
+  }
+  
+  .languages-title-absolute {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem !important;
+  }
+  
+  /* Language cards: Reset positioning and transform for vertical stacking */
+  .language-card-scattered {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto !important;
+    box-shadow: 4px 4px 0px #0a0a0a !important;
+  }
+  .language-card-scattered:hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0px #0a0a0a !important;
+  }
+
+
+  /*
+   * =================================================================
+   * RESPONSIVE RESEARCH SECTION STYLES (FOR MOBILE & TABLET)
+   * =================================================================
+   */
+
+  /* Research Section base padding already seems okay */
+
+  /* Blueprint Card - Ensure it's the positioning context for relative children */
+  .blueprint-card {
+      position: relative !important; /* Already set for desktop, but good to ensure */
+      padding: 1rem !important; /* Slightly less padding on mobile */
+      box-shadow: 4px 4px 0px #0a0a0a !important; /* Adjusted shadow */
+  }
+
+  /* Blueprint Annotations Wrapper */
+  .blueprint-annotations {
+      position: relative !important; /* Make it part of the normal flow */
+      inset: auto !important; /* Remove absolute positioning offsets (top, right, bottom, left) */
+      pointer-events: none; /* Keep pointer events disabled if they are purely decorative */
+      display: flex; /* Use flexbox to arrange annotations */
+      flex-direction: column; /* Stack annotations vertically */
+      gap: 0.5rem; /* Space between annotations */
+      margin-top: 1rem; /* Add space above annotations, below abstract */
+      width: 100% !important; /* Take full width of the card */
+  }
+
+  /* Individual Annotation Line */
+  .annotation-line {
+      position: relative !important; /* Make it part of the normal flow */
+      width: 50px !important; /* Fixed small width for a simple visual marker */
+      height: 1px !important;
+      background-color: #0056b3 !important;
+      top: auto !important; /* Remove absolute positioning */
+      left: auto !important;
+      align-self: flex-start; /* Align line to the start of the flex container */
+      margin-right: 0.5rem; /* Space between line and text if they were inline (they are stacked now, but useful if layout changes) */
+  }
+
+  /* Individual Annotation Text */
+  .annotation-text {
+      position: relative !important; /* Make it part of the normal flow */
+      font-size: 0.7rem !important; /* Smaller font size */
+      top: auto !important; /* Remove absolute positioning */
+      left: auto !important;
+      transform: none !important; /* Remove any transforms */
+      background: none !important; /* Remove background so it's just text */
+      padding: 0 !important; /* Remove padding */
+      color: #0056b3 !important; /* Ensure color */
+      width: 100% !important; /* Allow text to take full width */
+      text-align: left !important; /* Align text to the left */
+      display: block !important; /* Ensure it's a block element */
+      margin: 0 !important; /* Remove any default margins */
+  }
 }
