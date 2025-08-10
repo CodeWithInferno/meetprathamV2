@@ -17,6 +17,15 @@ export default {
           hotspot: true, // Allows for cropping and focus
         },
       },
+      {
+        name: 'slug',
+        title: 'Slug',
+        type: 'slug',
+        options: {
+          source: 'title',
+          maxLength: 96,
+        },
+      },
     ],
   };
   

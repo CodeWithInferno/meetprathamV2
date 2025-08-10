@@ -9,9 +9,21 @@ import React, { useRef } from 'react';
 // gsap.registerPlugin(ScrollTrigger);
 
 const researchData = [
-  { title: "Decentralized Identity Models", abstract: "A study on self-sovereign identity using blockchain to enhance user privacy and control.", concepts: ["Zero-Knowledge Proofs", "DID Schemas"] },
-  { title: "Generative Adversarial Networks for Art", abstract: "Exploring the use of GANs to create novel artistic styles by training on diverse historical datasets.", concepts: ["StyleGAN2", "Latent Space Exploration"] },
-  { title: "AI-Assisted Code Refactoring", abstract: "Applying Large Language Models to analyze and suggest improvements for legacy codebases, improving maintainability.", concepts: ["AST Analysis", "Fine-Tuning"] },
+  { 
+    title: "Synergistic Self-Correction for LLM Reasoning", 
+    abstract: "Architected a novel reasoning framework augmenting LLMs with Proximal Policy Optimization (PPO) and RAG-based grounding to ensure factual consistency. Demonstrated a 60% relative improvement on the GSM8K benchmark.", 
+    concepts: ["NLP + RL", "PPO"] 
+  },
+  { 
+    title: "Adversarial Robustness in Android Malware Detection", 
+    abstract: "Constructed a hybrid malware detection model combining static opcode analysis and dynamic runtime behaviors, achieving 97% accuracy on a dataset of 100,000+ APKs. Accepted for presentation at the Microsoft Future Tech Conference.", 
+    concepts: ["Cybersecurity", "Adversarial AI"] 
+  },
+  { 
+    title: "Reproducible RL Research Pipeline", 
+    abstract: "As an AI Research Intern at DA-IICT, I engineered a complete RL research pipeline using Docker, reducing model evaluation time by 40% and boosting accuracy by 20% through robust experiment harnesses.", 
+    concepts: ["Docker", "W&B"] 
+  },
 ];
 
 export default function ResearchSection() {

@@ -9,10 +9,10 @@ const post = {
       type: 'string',
     },
     {
-      name: 'description',
-      title: 'Description',
+      name: 'shortDescription',
+      title: 'Short Description',
       type: 'string',
-      validation: Rule => Rule.max(64).warning('A description can be at most 64 characters long'),
+      validation: Rule => Rule.max(160).warning('A description can be at most 160 characters long'),
     },
     {
       name: 'slug',
