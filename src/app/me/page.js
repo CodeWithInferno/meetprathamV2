@@ -7,10 +7,6 @@ import WorkbenchSection from '@/app/Components/me/WorkbenchSection';
 import ResearchSection from '@/app/Components/me/ResearchSection';
 import Footer from '@/app/Components/Reusable/Footer'; // Assuming this path
 import Header from "@/app/Components/Reusable/Header"
-import MusicChoiceSection from '@/app/Components/me/MusicChoiceSection'; // <-- Import it
-
-
-
 
 export default function MePage() {
   return (
@@ -22,9 +18,6 @@ export default function MePage() {
         <WorkbenchSection />
       </div>
       <ResearchSection />
-      <div className="music-container">
-        <MusicChoiceSection />
-      </div>
       <Footer />
     </main>
   );

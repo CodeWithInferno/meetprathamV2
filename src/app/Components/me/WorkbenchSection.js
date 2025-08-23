@@ -9,9 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 const data = {
   timeline: [
-    { year: '2019', event: 'Began my odyssey into the world of code.' },
-    { year: '2021', event: 'Architected my first major AI platform.' },
-    { year: '2023', event: 'Ventured into the frontiers of Web3 & Generative AI.' },
+    { year: '2018', event: 'Began my odyssey into the world of code.' },
+    { year: '2024', event: 'Graduated High School.' },
+    { year: '2024', event: 'Started my journey at Gannon University.' },
+    { year: '2025', event: 'Research Internship at DA-IICT.' },
   ],
   skills: ['React', 'Next.js', 'Python', 'TensorFlow', 'GSAP', 'Solidity', 'Figma', 'PostgreSQL'],
   languages: [
