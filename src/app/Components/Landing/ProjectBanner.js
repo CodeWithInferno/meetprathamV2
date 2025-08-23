@@ -1,24 +1,66 @@
-// src/components/ProjectShowcaseBanner.jsx
-'use client';
-
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { client } from '../../../../sanity/lib/client'; // Adjust path as needed
 
-const PROJECTS = [
-  { title: 'InboxIQ',     image: '/A.png',              href: '/projects/' },
-  { title: 'LetsConnect', image: '/B - Purple.png',      href: '/projects/' },
-  { title: 'MeetPratham', image: '/Dragon Red.jpg',      href: '/projects/' },
-  { title: 'Tess AI',     image: '/Facets-1.jpg',        href: '/projects/' },
-  { title: 'SignSpeak',   image: '/Facets-2.jpg',        href: '/projects/' },
-  { title: 'Deliciae',    image: '/Facets-3.jpg',        href: '/projects/' },
-];
+// Helper function to shuffle an array
+function shuffleArray(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
 
-// duplicate so marquee scrolls seamlessly
-const LOOPED = [...PROJECTS, ...PROJECTS];
+async function getProjectData() {
+  const query = `*[_type == "work"]{
+    title,
+    "imageUrl": image.asset->url,
+    "slug": slug.current,
+    gitLink
+  }`;
+  const data = await client.fetch(query);
+  return data;
+}
 
 export default function ProjectShowcaseBanner() {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const projectData = await getProjectData();
+      const shuffled = shuffleArray([...projectData]);
+      // Duplicate the shuffled array for a seamless, non-repetitive marquee
+      setProjects([...shuffled, ...shuffled]);
+    }
+    fetchData();
+  }, []);
+
+  const marqueeVariants = {
+    animate: {
+      y: ['-100%', '0%'],
+      transition: {
+        y: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 40, // Adjust duration for speed
+          ease: "linear",
+        },
+      },
+    },
+  };
+
+  if (projects.length === 0) {
+    return (
+      <section className="relative w-full h-screen flex items-center justify-center bg-[linear-gradient(180deg,#FDFD96_0%,#FDFD96_50%,#FFA07A_50%,#FFA07A_100%)]">
+        <div className="text-black font-bold text-2xl">Loading Projects...</div>
+      </section>
+    );
+  }
+
   return (
     <section
       className="
@@ -46,19 +88,18 @@ export default function ProjectShowcaseBanner() {
             PROJECTS
           </motion.h1>
           <motion.p
-  className="text-lg text-black/80 max-w-md"
-  style={{ fontFamily: 'var(--font-playfair)' }}
-  initial={{ opacity: 0, x: -50 }}
-  animate={{ opacity: 1, x: 0 }}
-  transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
->
-  Dive into a playground of ideas where algorithms meet artistry and
-  experiments spark innovation.
+            className="text-lg text-black/80 max-w-md"
+            style={{ fontFamily: 'var(--font-playfair)' }}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
+          >
+            Dive into a playground of ideas where algorithms meet artistry and
+            experiments spark innovation.
 
-  This space is my living canvas — projects shaped by curiosity, crafted
-  to challenge convention, and designed to delight.
-</motion.p>
-
+            This space is my living canvas — projects shaped by curiosity, crafted
+            to challenge convention, and designed to delight.
+          </motion.p>
         </div>
 
         {/* RIGHT: two vertical marquees with fade-in */}
@@ -66,14 +107,19 @@ export default function ProjectShowcaseBanner() {
           {[0, 1].map((col) => (
             <motion.div
               key={col}
-              className="relative w-64 h-full overflow-hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 + col * 0.2, duration: 1, ease: 'linear' }}
+              className="relative w-64 h-full"
+              initial={{ opacity: 0, y: col === 0 ? 100 : -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + col * 0.2, duration: 1, ease: 'easeOut' }}
             >
-              <div className="marquee-col relative flex flex-col space-y-8">
-                {LOOPED.map((p, i) => (
-                  <Link key={i} href={p.href} className="group block">
+              <motion.div
+                className="absolute top-0 left-0 flex flex-col space-y-8"
+                variants={marqueeVariants}
+                animate="animate"
+                style={{ y: col === 1 ? '-100%' : '0%' }} // Start second column at a different offset
+              >
+                {projects.map((p, i) => (
+                  <Link key={i} href={p.gitLink || `/projects/${p.slug}`} className="group block">
                     <div
                       className="
                         relative w-full aspect-square
@@ -87,12 +133,14 @@ export default function ProjectShowcaseBanner() {
                         group-hover:shadow-[16px_16px_0px_#000]
                       "
                     >
-                      <Image
-                        src={p.image}
-                        alt={p.title}
-                        fill
-                        className="object-cover brightness-110"
-                      />
+                      {p.imageUrl && (
+                        <Image
+                          src={p.imageUrl}
+                          alt={p.title}
+                          fill
+                          className="object-cover brightness-110"
+                        />
+                      )}
                     </div>
                     <div
                       className="
@@ -106,7 +154,7 @@ export default function ProjectShowcaseBanner() {
                     </div>
                   </Link>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>
