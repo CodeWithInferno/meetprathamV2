@@ -29,7 +29,7 @@ export default function Header() {
         </Link>
 
         {/* Center title */}
-        <Link href="/" legacyBehavior>
+        <Link href="/home" legacyBehavior>
           <a className="
             text-white 
             text-base md:text-lg 

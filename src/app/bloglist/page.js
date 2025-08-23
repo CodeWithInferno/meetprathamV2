@@ -92,7 +92,7 @@ export default function Blog() {
               isMobile={false} // Default vertical layout
             />
             <div className="mt-24">
-              <Link href="/" className="font-bold text-lg hover:text-yellow-400">[ Home ]</Link>
+              <Link href="/home" className="font-bold text-lg hover:text-yellow-400">[ Home ]</Link>
             </div>
           </div>
         </aside>

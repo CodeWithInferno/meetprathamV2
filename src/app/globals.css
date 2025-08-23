@@ -918,4 +918,4 @@
       display: block !important; /* Ensure it's a block element */
       margin: 0 !important; /* Remove any default margins */
   }
-}
+}.glass-section { background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.1); } 

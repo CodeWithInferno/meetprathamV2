@@ -144,7 +144,7 @@ const Header = () => {
     <>
       <header className="relative flex flex-wrap z-50 items-center justify-between p-5 bg-transparent text-3xl font-semibold text-black h-28">
         <button className="lg:ml-48">
-          <Link href="/">Pratham</Link>
+          <Link href="/home">Pratham</Link>
         </button>
 
         {/* Links visible on large screens */}

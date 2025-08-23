@@ -68,7 +68,7 @@ export default function ProjectsPage() {
                             ))}
                         </ul>
                     </div>
-                    <Link href="/" className="font-bold text-lg hover:underline">[ Home ]</Link>
+                    <Link href="/home" className="font-bold text-lg hover:underline">[ Home ]</Link>
                 </div>
 
                 {/* --- THE CANVAS (RIGHT SIDE) - REBUILT FOR READABILITY --- */}
