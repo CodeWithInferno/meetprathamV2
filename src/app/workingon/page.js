@@ -68,14 +68,20 @@ export default function CreativeBrutalistPortfolio() {
 
             <div className="relative flex flex-col gap-10 z-10 max-w-5xl">
               {/* Project image with interactive motion */}
+              import Image from 'next/image';
+
+// ...
+
               <motion.div
                 whileHover={{ scale: 1.1, rotate: index % 2 === 0 ? -2 : 2 }}
                 className="w-full border-[12px] border-black shadow-[20px_20px_0_#000]"
               >
-                <img
+                <Image
                   src={image.imageUrl}
                   alt={image.title}
                   className="w-full h-[60vh] object-cover grayscale hover:grayscale-0 transition duration-700"
+                  width={800}
+                  height={600}
                 />
               </motion.div>
 

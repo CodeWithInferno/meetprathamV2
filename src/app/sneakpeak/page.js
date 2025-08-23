@@ -38,7 +38,7 @@ export default function SneakPeak() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+  }, [layouts]);
 
   const slides = images.map(({ src, title }) => ({ src, title }));
   

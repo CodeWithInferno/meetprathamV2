@@ -357,9 +357,9 @@ export default function SummaryClientPage({ projects, education, researchExperie
 
         {/* --- RESUME --- */}
         <section className="py-24 md:py-32 text-center">
-          <h2 className="section-title text-4xl md:text-5xl font-bold mb-6">Interested? Let's Connect.</h2>
+          <h2 className="section-title text-4xl md:text-5xl font-bold mb-6">Interested? Let&apos;s Connect.</h2>
           <p className="text-lg text-neutral-400 mb-10 max-w-2xl mx-auto">
-            I'm always open to discussing new research, projects, or opportunities. Download my full resume to see more.
+            I&apos;m always open to discussing new research, projects, or opportunities. Download my full resume to see more.
           </p>
           <a
             href="/resume/Resume-12.pdf"

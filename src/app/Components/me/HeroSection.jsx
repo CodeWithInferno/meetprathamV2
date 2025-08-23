@@ -20,8 +20,12 @@ export default function HeroSection() {
 
   return (
     <section className="relative h-screen bg-[#f0f0f0] flex flex-col items-center justify-center text-center overflow-hidden">
+      import Image from 'next/image';
+
+// ...
+
       <div className="absolute inset-0 opacity-10 hero-bg-svg">
-        <img src="/images/make-a-sag-of-white-colored-waves-with-transparent-bg-make-it-ja.svg" alt="background wave" className="w-full h-full object-cover" />
+        <Image src="/images/make-a-sag-of-white-colored-waves-with-transparent-bg-make-it-ja.svg" alt="background wave" className="w-full h-full object-cover" layout="fill" />
       </div>
       <div className="relative">
         <h1 className="text-6xl md:text-8xl font-mono uppercase">YOU WANT TO KNOW MORE ABOUT ME?</h1>

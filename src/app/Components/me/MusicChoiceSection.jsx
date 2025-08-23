@@ -148,9 +148,13 @@ export default function MusicChoiceSection() {
         <section ref={mainRef} className="music-choice-container">
             <h2 className="music-section-title">[ A_PEEK_INTO_MY_PLAYLIST ]</h2>
             <div className="boxes">
+                import Image from 'next/image';
+
+// ...
+
                 {COVERS.map((cover, index) => (
                     <div key={index} className="box" style={{ '--src': `url(${cover})` }}>
-                        <img src={cover} alt={`Album cover ${index + 1}`} />
+                        <Image src={cover} alt={`Album cover ${index + 1}`} width={200} height={200} />
                     </div>
                 ))}
                 <div className="controls">
