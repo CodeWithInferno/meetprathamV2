@@ -22,9 +22,8 @@ export default function SneakPeak() {
   const [index, setIndex] = useState(-1);
   const [loading, setLoading] = useState(true);
 
-  const layouts = ['square', 'portrait', 'square', 'landscape', 'square', 'portrait'];
-
   useEffect(() => {
+    const layouts = ['square', 'portrait', 'square', 'landscape', 'square', 'portrait'];
     client
       .fetch(`*[_type == "imagePost"]{ title, "imageUrl": image.asset->url, "altText": title }`)
       .then((data) => {
@@ -38,7 +37,7 @@ export default function SneakPeak() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [layouts]);
+  }, []);
 
   const slides = images.map(({ src, title }) => ({ src, title }));
   
