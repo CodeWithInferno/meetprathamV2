@@ -333,7 +333,7 @@ export default function UltraEnhancedSummaryPage({
           </h1>
 
           <div className="hero-subtitle text-2xl md:text-4xl mb-8 font-light">
-            <span className="text-gray-400">I'm a </span>
+            <span className="text-gray-400">I&apos;m a </span>
             <span className="text-yellow-400 font-bold">
               <MorphingText words={['AI Engineer', 'ML Researcher', 'Full-Stack Dev', 'Problem Solver']} />
             </span>

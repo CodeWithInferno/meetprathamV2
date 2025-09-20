@@ -109,12 +109,12 @@ export default function ErieAIEngineerPage() {
           <section className="mb-16">
             <h2 className="text-3xl font-bold mb-6">About Pratham Patel</h2>
             <p className="text-lg mb-4">
-              I'm Pratham Patel, a Computer Science student at Gannon University in Erie, PA, specializing in 
+              I&apos;m Pratham Patel, a Computer Science student at Gannon University in Erie, PA, specializing in 
               artificial intelligence and machine learning. As a local AI engineer, I bring cutting-edge technology 
               expertise to the Erie tech community.
             </p>
             <p className="text-lg mb-4">
-              Located in the heart of Erie, I'm available for local projects, consulting, and collaborations with 
+              Located in the heart of Erie, I&apos;m available for local projects, consulting, and collaborations with 
               businesses and organizations throughout Northwestern Pennsylvania.
             </p>
           </section>
@@ -165,7 +165,7 @@ export default function ErieAIEngineerPage() {
           <section className="bg-gray-100 p-8 rounded-lg">
             <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
             <p className="text-lg mb-6">
-              Ready to bring AI/ML solutions to your Erie-based business? Let's discuss how artificial 
+              Ready to bring AI/ML solutions to your Erie-based business? Let&apos;s discuss how artificial 
               intelligence can transform your operations.
             </p>
             <div className="flex flex-wrap gap-4">

@@ -57,7 +57,7 @@ export default function FAQPage() {
           <div className="mt-16 p-8 bg-gray-100 rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Still have questions?</h2>
             <p className="text-lg mb-6">
-              Feel free to reach out directly. I'm always happy to discuss AI/ML projects, research opportunities, or potential collaborations.
+              Feel free to reach out directly. I&apos;m always happy to discuss AI/ML projects, research opportunities, or potential collaborations.
             </p>
             <div className="flex gap-4">
               <Link 

@@ -180,7 +180,7 @@ export default function HirePage() {
           <section className="text-center bg-yellow-400 text-black p-12 rounded-lg">
             <h2 className="text-4xl font-bold mb-6">Ready to Start?</h2>
             <p className="text-xl mb-8">
-              Let's discuss your AI/ML project and how I can help bring your vision to life.
+              Let&apos;s discuss your AI/ML project and how I can help bring your vision to life.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a 

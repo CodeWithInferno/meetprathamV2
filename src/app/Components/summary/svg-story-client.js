@@ -1090,11 +1090,12 @@ export default function SVGStoryPortfolio({
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-pink-400/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                   
                   {post.bannerUrl && (
-                    <div className="h-48 overflow-hidden">
-                      <img 
+                    <div className="relative h-48 overflow-hidden">
+                      <Image 
                         src={post.bannerUrl} 
                         alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                   )}
@@ -1184,10 +1185,11 @@ export default function SVGStoryPortfolio({
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
               >
-                <img
+                <Image
                   src={image.imageUrl}
                   alt={image.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 
                 {/* Neural overlay */}

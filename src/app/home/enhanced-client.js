@@ -5,11 +5,11 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link';
 import Image from 'next/image';
 import Header from '../Components/Landing/Header';
-import InteractiveBackground from '../components/InteractiveBackground';
-import Text3D from '../components/Text3D';
-import CustomCursor from '../components/CustomCursor';
-import NowPlaying from '../components/NowPlaying';
-import CommandPalette from '../components/CommandPalette';
+import InteractiveBackground from '../Components/InteractiveBackground';
+import Text3D from '../Components/Text3D';
+import CustomCursor from '../Components/CustomCursor';
+import NowPlaying from '../Components/NowPlaying';
+import CommandPalette from '../Components/CommandPalette';
 
 // Terminal component
 const Terminal = ({ onCommand }) => {

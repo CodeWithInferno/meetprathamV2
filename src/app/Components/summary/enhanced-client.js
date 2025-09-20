@@ -37,9 +37,9 @@ import {
 } from 'lucide-react';
 
 // Import our custom components
-import InteractiveBackground from '../../components/InteractiveBackground';
-import CommandPalette from '../../components/CommandPalette';
-import NowPlaying from '../../components/NowPlaying';
+import InteractiveBackground from '../InteractiveBackground';
+import CommandPalette from '../CommandPalette';
+import NowPlaying from '../NowPlaying';
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
@@ -634,12 +634,12 @@ export default function EnhancedSummaryPage({ projects, education, researchExper
               className="p-12 rounded-3xl bg-gradient-to-br from-yellow-400/20 to-orange-400/20 backdrop-blur border border-yellow-400/30"
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Let's Build Something Amazing Together
+                Let&apos;s Build Something Amazing Together
               </h2>
               <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
-                I'm always excited to work on challenging projects that push the boundaries 
-                of AI and web development. Whether it's research collaboration or building 
-                the next big thing, let's connect!
+                I&apos;m always excited to work on challenging projects that push the boundaries 
+                of AI and web development. Whether it&apos;s research collaboration or building 
+                the next big thing, let&apos;s connect!
               </p>
               <div className="flex flex-wrap gap-6 justify-center">
                 <motion.a
