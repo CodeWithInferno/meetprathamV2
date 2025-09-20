@@ -20,6 +20,38 @@ async function getProjects() {
   }));
 }
 
+// Fetches blog posts from Sanity CMS
+async function getBlogPosts() {
+  const blogQuery = `*[_type == "post"] | order(publishedAt desc)[0...6]{
+    _id,
+    title,
+    shortDescription,
+    slug,
+    publishedAt,
+    banner,
+    "topics": topics[]->title
+  }`;
+  const sanityPosts = await client.fetch(blogQuery);
+  return sanityPosts.map(post => ({
+    ...post,
+    bannerUrl: post.banner ? urlForImage(post.banner) : null,
+  }));
+}
+
+// Fetches sneak peek images from Sanity CMS
+async function getSneakPeekImages() {
+  const imageQuery = `*[_type == "imagePost"][0...8]{
+    _id,
+    title,
+    image
+  }`;
+  const sanityImages = await client.fetch(imageQuery);
+  return sanityImages.map(img => ({
+    ...img,
+    imageUrl: urlForImage(img.image),
+  }));
+}
+
 // Statically defines personal data based on the provided resume
 function getProfileData() {
   const education = {
@@ -92,8 +124,33 @@ function getProfileData() {
     linkedin: 'https://linkedin.com/in/pratham-patel-6a40b5323/',
     twitter: 'https://twitter.com/prathambiren', // Placeholder, please update if incorrect
   };
+
+  // Research papers and publications
+  const researchPapers = [
+    {
+      title: 'Synergistic Self-Correction for Enhanced LLM Reasoning',
+      abstract: 'A novel framework that augments large language models with Proximal Policy Optimization and RAG-based grounding, achieving 60% improvement on GSM8K benchmark.',
+      concepts: ['Reinforcement Learning', 'Language Models'],
+      status: 'In Progress',
+      conference: 'Targeting ICML 2026',
+    },
+    {
+      title: 'Adversarial Robustness in Android Malware Detection',
+      abstract: 'Hybrid model achieving 97% accuracy on 100,000+ APKs with validated robustness against adversarial attacks using SHAP interpretability.',
+      concepts: ['Security', 'Machine Learning'],
+      status: 'Accepted',
+      conference: 'Microsoft Future Tech Conference 2025',
+    },
+    {
+      title: 'Reproducible RL Research Pipeline',
+      abstract: 'Docker-based framework reducing model evaluation time by 40% while improving accuracy by 20% through standardized experiment harnesses.',
+      concepts: ['MLOps', 'Reproducibility'],
+      status: 'Completed',
+      conference: 'DA-IICT Research Symposium',
+    },
+  ];
   
-  return { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks };
+  return { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks, researchPapers };
 }
 
 // SEO Metadata
@@ -101,43 +158,128 @@ export const metadata = {
   title: 'Pratham Patel | AI/ML Engineer & Researcher | Digital CV',
   description: 'The digital curriculum vitae of Pratham Patel, a Computer Science student at Gannon University specializing in AI and Machine Learning. Showcasing research in Reinforcement Learning, NLP, and projects in AI-driven systems.',
   keywords: ['Pratham Patel', 'AI', 'Machine Learning', 'Reinforcement Learning', 'NLP', 'Portfolio', 'Resume', 'CV', 'Gannon University', 'Software Engineer'],
-  author: 'Pratham Patel',
+  alternates: {
+    canonical: 'https://www.meetpratham.me',
+  },
+  openGraph: {
+    title: 'Pratham Patel | AI/ML Engineer & Researcher',
+    description: 'Computer Science student at Gannon University specializing in AI/ML. Explore my research, projects, and technical journey.',
+    url: 'https://www.meetpratham.me',
+    type: 'profile',
+    images: [
+      {
+        url: 'https://www.meetpratham.me/og-banner.png',
+        width: 1200,
+        height: 630,
+        alt: 'Pratham Patel - AI/ML Engineer',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pratham Patel | AI/ML Engineer & Researcher',
+    description: 'Computer Science student at Gannon University specializing in AI/ML.',
+  },
 };
 
 export default async function SummaryPage() {
   const projects = await getProjects();
-  const { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks } = getProfileData();
+  const blogPosts = await getBlogPosts();
+  const sneakPeekImages = await getSneakPeekImages();
+  const { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks, researchPapers } = getProfileData();
 
-  // JSON-LD Structured Data for SEO
-  const jsonLd = {
+  // Enhanced JSON-LD Structured Data for SEO
+  const personSchema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': 'https://www.meetpratham.me/#person',
     name: 'Pratham Patel',
-    url: 'https://meetpratham.com/summary', // Replace with your actual domain
+    givenName: 'Pratham',
+    familyName: 'Patel',
+    url: 'https://www.meetpratham.me',
+    image: 'https://www.meetpratham.me/prathamfront.jpeg',
     sameAs: [
       socialLinks.linkedin,
       socialLinks.github,
+      socialLinks.twitter,
     ],
     jobTitle: 'AI/ML Engineer & Researcher',
-    alumniOf: 'Gannon University',
+    worksFor: {
+      '@type': 'EducationalOrganization',
+      name: 'Gannon University',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Erie',
+        addressRegion: 'PA',
+        addressCountry: 'US',
+      },
+    },
+    alumniOf: {
+      '@type': 'EducationalOrganization',
+      name: 'Gannon University',
+      url: 'https://www.gannon.edu',
+    },
     knowsAbout: technicalSkills.flatMap(cat => cat.skills),
     email: 'prathambiren2618@gmail.com',
+    description: 'AI/ML Engineer specializing in reinforcement learning, NLP, and full-stack development. Building intelligent systems and sharing knowledge through research and open-source projects.',
+    hasOccupation: {
+      '@type': 'Occupation',
+      name: 'AI/ML Engineer',
+      skills: technicalSkills.flatMap(cat => cat.skills).join(', '),
+      responsibilities: 'Research in reinforcement learning, developing AI systems, full-stack development, technical writing',
+    },
+  };
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': 'https://www.meetpratham.me/#website',
+    url: 'https://www.meetpratham.me',
+    name: 'Pratham Patel Portfolio',
+    description: 'Personal portfolio and blog of Pratham Patel - AI/ML Engineer and Full-Stack Developer',
+    publisher: {
+      '@id': 'https://www.meetpratham.me/#person',
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://www.meetpratham.me/bloglist?search={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.meetpratham.me',
+      },
+    ],
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, websiteSchema, breadcrumbSchema]) }}
       />
       <SmoothScrollProvider>
         <SummaryClientPage 
           projects={projects}
+          blogPosts={blogPosts}
+          sneakPeekImages={sneakPeekImages}
           education={education}
           researchExperience={researchExperience}
           leadershipAndAwards={leadershipAndAwards}
           technicalSkills={technicalSkills}
-          socialLinks={socialLinks} 
+          socialLinks={socialLinks}
+          researchPapers={researchPapers}
         />
       </SmoothScrollProvider>
     </>

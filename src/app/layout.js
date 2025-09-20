@@ -91,39 +91,67 @@ const ibmPlexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '700'] }
 
 
 // =================================================================
-// STEP 2.1: ADD SITE-WIDE METADATA
-// This is the default SEO for your entire site.
+// SITE-WIDE METADATA WITH ENHANCED SEO
 // =================================================================
 export const metadata = {
+  metadataBase: new URL('https://www.meetpratham.me'),
   title: {
-    template: '%s | Meet Pratham',
-    default: 'Meet Pratham',
+    template: '%s | Pratham Patel',
+    default: 'Pratham Patel | AI/ML Engineer & Full-Stack Developer',
   },
-  description: 'Hey—I’m Pratham Patel, a full‑stack dev and AI tinkerer sharing code, tutorials, and experiments.',
+  description: 'AI/ML Engineer and Full-Stack Developer specializing in reinforcement learning, NLP, and modern web development. Building intelligent systems and sharing insights through code.',
+  keywords: ['Pratham Patel', 'AI Engineer', 'ML Engineer', 'Machine Learning', 'Full Stack Developer', 'React', 'Next.js', 'Python', 'Portfolio'],
+  authors: [{ name: 'Pratham Patel', url: 'https://www.meetpratham.me' }],
+  creator: 'Pratham Patel',
+  publisher: 'Pratham Patel',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   alternates: {
     canonical: 'https://www.meetpratham.me',
   },
   openGraph: {
-    title: 'Meet Pratham',
-    description: 'Hey—I’m Pratham Patel, a full‑stack dev and AI tinkerer sharing code, tutorials, and experiments.',
+    title: 'Pratham Patel | AI/ML Engineer & Full-Stack Developer',
+    description: 'AI/ML Engineer and Full-Stack Developer specializing in reinforcement learning, NLP, and modern web development.',
     url: 'https://www.meetpratham.me',
-    siteName: 'MeetPratham',
+    siteName: 'Pratham Patel Portfolio',
     type: 'website',
     locale: 'en_US',
     images: [
       {
-        url: '/og-banner.png',
+        url: 'https://www.meetpratham.me/og-banner.png',
         width: 1200,
         height: 630,
-        alt: 'Meet Pratham Hero Banner',
+        alt: 'Pratham Patel - AI/ML Engineer & Full-Stack Developer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Meet Pratham',
-    description: 'Hey—I’m Pratham Patel, a full‑stack dev and AI tinkerer sharing code, tutorials, and experiments.',
+    site: '@prathambiren',
+    creator: '@prathambiren',
+    title: 'Pratham Patel | AI/ML Engineer & Full-Stack Developer',
+    description: 'AI/ML Engineer and Full-Stack Developer specializing in reinforcement learning, NLP, and modern web development.',
     images: ['https://www.meetpratham.me/og-banner.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    // Add these when you have them
+    // google: 'your-google-site-verification',
+    // yandex: 'your-yandex-verification',
+    // bing: 'your-bing-verification',
   },
 };
 
@@ -132,7 +160,29 @@ export const metadata = {
 export default function RootLayout({ children }) {
   // NO MORE useEffect here. This is a clean Server Component.
   return (
-    <html lang="en">
+    <html lang="en-US">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="apple-touch-icon" href="/Logo.svg" />
+        <meta name="geo.region" content="US-PA" />
+        <meta name="geo.placename" content="Erie" />
+        <meta name="geo.position" content="42.1292;-80.0851" />
+        <meta name="ICBM" content="42.1292, -80.0851" />
+        <link rel="alternate" hreflang="en-US" href="https://www.meetpratham.me" />
+        <link rel="alternate" hreflang="x-default" href="https://www.meetpratham.me" />
+        <meta name="author" content="Pratham Patel" />
+        <meta name="designer" content="Pratham Patel" />
+        <meta name="owner" content="Pratham Patel" />
+        <meta name="copyright" content="Pratham Patel" />
+        <meta name="classification" content="Portfolio, AI/ML Engineer, Software Developer" />
+        <meta name="subject" content="AI/ML Engineering Portfolio and Blog" />
+        <meta name="url" content="https://www.meetpratham.me" />
+        <meta name="identifier-URL" content="https://www.meetpratham.me" />
+        <meta name="coverage" content="Worldwide" />
+        <meta name="distribution" content="Global" />
+        <meta name="rating" content="General" />
+      </head>
       <body className={`${bebas.variable} ${ibmPlexMono.className} ${playfair.variable} ${tusker.variable} bg-white text-black min-h-screen bg-no-repeat`}>
         {/*
           STEP 2.2: WRAP CHILDREN WITH THE CLIENT COMPONENT

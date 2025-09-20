@@ -1,0 +1,54 @@
+{
+  "name": "Pratham Patel - AI/ML Engineer & Developer",
+  "short_name": "Pratham Patel",
+  "description": "Personal portfolio and blog of Pratham Patel - AI/ML Engineer specializing in reinforcement learning, NLP, and full-stack development.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["developer", "education", "portfolio", "blog"],
+  "icons": [
+    {
+      "src": "/Logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-banner.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "label": "Portfolio Homepage"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Projects",
+      "url": "/projects",
+      "description": "View my AI/ML and web development projects"
+    },
+    {
+      "name": "Blog",
+      "url": "/bloglist",
+      "description": "Read my technical articles and tutorials"
+    },
+    {
+      "name": "About",
+      "url": "/me",
+      "description": "Learn more about me"
+    }
+  ]
+}

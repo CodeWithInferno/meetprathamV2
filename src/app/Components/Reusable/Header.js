@@ -5,14 +5,14 @@ export default function ArtisticHeader() {
     <header className="relative  w-full h-[40vh] flex flex-col justify-center bg-white text-black overflow-hidden z-10">
 
       {/* Massive faded background text */}
-      <motion.h1
+      <motion.div
         className="absolute text-[20vw] md:text-[12vw] xl:text-[10vw] font-bold italic uppercase tracking-tight leading-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none whitespace-nowrap opacity-10"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 0.1, y: 0 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
         PRATHAM
-      </motion.h1>
+      </motion.div>
 
       {/* Top navigation */}
       <nav className="absolute top-4 right-6 flex gap-6 z-10">
@@ -47,16 +47,16 @@ export default function ArtisticHeader() {
         </motion.a>
       </nav>
 
-      {/* Centerpiece name */}
-      <motion.h2
+      {/* Centerpiece name - Using H1 for SEO */}
+      <motion.h1
         className="relative text-4xl sm:text-6xl md:text-8xl font-extrabold uppercase tracking-tighter leading-none mx-auto z-10"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
         style={{ fontFamily: "'Didot', serif" }}
       >
-        PRATHAM
-      </motion.h2>
+        PRATHAM PATEL - TECHNICAL BLOG
+      </motion.h1>
     </header>
   );
 }

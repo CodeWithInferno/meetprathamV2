@@ -25,7 +25,8 @@ export default function HeroSection() {
         <Image src="/images/make-a-sag-of-white-colored-waves-with-transparent-bg-make-it-ja.svg" alt="background wave" className="w-full h-full object-cover" layout="fill" />
       </div>
       <div className="relative">
-        <h1 className="text-6xl md:text-8xl font-mono uppercase">YOU WANT TO KNOW MORE ABOUT ME?</h1>
+        <h1 className="text-6xl md:text-8xl font-mono uppercase">About Pratham Patel</h1>
+        <p className="text-2xl md:text-3xl font-mono mt-4 text-gray-600">AI/ML Engineer & Full-Stack Developer</p>
         <p className="blinking-text text-xl md:text-2xl font-mono mt-8">[ SCROLL_TO_EXPLORE ]</p>
       </div>
     </section>
