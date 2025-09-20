@@ -445,64 +445,6 @@ export default function SVGStoryPortfolio({
         style={{ scaleX: smoothProgress, transformOrigin: 'left' }}
       />
 
-      {/* Navigation Menu */}
-      <motion.nav 
-        className="fixed top-4 left-4 z-50"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, delay: 1.5 }}
-      >
-        <div className="bg-black/80 backdrop-blur-md border border-gray-800 rounded-lg p-4">
-          <h3 className="text-yellow-400 font-bold mb-3 text-sm">Explore Portfolio</h3>
-          <div className="space-y-2">
-            <a 
-              href="/projects" 
-              className="block px-3 py-2 text-sm text-gray-300 hover:text-yellow-400 hover:bg-gray-800/50 rounded transition-all"
-            >
-              → All Projects
-            </a>
-            <a 
-              href="/bloglist" 
-              className="block px-3 py-2 text-sm text-gray-300 hover:text-yellow-400 hover:bg-gray-800/50 rounded transition-all"
-            >
-              → Blog Articles
-            </a>
-            <a 
-              href="/sneakpeak" 
-              className="block px-3 py-2 text-sm text-gray-300 hover:text-yellow-400 hover:bg-gray-800/50 rounded transition-all"
-            >
-              → Photo Gallery
-            </a>
-            <a 
-              href="/wallpapers" 
-              className="block px-3 py-2 text-sm text-gray-300 hover:text-yellow-400 hover:bg-gray-800/50 rounded transition-all"
-            >
-              → Wallpapers
-            </a>
-            <a 
-              href="/hire-pratham-patel" 
-              className="block px-3 py-2 text-sm text-gray-300 hover:text-yellow-400 hover:bg-gray-800/50 rounded transition-all"
-            >
-              → Hire Me
-            </a>
-            <a 
-              href="/resume/Resume-17.pdf" 
-              className="block px-3 py-2 text-sm text-gray-300 hover:text-yellow-400 hover:bg-gray-800/50 rounded transition-all"
-              download
-            >
-              → Download Resume
-            </a>
-            <div className="border-t border-gray-800 mt-3 pt-3">
-              <a 
-                href="/home" 
-                className="block px-3 py-2 text-sm text-gray-300 hover:text-yellow-400 hover:bg-gray-800/50 rounded transition-all"
-              >
-                → Explore Entire Website
-              </a>
-            </div>
-          </div>
-        </div>
-      </motion.nav>
 
       {/* Floating Action Buttons */}
       <motion.div 
