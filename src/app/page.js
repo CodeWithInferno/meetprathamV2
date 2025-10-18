@@ -1,6 +1,5 @@
 // src/app/page.js
-import SummaryClientPage from './Components/summary/client';
-import SmoothScrollProvider from './Components/summary/SmoothScrollProvider';
+import SummaryContent from './Components/summary/summary-content';
 import { client } from '../../sanity/lib/client';
 import { urlForImage } from '../../sanity/lib/image';
 
@@ -126,31 +125,7 @@ function getProfileData() {
   };
 
   // Research papers and publications
-  const researchPapers = [
-    {
-      title: 'Synergistic Self-Correction for Enhanced LLM Reasoning',
-      abstract: 'A novel framework that augments large language models with Proximal Policy Optimization and RAG-based grounding, achieving 60% improvement on GSM8K benchmark.',
-      concepts: ['Reinforcement Learning', 'Language Models'],
-      status: 'In Progress',
-      conference: 'Targeting ICML 2026',
-    },
-    {
-      title: 'Adversarial Robustness in Android Malware Detection',
-      abstract: 'Hybrid model achieving 97% accuracy on 100,000+ APKs with validated robustness against adversarial attacks using SHAP interpretability.',
-      concepts: ['Security', 'Machine Learning'],
-      status: 'Accepted',
-      conference: 'Microsoft Future Tech Conference 2025',
-    },
-    {
-      title: 'Reproducible RL Research Pipeline',
-      abstract: 'Docker-based framework reducing model evaluation time by 40% while improving accuracy by 20% through standardized experiment harnesses.',
-      concepts: ['MLOps', 'Reproducibility'],
-      status: 'Completed',
-      conference: 'DA-IICT Research Symposium',
-    },
-  ];
-  
-  return { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks, researchPapers };
+  return { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks };
 }
 
 // SEO Metadata
@@ -186,7 +161,7 @@ export default async function SummaryPage() {
   const projects = await getProjects();
   const blogPosts = await getBlogPosts();
   const sneakPeekImages = await getSneakPeekImages();
-  const { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks, researchPapers } = getProfileData();
+  const { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks } = getProfileData();
 
   // Enhanced JSON-LD Structured Data for SEO
   const personSchema = {
@@ -269,19 +244,16 @@ export default async function SummaryPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, websiteSchema, breadcrumbSchema]) }}
       />
-      <SmoothScrollProvider>
-        <SummaryClientPage 
-          projects={projects}
-          blogPosts={blogPosts}
-          sneakPeekImages={sneakPeekImages}
-          education={education}
-          researchExperience={researchExperience}
-          leadershipAndAwards={leadershipAndAwards}
-          technicalSkills={technicalSkills}
-          socialLinks={socialLinks}
-          researchPapers={researchPapers}
-        />
-      </SmoothScrollProvider>
+      <SummaryContent
+        projects={projects}
+        blogPosts={blogPosts}
+        sneakPeekImages={sneakPeekImages}
+        education={education}
+        researchExperience={researchExperience}
+        leadershipAndAwards={leadershipAndAwards}
+        technicalSkills={technicalSkills}
+        socialLinks={socialLinks}
+      />
     </>
   );
 }
