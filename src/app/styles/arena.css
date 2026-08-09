@@ -17,11 +17,11 @@
   color: var(--ink);
   font-family: var(--font-arena), -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Helvetica, Arial, sans-serif;
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   padding: 78px 0 190px;
-  max-width: 1060px;
+  max-width: 1180px;
   margin: 0 auto;
 }
 
@@ -103,9 +103,9 @@
   max-width: 84ch;
 }
 .a-lede {
-  max-width: 52ch;
+  max-width: 54ch;
   margin: 0 0 54px;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.5;
   color: var(--muted);
 }
@@ -156,22 +156,22 @@
   margin-top: 10px;
 }
 .a-plate {
-  width: 400px;
+  width: 445px;
 }
 .a-plate:nth-child(6n + 1) {
-  width: 500px;
+  width: 555px;
 }
 .a-plate:nth-child(6n + 2) {
-  width: 480px;
+  width: 535px;
 }
 .a-plate:nth-child(6n + 3) {
-  width: 320px;
+  width: 355px;
 }
 .a-plate:nth-child(6n + 4) {
-  width: 380px;
+  width: 420px;
 }
 .a-plate:nth-child(6n + 5) {
-  width: 260px;
+  width: 290px;
 }
 .a-plate img {
   display: block;
@@ -182,7 +182,7 @@
 .a-plate-note {
   color: var(--faint);
   margin: 3px 0 0;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.45;
 }
 
@@ -273,7 +273,7 @@
   margin-top: 16px;
 }
 .a-lead-title {
-  font-size: 31px;
+  font-size: 34px;
   font-weight: 400;
   line-height: 1.15;
   margin: 0;
@@ -337,7 +337,7 @@
    Title, date, then one enormous image before a word of the piece is read.
    The picture is the identity of the post; everything after it is quiet. */
 .a-post-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
   margin: 0;
 }
@@ -363,19 +363,19 @@
    than the interface type, and held to a measure you don't lose your place in. */
 .a-prose {
   max-width: 66ch;
-  font-size: 19.5px;
+  font-size: 21px;
   line-height: 1.58;
 }
 .a-prose p {
   margin: 0 0 1.15em;
 }
 .a-prose h2 {
-  font-size: 23px;
+  font-size: 25px;
   font-weight: 600;
   margin: 2.2em 0 0.5em;
 }
 .a-prose h3 {
-  font-size: 19.5px;
+  font-size: 21px;
   font-weight: 600;
   margin: 2em 0 0.5em;
 }

@@ -37,7 +37,7 @@
    Set larger than body copy and ranged left at reading width. It is the first
    thing on the page because it is the only part nobody else could have written. */
 .opening {
-  max-width: 44ch;
+  max-width: 46ch;
   margin: 0 0 88px;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@
 }
 .opening p {
   margin: 0;
-  font-size: 16.5px;
+  font-size: 19.5px;
   line-height: 1.5;
 }
 .opening p:last-child {
@@ -82,10 +82,10 @@
    in px, not fractions — the images sit at a chosen size on the ground rather
    than filling a column. */
 .mbWide {
-  width: 452px;
+  width: 502px;
 }
 .mbStack {
-  width: 214px;
+  width: 238px;
 }
 /* Photo strip. Bottoms share a baseline so the ragged tops read as a chosen
    rhythm; widths step down so no two neighbours match. Fixed heights keep
@@ -153,11 +153,11 @@
 /* A figure dropped in raw at full column width — no frame, no crop, no card.
    Technical images are left exactly as the paper produced them. */
 .plate {
-  margin: 44px 0 0;
+  margin: 48px 0 0;
   display: flex;
   flex-direction: column;
   gap: 9px;
-  max-width: 1100px;
+  max-width: 1180px;
 }
 .plate img {
   display: block;
@@ -267,31 +267,31 @@
   margin-top: 10px;
 }
 .workItem {
-  width: 400px;
+  width: 445px;
 }
 .workItem:nth-child(1) {
-  width: 500px;
+  width: 555px;
 }
 .workItem:nth-child(2) {
-  width: 480px;
+  width: 535px;
 }
 .workItem:nth-child(3) {
-  width: 320px;
+  width: 355px;
 }
 .workItem:nth-child(4) {
-  width: 380px;
+  width: 420px;
 }
 .workItem:nth-child(5) {
-  width: 260px;
+  width: 290px;
 }
 .workItem:nth-child(6) {
-  width: 440px;
+  width: 490px;
 }
 .workItem:nth-child(8) {
-  width: 340px;
+  width: 378px;
 }
 .workItem:nth-child(9) {
-  width: 480px;
+  width: 535px;
 }
 .workItem img {
   display: block;

@@ -31,8 +31,8 @@ const JOURNEY = [
     when: 'Jun 2026',
     what: 'Shipped Clean MCP. Local embeddings, semantic search, one query, nothing leaves your machine. 47 stars.',
   },
-  { when: 'Jul 2026', what: 'First Clean dinner. The room was unfair.' },
-  { when: 'Aug 2026', what: 'Backers. Still shipping.' },
+  { when: 'Jul 2026', what: 'Hosted Clean’s first community dinner in SF.' },
+  { when: 'Aug 2026', what: 'Raised from backers. Still shipping every day.' },
 ];
 
 
