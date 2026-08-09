@@ -1,0 +1,196 @@
+/* ============================================================
+   1997.
+   The writing archive refuses the rest of the site on purpose.
+   Everything here is period-correct: table layout, Times, a tiled
+   ground, ridge borders, a hit counter. Scoped under `.web1` so it
+   touches nothing else.
+   ============================================================ */
+
+.web1 {
+  /* A tiled ground, without shipping a tiling GIF. */
+  background-color: #c8d8e8;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.45) 0 2px, transparent 2px 8px),
+    repeating-linear-gradient(-45deg, rgba(0, 40, 90, 0.05) 0 2px, transparent 2px 8px);
+  color: #000000;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+  line-height: 1.35;
+  padding: 18px 12px 60px;
+  min-height: 100vh;
+}
+
+.web1 a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+.web1 a:visited {
+  color: #551a8b;
+}
+.web1 a:active {
+  color: #ee0000;
+}
+
+.web1 center {
+  display: block;
+  text-align: center;
+}
+
+.web1 .w1-shell {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 3px ridge #808080;
+  padding: 18px 22px 26px;
+}
+
+.web1 h1 {
+  font-size: 34px;
+  font-weight: 700;
+  margin: 6px 0 2px;
+  text-align: center;
+  color: #000080;
+  letter-spacing: 0.01em;
+}
+.web1 .w1-sub {
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  color: #333;
+  margin: 0 0 4px;
+}
+
+.web1 hr {
+  border: 0;
+  border-top: 2px solid #808080;
+  border-bottom: 1px solid #ffffff;
+  margin: 14px 0;
+}
+
+.web1 .w1-intro {
+  font-size: 15px;
+  margin: 12px 0;
+}
+
+/* The index itself — a real table, borders and all. */
+.web1 table.w1-index {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px outset #b0b0b0;
+  background: #ffffff;
+}
+.web1 table.w1-index th {
+  background: #000080;
+  color: #ffffff;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  padding: 5px 7px;
+  border: 1px solid #808080;
+  text-align: left;
+  white-space: nowrap;
+}
+.web1 table.w1-index td {
+  border: 1px solid #b0b0b0;
+  padding: 6px 7px;
+  vertical-align: top;
+  font-size: 15px;
+}
+.web1 table.w1-index tr:nth-child(even) td {
+  background: #eef2f7;
+}
+.web1 .w1-num,
+.web1 .w1-date {
+  white-space: nowrap;
+  font-size: 13px;
+  color: #444;
+}
+.web1 .w1-thumb {
+  display: block;
+  width: 88px;
+  height: 60px;
+  object-fit: cover;
+  border: 2px solid #808080;
+}
+.web1 .w1-desc {
+  display: block;
+  font-size: 13px;
+  color: #333;
+  margin-top: 3px;
+}
+.web1 .w1-topic {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.web1 .w1-new {
+  color: #cc0000;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  animation: w1blink 1.2s steps(2, start) infinite;
+}
+@keyframes w1blink {
+  50% {
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .web1 .w1-new {
+    animation: none;
+  }
+}
+
+/* Hit counter, in the only typeface a hit counter has ever used. */
+.web1 .w1-counter {
+  display: inline-block;
+  background: #000000;
+  color: #33ff33;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  letter-spacing: 5px;
+  padding: 3px 8px;
+  border: 2px inset #808080;
+}
+
+.web1 .w1-nav {
+  font-size: 14px;
+  margin: 10px 0 4px;
+}
+.web1 .w1-nav a {
+  margin: 0 4px;
+}
+
+.web1 .w1-fine {
+  font-size: 12px;
+  color: #555;
+  margin: 6px 0 0;
+}
+
+.web1 .w1-badge {
+  display: inline-block;
+  border: 2px outset #c0c0c0;
+  background: #d4d0c8;
+  font-size: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 3px 7px;
+  margin: 3px;
+  color: #000;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 640px) {
+  .web1 .w1-shell {
+    padding: 12px;
+  }
+  .web1 h1 {
+    font-size: 24px;
+  }
+  .web1 .w1-thumb {
+    width: 56px;
+    height: 40px;
+  }
+  .web1 table.w1-index td {
+    font-size: 14px;
+    padding: 4px;
+  }
+}

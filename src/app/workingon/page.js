@@ -1,6 +1,9 @@
 import WorkingOnClient from './client';
 import { generateKeywordsForPage } from '@/lib/seo-keywords';
 
+// Reads live GitHub state; without this the route renders once and freezes.
+export const revalidate = 3600;
+
 export const metadata = {
   title: 'Current Projects - Pratham Patel | AI/ML Research & Development',
   description: 'Discover what Pratham Patel is currently working on. Active AI/ML research projects, reinforcement learning experiments, LLM development, and open-source contributions at Gannon University.',
@@ -36,7 +39,7 @@ export default function WorkingOnPage() {
     '@type': 'ItemList',
     name: 'Current Projects and Research',
     description: 'Active AI/ML projects and research initiatives by Pratham Patel',
-    numberOfItems: 5, // Update based on actual count
+    numberOfItems: 3,
     itemListElement: [
       {
         '@type': 'ListItem',

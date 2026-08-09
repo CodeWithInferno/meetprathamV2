@@ -1,6 +1,9 @@
 import BlogListClient from './client';
 
 // SEO Metadata for Blog List
+// Reads posts from Sanity; without this the archive freezes at build time.
+export const revalidate = 60;
+
 export const metadata = {
   title: 'Blog | Pratham Patel',
   description: 'Technical articles, tutorials, and insights on AI, machine learning, web development, and my journey in tech. Learn from my experiences in building AI systems.',

@@ -42,6 +42,13 @@ const post = {
           title: 'Alternative Text',
           type: 'string',
         },
+        {
+          name: 'caption',
+          title: 'Caption',
+          description:
+            'One line under the banner, landing the connection between the picture and the piece.',
+          type: 'string',
+        },
       ],
     },
     {

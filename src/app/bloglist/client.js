@@ -1,243 +1,144 @@
-'use client';
+// The writing archive, as it would have been built in 1997.
+//
+// The rest of the site is a white gallery. This page is a table with a ridge
+// border, a tiled ground, Times, and a hit counter — because an index of every
+// article you have written is the single most Web 1.0 object there is, and
+// because a site where every page looks the same is a site with one idea.
 
-import React, { useEffect, useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import sanityClient from '@sanity/client';
+import createImageUrlBuilder from '@sanity/image-url';
+import { client } from '../../../sanity/lib/client';
+import HitCounter from './HitCounter';
+import '../styles/web1.css';
 
-import ArtisticHeader from '@/app/Components/Reusable/Header'; // Assuming this path is correct
+export const revalidate = 60;
 
-const client = sanityClient({
-  projectId: '1igdvz19',
-  dataset: 'production',
-  useCdn: true,
-});
+const builder = createImageUrlBuilder({ projectId: '1igdvz19', dataset: 'production' });
+const thumb = (src) =>
+  builder.image(src).width(176).height(120).fit('crop').auto('format').url();
 
-// Main Page Component
-export default function Blog() {
-  const [posts, setPosts] = useState([]);
-  const [topics, setTopics] = useState([]);
-  const [activeTopic, setActiveTopic] = useState('All');
-  const [hoveredTopic, setHoveredTopic] = useState(null);
-  const mainFeedRef = useRef(null);
+async function getViews() {
+  return client.fetch(`*[_id == "siteStats"][0].pageviews`);
+}
 
-  useEffect(() => {
-    (async () => {
-      const query = `
-        *[_type=="post"]|order(_createdAt desc){
-          title, slug, "bannerUrl": banner.asset->url, topics[]->{title}
-        }`;
-      const raw = await client.fetch(query);
-      const cookedPosts = raw.map(p => ({
-        title: p.title,
-        slug: p.slug.current,
-        banner: p.bannerUrl,
-        topic: p.topics?.[0]?.title || 'Misc',
-      }));
-      setPosts(cookedPosts);
-      const uniqueTopics = ['All', ...new Set(cookedPosts.map(p => p.topic))];
-      setTopics(uniqueTopics);
-    })();
-  }, []);
+async function getPosts() {
+  return client.fetch(`*[_type == "post" && defined(slug.current)]
+    | order(publishedAt desc){
+      _id, title, "slug": slug.current, publishedAt, shortDescription, banner,
+      "topics": topics[]->{title, "slug": slug.current}
+    }`);
+}
 
-  const visiblePosts = useMemo(() => {
-    if (activeTopic === 'All') return posts;
-    return posts.filter(p => p.topic === activeTopic);
-  }, [posts, activeTopic]);
-
-  useGSAP(() => {
-    if (!mainFeedRef.current?.children.length) return;
-    gsap.from(mainFeedRef.current.children, {
-        opacity: 0,
-        y: 30,
-        duration: 0.5,
-        stagger: 0.07,
-        ease: 'power3.out',
-    });
-  }, { dependencies: [activeTopic, posts], scope: mainFeedRef });
+export default async function BlogList() {
+  const [posts, views] = await Promise.all([getPosts(), getViews()]);
+  const newest = posts[0]?.publishedAt;
+  const updated = newest
+    ? new Date(newest).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : '';
 
   return (
-    <div className="bg-white text-black">
-      <FloatingTag topic={hoveredTopic} />
-      
-      <ArtisticHeader />
+    <main className="web1">
+      <div className="w1-shell">
+        <h1>Pratham&rsquo;s Writing Page</h1>
+        <p className="w1-sub">
+          ~ a collection of things that broke, and what I did about them ~
+        </p>
 
-      {/* SEO-friendly introduction section */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <section className="text-center mb-12">
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Welcome to my technical blog where I share insights on artificial intelligence, machine learning, and software development. 
-            From deep dives into reinforcement learning algorithms to practical tutorials on building full-stack applications with React and Next.js.
+        <hr />
+
+        <p className="w1-intro">
+          <b>Welcome!</b> You have reached my writing archive. Below you will find all{' '}
+          <b>{posts.length}</b> articles I have written, sorted newest first. Click a
+          title to read the whole thing. Comments are open at the bottom of every page.
+        </p>
+        <p className="w1-fine">
+          Last updated: {updated} &nbsp;|&nbsp; Best viewed at 1024&times;768 or better
+        </p>
+
+        <hr />
+
+        <table className="w1-index" cellPadding="0" cellSpacing="0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>&nbsp;</th>
+              <th>DATE</th>
+              <th>ARTICLE</th>
+              <th>TOPIC</th>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map((p, i) => (
+              <tr key={p._id}>
+                <td className="w1-num">{String(i + 1).padStart(2, '0')}.</td>
+                <td>
+                  {p.banner && (
+                    <Link href={`/blog/${p.slug}`}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img className="w1-thumb" src={thumb(p.banner)} alt={p.title} />
+                    </Link>
+                  )}
+                </td>
+                <td className="w1-date">
+                  {p.publishedAt
+                    ? new Date(p.publishedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                      })
+                    : '--'}
+                </td>
+                <td>
+                  <Link href={`/blog/${p.slug}`}>{p.title}</Link>{' '}
+                  {i === 0 && <span className="w1-new">NEW!</span>}
+                  {p.shortDescription && (
+                    <span className="w1-desc">{p.shortDescription}</span>
+                  )}
+                </td>
+                <td className="w1-topic">
+                  {(p.topics || []).map((t, n) => (
+                    <span key={t.slug}>
+                      {n > 0 && ', '}
+                      <Link href={`/bloglist/${t.slug}`}>{t.title}</Link>
+                    </span>
+                  ))}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <hr />
+
+        <center>
+          <p className="w1-fine">You are visitor number</p>
+          <p>
+            <HitCounter initial={views ?? 0} />
           </p>
-        </section>
-      </div>
 
-      {/* --- NEW: MOBILE FILTER SECTION --- */}
-      {/* This block is ONLY visible on screens smaller than 'lg' */}
-      <div className="lg:hidden px-6 pt-6 pb-4 border-b-2 border-black">
-        <FilterList 
-          topics={topics}
-          activeTopic={activeTopic}
-          setActiveTopic={setActiveTopic}
-          isMobile={true} // Pass a prop to change the layout
-        />
-      </div>
+          <p className="w1-nav">
+            [ <Link href="/">Home</Link> ] [ <Link href="/projects">Projects</Link> ] [{' '}
+            <Link href="/workingon">Working On</Link> ] [{' '}
+            <a href="mailto:prathambiren2618@gmail.com">Email Me</a> ]
+          </p>
 
-      <div className="grid lg:grid-cols-3 xl:grid-cols-4">
-        
-        {/* --- DESKTOP SIDEBAR (UNCHANGED) --- */}
-        {/* This remains hidden on mobile and appears on desktop */}
-        <aside className="hidden lg:block lg:col-span-1 xl:col-span-1 p-8 border-r-2 border-black">
-          <div className="sticky top-8">
-            <h1 className="text-7xl font-bold uppercase tracking-tighter">Index</h1>
-            <p className="mt-8 text-lg text-neutral-600">
-              A collection of thoughts, explorations, and processes. Raw, unfiltered, and direct.
-            </p>
-            <FilterList 
-              topics={topics}
-              activeTopic={activeTopic}
-              setActiveTopic={setActiveTopic}
-              isMobile={false} // Default vertical layout
-            />
-            <div className="mt-24">
-              <Link href="/home" className="font-bold text-lg hover:text-yellow-400">[ Home ]</Link>
-            </div>
-          </div>
-        </aside>
+          <p>
+            <span className="w1-badge">MADE ON A MAC</span>
+            <span className="w1-badge">NO COOKIES</span>
+            <span className="w1-badge">HAND CODED</span>
+            <span className="w1-badge">NEXT.JS 14</span>
+          </p>
 
-        <main className="lg:col-span-2 xl:col-span-3">
-          <div ref={mainFeedRef}>
-            {visiblePosts.map((post) => (
-              <PostItem 
-                key={post.slug}
-                post={post}
-                setHoveredTopic={setHoveredTopic}
-              />
-            ))}
-          </div>
-        </main>
+          <p className="w1-fine">
+            &copy; {new Date(newest || Date.now()).getFullYear()} Pratham Patel. This page
+            is deliberately out of step with the rest of the site.
+          </p>
+        </center>
       </div>
-    </div>
+    </main>
   );
-}
-
-// ---- MODIFIED FilterList Component ----
-function FilterList({ topics, activeTopic, setActiveTopic, isMobile }) {
-  // If we are on mobile, use a horizontal scrollable layout
-  if (isMobile) {
-    return (
-      <nav>
-        <h2 className="text-sm font-bold uppercase text-neutral-600 mb-3">[ Categories ]</h2>
-        {/* Use flex and overflow-x-auto for a scrollable horizontal list */}
-        <ul className="flex items-center gap-2 overflow-x-auto pb-2">
-          {topics.map(topic => (
-            // Use whitespace-nowrap to prevent list items from wrapping to the next line
-            <li key={topic} className="whitespace-nowrap">
-              <button
-                onClick={() => setActiveTopic(topic)}
-                className={`block px-3 py-1 text-base font-bold uppercase transition-colors duration-200 rounded-sm
-                ${ activeTopic === topic 
-                    ? 'bg-yellow-300 text-black' 
-                    : 'text-neutral-500 hover:text-black'
-                }`}
-              >
-                {topic}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    );
-  }
-
-  // Otherwise, return the original vertical layout for desktop
-  return (
-    <nav className="mt-16">
-        <h2 className="text-lg font-bold uppercase text-neutral-800">[ Categories ]</h2>
-        <ul className="mt-4 flex flex-col items-start gap-2">
-            {topics.map(topic => (
-                <li key={topic}>
-                    <button
-                        onClick={() => setActiveTopic(topic)}
-                        className={`px-3 py-1 text-xl font-bold uppercase transition-colors duration-200
-                        ${ activeTopic === topic 
-                            ? 'bg-yellow-300 text-black' 
-                            : 'text-neutral-500 hover:text-black'
-                        }`}
-                    >
-                        {topic}
-                    </button>
-                </li>
-            ))}
-        </ul>
-    </nav>
-  )
-}
-
-// ---- MODIFIED PostItem Component ----
-const PostItem = React.memo(function PostItem({ post, setHoveredTopic }) {
-  return (
-    <div 
-      onMouseEnter={() => setHoveredTopic(post.topic)}
-      onMouseLeave={() => setHoveredTopic(null)}
-      className="border-b-2 border-black group transition-colors duration-200 hover:border-yellow-300"
-    >
-      <Link href={`/blog/${post.slug}`} className="block p-6 md:p-8">
-        <div className="flex justify-between items-start gap-8">
-            {/* --- NEW: Responsive text size for mobile --- */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight w-3/4">
-                {post.title}
-            </h2>
-            <span className="arrow text-4xl md:text-5xl transition-transform duration-300 group-hover:translate-x-2">→</span>
-        </div>
-        {post.banner && (
-            <div className="mt-6 md:mt-8 overflow-hidden">
-                <Image
-                    src={post.banner}
-                    alt={`Banner image for ${post.title}`}
-                    width={1000}
-                    height={600}
-                    className="post-image w-full h-auto filter grayscale transition-all duration-300 group-hover:grayscale-0"
-                    loading="lazy"
-                />
-            </div>
-        )}
-      </Link>
-    </div>
-  );
-});
-
-// Floating Tag remains unchanged
-function FloatingTag({ topic }) {
-   const tagRef = useRef(null);
-    const isVisible = !!topic;
-    useGSAP(() => {
-        const xTo = gsap.quickTo(tagRef.current, "x", { duration: 0.4, ease: "power3" });
-        const yTo = gsap.quickTo(tagRef.current, "y", { duration: 0.4, ease: "power3" });
-        const handleMouseMove = (e) => {
-            xTo(e.clientX + 15);
-            yTo(e.clientY + 15);
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
-
-    useGSAP(() => {
-      gsap.to(tagRef.current, {
-          scale: isVisible ? 1 : 0,
-          opacity: isVisible ? 1 : 0,
-          duration: 0.2,
-          ease: 'power2.out'
-      });
-  }, {dependencies: [isVisible]});
-
-    return (
-        <div ref={tagRef} className="fixed top-0 left-0 z-50 pointer-events-none">
-            <div className="bg-yellow-300 text-black px-3 py-1 font-bold uppercase text-sm">
-                {topic}
-            </div>
-        </div>
-    )
 }

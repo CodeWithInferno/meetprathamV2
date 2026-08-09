@@ -74,9 +74,12 @@
 
 // NO MORE 'use client'; THIS IS NOW A SERVER COMPONENT!
 
-import { Bebas_Neue, Playfair_Display, IBM_Plex_Mono } from 'next/font/google';
+import { Bebas_Neue, Playfair_Display, IBM_Plex_Mono, EB_Garamond } from 'next/font/google';
 import localFont from 'next/font/local';
 import "./globals.css";
+// Scoped under `.arena`, so importing it globally cannot affect /admin or the
+// game routes — only pages that opt in by using the class.
+import "./styles/arena.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
@@ -88,6 +91,16 @@ const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'], variable: '--fon
 const tusker = localFont({ src: [{ path: '../../public/fonts/tusker-grotesk.woff2', weight: '400', style: 'normal', }], variable: '--font-tusker', display: 'swap', preload: true });
 const playfair = Playfair_Display({ weight: ['400'], style: ['italic'], subsets: ['latin'], variable: '--font-playfair' });
 const ibmPlexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '700'] });
+// The site is an archive of paintings and catalogue entries, so it is set in an
+// old-style serif rather than a UI grotesque. Data and labels stay monospace —
+// serif for reading, typewriter for facts.
+const garamond = EB_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-arena',
+  display: 'swap',
+});
 
 
 // =================================================================
@@ -183,7 +196,7 @@ export default function RootLayout({ children }) {
         <meta name="distribution" content="Global" />
         <meta name="rating" content="General" />
       </head>
-      <body className={`${bebas.variable} ${ibmPlexMono.className} ${playfair.variable} ${tusker.variable} bg-white text-black min-h-screen bg-no-repeat`}>
+      <body className={`${bebas.variable} ${ibmPlexMono.className} ${playfair.variable} ${tusker.variable} ${garamond.variable} bg-white text-black min-h-screen bg-no-repeat`}>
         {/*
           STEP 2.2: WRAP CHILDREN WITH THE CLIENT COMPONENT
           This keeps your layout as a Server Component for SEO,

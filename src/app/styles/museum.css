@@ -1,0 +1,206 @@
+/* ============================================================
+   /me — the catalogue entry.
+   Every other page treats his work as art history. This one turns
+   the instrument on the person: a wall label, a provenance, a
+   condition report. Hung on gallery grey rather than the white
+   used everywhere else, so you know you've walked into a different
+   room. Scoped under `.museum`.
+   ============================================================ */
+
+.museum {
+  --wall: #d9d7d1;
+  --card: #fbfaf7;
+  --ink: #16150f;
+  --muted: #6e6b60;
+  --faint: #a8a498;
+  --rule: #c3c0b7;
+  --link: #1512e6;
+
+  background: var(--wall);
+  color: var(--ink);
+  font-family: var(--font-arena), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 70px 24px 130px;
+}
+
+.museum a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.museum a:hover {
+  background: #ffff00;
+}
+.museum a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.m-shell {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.m-back {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 54px;
+}
+
+/* ---------- the hang ----------
+   Object on the left, label to its right at the height labels are hung:
+   below the centre of the work, never aligned with its top. */
+.m-hang {
+  display: flex;
+  align-items: flex-end;
+  gap: 54px;
+  flex-wrap: wrap;
+  margin-bottom: 86px;
+}
+.m-object {
+  width: 300px;
+  flex: none;
+}
+.m-object img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 22px 40px -14px rgba(30, 26, 16, 0.55);
+}
+
+.m-label {
+  background: var(--card);
+  padding: 20px 24px 22px;
+  max-width: 340px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+.m-label h1 {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 3px;
+}
+.m-label .m-life {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+.m-label .m-title {
+  font-style: italic;
+  font-size: 15px;
+  margin: 0 0 2px;
+}
+.m-label .m-medium,
+.m-label .m-acq {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+.m-label .m-acq {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-size: 11px;
+}
+
+/* ---------- catalogue entry ----------
+   A definition list, set the way a catalogue raisonné sets one:
+   the heading in the margin, the entry ranged beside it. */
+.m-entry {
+  display: grid;
+  grid-template-columns: 148px 1fr;
+  gap: 0 34px;
+}
+.m-entry dt {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 18px 0 0;
+  border-top: 1px solid var(--rule);
+}
+.m-entry dd {
+  margin: 0;
+  padding: 18px 0 26px;
+  border-top: 1px solid var(--rule);
+  max-width: 66ch;
+}
+.m-entry dd p {
+  margin: 0 0 0.7em;
+}
+.m-entry dd p:last-child {
+  margin-bottom: 0;
+}
+
+/* Provenance reads as a chain of owners, which is what a life is. */
+.m-prov {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.m-prov li {
+  display: flex;
+  gap: 18px;
+  padding: 3px 0;
+}
+.m-prov .m-year {
+  width: 58px;
+  flex: none;
+  color: var(--faint);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.m-quote {
+  font-style: italic;
+  color: var(--ink);
+}
+.m-struck {
+  text-decoration: line-through;
+  color: var(--faint);
+  text-decoration-thickness: 1px;
+}
+
+.m-foot {
+  margin-top: 70px;
+  font-size: 11px;
+  color: var(--faint);
+  text-align: center;
+}
+
+@media (max-width: 780px) {
+  .museum {
+    padding: 40px 18px 90px;
+  }
+  .m-hang {
+    gap: 26px;
+    margin-bottom: 54px;
+  }
+  .m-object {
+    width: 62%;
+  }
+  .m-label {
+    max-width: none;
+  }
+  .m-entry {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .m-entry dt {
+    padding-bottom: 6px;
+  }
+  .m-entry dd {
+    border-top: 0;
+    padding-top: 0;
+  }
+}

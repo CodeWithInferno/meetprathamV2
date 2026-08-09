@@ -1,0 +1,545 @@
+/* ============================================================
+   The Arena theme — shared across every page.
+   Faux-default HTML: it should look unstyled, which means every
+   value here is deliberate. Scoped under `.arena` so it can never
+   leak into the Sanity Studio at /admin or the game routes.
+   ============================================================ */
+
+.arena {
+  --ink: #000000;
+  --muted: #8f8f8f;
+  --faint: #c4c4c4;
+  --rule: #e4e4e4;
+  --link: #1512e6;
+  --visited: #551a8b;
+
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-arena), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding: 78px 0 190px;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+/* Tailwind preflight strips link colour and underline. Without these two rules
+   the page loses its only ornament. */
+.arena a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.arena a:visited {
+  color: var(--visited);
+}
+.arena a:hover {
+  background: #ffff00;
+}
+.arena a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+/* ---------- header / footer ---------- */
+.a-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 88px;
+}
+.a-head-left,
+.a-head-right {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.a-head-right {
+  align-items: flex-end;
+  text-align: right;
+}
+.a-name {
+  color: var(--muted);
+}
+.a-foot {
+  color: var(--faint);
+  margin-top: 120px;
+}
+.a-credit {
+  color: var(--faint);
+  font-size: 11px;
+  margin: 44px 0 0;
+  text-align: center;
+}
+
+/* ---------- sections ---------- */
+.a-section {
+  margin-bottom: 96px;
+}
+/* Labels are facts, not prose: typewriter, spaced, uppercase. */
+.a-label {
+  font-family: ui-monospace, Menlo, monospace;
+  font-weight: 400;
+  margin: 0 0 16px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.a-section-link {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  font-weight: 400;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+/* Body copy sits inset from the label above it, so the label hangs into the
+   left margin and the prose reads as a second register. */
+.a-body {
+  margin: 0 0 14px;
+  padding-left: 118px;
+  max-width: 84ch;
+}
+.a-lede {
+  max-width: 52ch;
+  margin: 0 0 54px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------- plain rows ---------- */
+.a-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.a-row {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 7px 0;
+  border-top: 1px solid var(--rule);
+}
+.a-row:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.a-row-main {
+  flex: 1;
+  min-width: 0;
+}
+.a-row-note {
+  color: var(--muted);
+  display: block;
+  margin-top: 2px;
+}
+.a-row-note a {
+  margin-left: 10px;
+}
+.a-row-meta {
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- plates ----------
+   No cards. Uncropped images at deliberately unequal widths, a plain blue
+   link, and a one-line caption. Card furniture is the one thing this theme
+   is not allowed to have. */
+.a-plates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 46px 34px;
+  margin-top: 10px;
+}
+.a-plate {
+  width: 400px;
+}
+.a-plate:nth-child(6n + 1) {
+  width: 500px;
+}
+.a-plate:nth-child(6n + 2) {
+  width: 480px;
+}
+.a-plate:nth-child(6n + 3) {
+  width: 320px;
+}
+.a-plate:nth-child(6n + 4) {
+  width: 380px;
+}
+.a-plate:nth-child(6n + 5) {
+  width: 260px;
+}
+.a-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 9px;
+}
+.a-plate-note {
+  color: var(--faint);
+  margin: 3px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* ---------- salon hang ----------
+   The way the Paris Salon packed a wall: pictures at wildly different sizes
+   butted almost edge to edge, every row justified to the full width, nothing
+   lining up with anything above it. Dense, not airy — the opposite of the
+   plate grids elsewhere on the site, on purpose. */
+.a-salon {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 0 0 20px;
+}
+.a-salon-row {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+.a-salon figure {
+  margin: 0;
+  min-width: 0;
+}
+.a-salon img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #f1f1ef;
+}
+.a-salon a {
+  text-decoration: none;
+}
+.a-salon a:hover {
+  background: none;
+}
+.a-salon a:hover img {
+  outline: 3px solid var(--link);
+  outline-offset: -3px;
+}
+.a-salon figcaption {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.a-salon figcaption a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.a-salon figcaption a:hover {
+  background: #ffff00;
+}
+.a-salon .a-when {
+  display: block;
+  color: var(--faint);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+@media (max-width: 760px) {
+  .a-salon-row {
+    flex-wrap: wrap;
+  }
+  .a-salon-row figure {
+    width: 100% !important;
+  }
+}
+
+/* ---------- lead story ----------
+   One piece gets the whole width and the only picture on the page. Everything
+   under it is text. An index that gives fifteen images equal billing gives you
+   no reason to look at any of them. */
+.a-lead {
+  margin: 0 0 96px;
+}
+.a-lead img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.a-lead-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 16px;
+}
+.a-lead-title {
+  font-size: 31px;
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0;
+  flex: 1;
+}
+.a-lead-note {
+  color: var(--muted);
+  max-width: 62ch;
+  margin: 10px 0 0;
+}
+
+/* A dated list, no pictures. Date on the left in mono so the years form their
+   own column and the titles form another. */
+.a-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.a-list li {
+  display: flex;
+  gap: 26px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.a-list .a-when {
+  width: 92px;
+  flex: none;
+  color: var(--faint);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.a-list-main {
+  flex: 1;
+  min-width: 0;
+}
+.a-list-main span {
+  display: block;
+  color: var(--muted);
+  margin-top: 3px;
+  max-width: 78ch;
+}
+
+@media (max-width: 760px) {
+  .a-lead-title {
+    font-size: 21px;
+  }
+  .a-list li {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .a-list .a-when {
+    width: auto;
+  }
+}
+
+/* ---------- an article ----------
+   Title, date, then one enormous image before a word of the piece is read.
+   The picture is the identity of the post; everything after it is quiet. */
+.a-post-title {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+}
+.a-post-date {
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+.a-hero {
+  margin: 30px 0 44px;
+}
+.a-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.a-hero figcaption {
+  color: var(--faint);
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+/* Body copy is the one place on the site set for sustained reading: bigger
+   than the interface type, and held to a measure you don't lose your place in. */
+.a-prose {
+  max-width: 66ch;
+  font-size: 19.5px;
+  line-height: 1.58;
+}
+.a-prose p {
+  margin: 0 0 1.15em;
+}
+.a-prose h2 {
+  font-size: 23px;
+  font-weight: 600;
+  margin: 2.2em 0 0.5em;
+}
+.a-prose h3 {
+  font-size: 19.5px;
+  font-weight: 600;
+  margin: 2em 0 0.5em;
+}
+.a-prose ul,
+.a-prose ol {
+  margin: 0 0 1.15em;
+  padding-left: 1.3em;
+}
+.a-prose li {
+  margin: 0.3em 0;
+}
+.a-prose blockquote {
+  margin: 1.6em 0;
+  padding-left: 20px;
+  border-left: 2px solid var(--ink);
+  color: var(--muted);
+}
+.a-prose code {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.88em;
+  background: #f2f2f0;
+  padding: 1px 5px;
+}
+.a-prose pre {
+  overflow-x: auto;
+  background: #0e0e0e;
+  color: #eaeaea;
+  padding: 16px 18px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  margin: 1.6em 0;
+}
+.a-prose pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+.a-prose figure {
+  margin: 2em 0;
+}
+.a-prose figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.a-prose figcaption {
+  color: var(--faint);
+  font-size: 11px;
+  margin-top: 7px;
+}
+
+/* Live numbers under a heading — mono and tabular so the columns line up
+   between one project and the next. */
+.a-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.a-stats b {
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* A button that has to behave like a link, because nothing here is a button. */
+.a-linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.a-linkish:hover:not(:disabled) {
+  background: #ffff00;
+}
+.a-linkish:disabled {
+  color: var(--faint);
+  cursor: default;
+  text-decoration: none;
+}
+.a-linkish:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.a-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 52ch;
+}
+.a-form input,
+.a-form textarea {
+  font: inherit;
+  font-size: 13px;
+  padding: 9px 11px;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  width: 100%;
+  resize: vertical;
+}
+.a-form input:focus,
+.a-form textarea:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.a-error {
+  color: #9e2b1e;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* ---------- inline list of links ---------- */
+.a-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 1120px) {
+  .arena {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+}
+
+@media (max-width: 760px) {
+  .arena {
+    padding: 30px 22px 100px;
+  }
+  .a-head {
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 44px;
+  }
+  .a-head-right {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .a-body,
+  .a-plate,
+  .a-plate:nth-child(n) {
+    padding-left: 0;
+    width: 100%;
+  }
+  .a-section {
+    margin-bottom: 64px;
+  }
+  .a-plates {
+    gap: 30px 16px;
+  }
+}

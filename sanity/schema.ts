@@ -4,8 +4,9 @@ import Work from "./Docs/work";
 import post from "./Docs/blog";
 import imagePost from "./Docs/sneakpeak";
 import topic from "./Docs/topic";
+import siteStats from "./Docs/siteStats";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [Image,Work,post,imagePost,topic],
+  types: [Image,Work,post,imagePost,topic,siteStats],
 }

@@ -72,3 +72,7 @@ export default function ProjectsPage() {
     </>
   );
 }
+
+// The archive fetches from Sanity; without this the route is rendered once and
+// CMS edits never reach it.
+export const revalidate = 60;
