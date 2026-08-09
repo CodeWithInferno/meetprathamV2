@@ -94,7 +94,7 @@ export default function ConnectBanner() {
                 Github
               </Link>
               <Link
-                href="www.linkedin.com/in/pratham-patel-6a40b5323"
+                href="https://www.linkedin.com/in/prathampatel2618/"
                 target="_blank"
                 rel="noopener"
               >

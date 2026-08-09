@@ -152,7 +152,7 @@ export function generateFAQItems() {
     },
     {
       question: "How can I contact Pratham Patel for projects?",
-      answer: "You can contact Pratham Patel via email at prathambiren2618@gmail.com or connect on LinkedIn at linkedin.com/in/pratham-patel-6a40b5323/"
+      answer: "You can contact Pratham Patel via email at prathambiren2618@gmail.com or connect on LinkedIn at linkedin.com/in/prathampatel2618/"
     },
     {
       question: "What is Pratham Patel's experience in AI/ML?",

@@ -108,7 +108,7 @@ function getProfileData() {
 
   const socialLinks = {
     github: 'https://github.com/CodeWithInferno',
-    linkedin: 'https://linkedin.com/in/pratham-patel-6a40b5323/',
+    linkedin: 'https://linkedin.com/in/prathampatel2618/',
     twitter: 'https://twitter.com/prathambiren', // Placeholder, please update if incorrect
   };
 

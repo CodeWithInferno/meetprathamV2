@@ -19,7 +19,7 @@ export default function CommandPalette() {
     { id: 5, title: 'Contact', icon: '📧', action: () => router.push('/linktree') },
     { id: 6, title: 'Resume', icon: '📄', action: () => window.open('/resume/Resume-17.pdf', '_blank') },
     { id: 7, title: 'GitHub', icon: '🐙', action: () => window.open('https://github.com/CodeWithInferno', '_blank') },
-    { id: 8, title: 'LinkedIn', icon: '💼', action: () => window.open('https://linkedin.com/in/pratham-patel-6a40b5323', '_blank') },
+    { id: 8, title: 'LinkedIn', icon: '💼', action: () => window.open('https://linkedin.com/in/prathampatel2618', '_blank') },
     { id: 9, title: 'Email Me', icon: '✉️', action: () => window.location.href = 'mailto:prathambiren2618@gmail.com' },
     { id: 10, title: 'Hire Me', icon: '🚀', action: () => router.push('/hire-pratham-patel') },
   ];

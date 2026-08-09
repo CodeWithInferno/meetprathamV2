@@ -4,7 +4,7 @@ import Link from 'next/link';
 // the two of them framing whatever the page is.
 export default function ArenaHeader({
   github = 'https://github.com/CodeWithInferno',
-  linkedin = 'https://linkedin.com/in/pratham-patel-6a40b5323/',
+  linkedin = 'https://linkedin.com/in/prathampatel2618/',
   current,
 }) {
   const links = [

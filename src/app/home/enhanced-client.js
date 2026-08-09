@@ -26,7 +26,7 @@ const Terminal = ({ onCommand }) => {
     projects: () => 'View my projects at /projects - Featured: InboxIQ (AI Email), SignSpeak (Sign Language ML), Malware Detection (97% accuracy)',
     skills: () => 'Languages: Python, JavaScript, TypeScript\nFrameworks: PyTorch, TensorFlow, React, Next.js\nSpecialties: RL, NLP, Computer Vision',
     github: () => 'GitHub: https://github.com/CodeWithInferno - 12 stars, 6 repos',
-    contact: () => 'Email: prathambiren2618@gmail.com\nLinkedIn: /in/pratham-patel-6a40b5323',
+    contact: () => 'Email: prathambiren2618@gmail.com\nLinkedIn: /in/prathampatel2618',
     clear: () => {
       setHistory([]);
       return null;

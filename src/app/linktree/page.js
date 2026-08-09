@@ -43,7 +43,7 @@ export default function LinkTreePage() {
       url: 'https://www.meetpratham.me',
       sameAs: [
         'https://github.com/CodeWithInferno',
-        'https://linkedin.com/in/pratham-patel-6a40b5323',
+        'https://linkedin.com/in/prathampatel2618',
         'https://twitter.com/prathambiren',
       ],
       contactPoint: {

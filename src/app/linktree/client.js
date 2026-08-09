@@ -37,7 +37,7 @@ const LinkTree = () => {
         <a href="https://www.snapchat.com/add/your_snap" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
           <FaSnapchat className="text-5xl text-yellow-400 hover:text-yellow-200" />
         </a>
-        <a href="https://www.linkedin.com/in/pratham-patel-6a40b5323/" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
+        <a href="https://www.linkedin.com/in/prathampatel2618/" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
           <FaLinkedin className="text-5xl text-blue-500 hover:text-blue-300" />
         </a>
       </div>
@@ -61,7 +61,7 @@ const LinkTree = () => {
           Instagram
         </a>
         <a
-          href="https://www.linkedin.com/in/pratham-patel-6a40b5323/"
+          href="https://www.linkedin.com/in/prathampatel2618/"
           target="_blank"
           rel="noreferrer"
           className="block text-center py-5 px-6 rounded-none border-4 border-blue-500 shadow-[8px_8px_0_0_#ffff00] bg-black hover:bg-blue-500 hover:text-black transition-all duration-300 ease-in-out uppercase text-xl font-extrabold"

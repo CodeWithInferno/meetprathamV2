@@ -44,7 +44,7 @@ export default function MePage() {
       image: 'https://www.meetpratham.me/prathamfront.jpeg',
       sameAs: [
         'https://github.com/CodeWithInferno',
-        'https://linkedin.com/in/pratham-patel-6a40b5323',
+        'https://linkedin.com/in/prathampatel2618',
         'https://twitter.com/prathambiren',
       ],
       jobTitle: 'AI/ML Engineer & Researcher',

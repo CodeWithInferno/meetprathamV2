@@ -9,7 +9,7 @@ const Links = () => {
             <a href="https://twitter.com/your-twitter-profile" target="_blank" rel="noopener noreferrer">
                 <FaTwitter className="text-blue-500 hover:text-blue-700 transition-colors duration-300" size={24} />
             </a>
-            <a href="https://linkedin.com/in/your-linkedin-profile" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/prathampatel2618/" target="_blank" rel="noopener noreferrer">
                 <FaLinkedin className="text-blue-600 hover:text-blue-800 transition-colors duration-300" size={24} />
             </a>
             <a href="https://instagram.com/your-instagram-profile" target="_blank" rel="noopener noreferrer">

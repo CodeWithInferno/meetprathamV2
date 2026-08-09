@@ -10,7 +10,7 @@ export const seoConfig = {
   authorEmail: 'prathambiren2618@gmail.com',
   twitterHandle: '@prathambiren',
   githubHandle: 'CodeWithInferno',
-  linkedinProfile: 'pratham-patel-6a40b5323',
+  linkedinProfile: 'prathampatel2618',
   
   // Default Open Graph
   openGraph: {
@@ -69,7 +69,7 @@ export const seoConfig = {
       ],
       sameAs: [
         'https://github.com/CodeWithInferno',
-        'https://linkedin.com/in/pratham-patel-6a40b5323',
+        'https://linkedin.com/in/prathampatel2618',
         'https://twitter.com/prathambiren',
       ],
     },
