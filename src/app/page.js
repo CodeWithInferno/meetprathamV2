@@ -1,5 +1,5 @@
 // src/app/page.js
-import SummaryContent from './Components/summary/summary-content';
+import ArenaLanding from './Components/Landing/ArenaLanding';
 import { client } from '../../sanity/lib/client';
 import { urlForImage } from '../../sanity/lib/image';
 
@@ -10,7 +10,9 @@ async function getProjects() {
     title,
     description,
     gitLink,
-    image
+    image,
+    featured,
+    oneLiner
   }`;
   const sanityProjects = await client.fetch(projectQuery);
   return sanityProjects.map(project => ({
@@ -34,20 +36,6 @@ async function getBlogPosts() {
   return sanityPosts.map(post => ({
     ...post,
     bannerUrl: post.banner ? urlForImage(post.banner) : null,
-  }));
-}
-
-// Fetches sneak peek images from Sanity CMS
-async function getSneakPeekImages() {
-  const imageQuery = `*[_type == "imagePost"][0...8]{
-    _id,
-    title,
-    image
-  }`;
-  const sanityImages = await client.fetch(imageQuery);
-  return sanityImages.map(img => ({
-    ...img,
-    imageUrl: urlForImage(img.image),
   }));
 }
 
@@ -128,6 +116,10 @@ function getProfileData() {
   return { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks };
 }
 
+// Without this the route is rendered once at build and the CMS is invisible —
+// edits in Studio never reach the page.
+export const revalidate = 60;
+
 // SEO Metadata
 export const metadata = {
   title: 'Pratham Patel | AI/ML Engineer & Researcher | Digital CV',
@@ -160,7 +152,6 @@ export const metadata = {
 export default async function SummaryPage() {
   const projects = await getProjects();
   const blogPosts = await getBlogPosts();
-  const sneakPeekImages = await getSneakPeekImages();
   const { education, researchExperience, leadershipAndAwards, technicalSkills, socialLinks } = getProfileData();
 
   // Enhanced JSON-LD Structured Data for SEO
@@ -240,14 +231,20 @@ export default async function SummaryPage() {
 
   return (
     <>
+      {/* A bare top-level array has no "@context", which crashes consumers that
+          read it directly. @graph is the correct multi-entity form. */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, websiteSchema, breadcrumbSchema]) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [personSchema, websiteSchema, breadcrumbSchema],
+          }),
+        }}
       />
-      <SummaryContent
+      <ArenaLanding
         projects={projects}
         blogPosts={blogPosts}
-        sneakPeekImages={sneakPeekImages}
         education={education}
         researchExperience={researchExperience}
         leadershipAndAwards={leadershipAndAwards}

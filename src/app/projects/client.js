@@ -1,141 +1,96 @@
-// app/projects/page.jsx
-'use client';
+// The project archive. Everything, in the order it was made — the landing page
+// only shows what's flagged `featured`, so this is where the rest lives.
+//
+// Was a client component that fetched on mount behind framer-motion and a
+// click sound; none of that survived the theme, and the list is now in the
+// HTML where search engines can see it.
 
-import React, { useState, useEffect } from 'react';
-import sanityClient from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
-import { motion, AnimatePresence } from 'framer-motion';
-import useSound from 'use-sound';
 import Image from 'next/image';
 import Link from 'next/link';
+import { client } from '../../../sanity/lib/client';
+import { urlForImage } from '../../../sanity/lib/image';
+import ArenaHeader from '../Components/arena/Header';
+import ArenaFooter from '../Components/arena/Footer';
 
-// Sanity client setup
-const client = sanityClient({ projectId: '1igdvz19', dataset: 'production', useCdn: false });
-const builder = imageUrlBuilder(client);
-const urlFor = (source) => source ? builder.image(source).url() : '';
+export const revalidate = 60;
 
-export default function ProjectsPage() {
-    const [projects, setProjects] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null);
-    const [hoveredProject, setHoveredProject] = useState(null);
+async function getProjects() {
+  const rows = await client.fetch(`*[_type == "work"] | order(_createdAt desc){
+    _id, title, description, gitLink, image, featured, oneLiner, techStack
+  }`);
+  return rows.map((p) => ({ ...p, imageUrl: p.image ? urlForImage(p.image) : null }));
+}
 
-    const [playClick] = useSound('/Audio/Click.mp3', { volume: 0.3 });
+export default async function ProjectsArchive() {
+  const projects = await getProjects();
+  const featured = projects.filter((p) => p.featured);
 
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const projectData = await client.fetch(`
-                    *[_type == "work"] | order(_createdAt asc) {
-                        _id, title, "imageUrl": image.asset, gitLink, description, techStack
-                    }`);
-                setProjects(projectData);
-                if (projectData.length > 0) {
-                    setSelectedProject(projectData[0]);
-                }
-            } catch (error) { console.error('Error fetching projects:', error); }
-        };
-        fetchProjects();
-    }, []);
+  return (
+    <main className="arena">
+      <ArenaHeader current="/projects" />
 
-    const handleSelectProject = (project) => {
-        playClick();
-        setSelectedProject(project);
-    };
+      <section className="a-section">
+        <p className="a-label">PROJECT ARCHIVE</p>
+        <p className="a-lede">
+          Everything, newest first — {projects.length} of them. The {featured.length} on
+          the front page are the ones I&rsquo;d show you first; these are the rest of the
+          receipts.
+        </p>
 
-    const displayProject = hoveredProject || selectedProject;
-
-    return (
-        <div className="min-h-screen w-full bg-neutral-100 text-black font-sans">
-            <h1 className="sr-only">AI/ML and Web Development Projects Portfolio - Pratham Patel</h1>
-            <main className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
-                
-                {/* --- THE INDEX (LEFT SIDE) - UNCHANGED --- */}
-                <div className="flex flex-col justify-between p-8 md:p-12 border-r border-neutral-300">
-                    <div>
-                        <h2 className="text-xl font-bold">[ INDEX ]</h2>
-                        <p className="text-sm text-neutral-600 mt-4 mb-8 max-w-md">
-                            Explore my portfolio of AI/ML research projects and full-stack applications. Each project showcases innovative solutions using cutting-edge technologies like PyTorch, TensorFlow, React, and Next.js.
-                        </p>
-                        <ul className="mt-16">
-                            {projects.map((project, index) => (
-                                <li key={project._id}>
-                                    <button
-                                        className={`project-list-item w-full text-left text-4xl lg:text-6xl font-bold py-4 transition-colors ${selectedProject?._id === project._id ? 'selected text-black' : 'text-neutral-400 hover:text-black'}`}
-                                        onClick={() => handleSelectProject(project)}
-                                        onMouseEnter={() => setHoveredProject(project)}
-                                        onMouseLeave={() => setHoveredProject(null)}
-                                    >
-                                        <span className="text-neutral-300 mr-4">{String(index + 1).padStart(2, '0')}</span>
-                                        {project.title}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <Link href="/home" className="font-bold text-lg hover:underline">[ Home ]</Link>
-                </div>
-
-                {/* --- THE CANVAS (RIGHT SIDE) - REBUILT FOR READABILITY --- */}
-                <div className="relative h-screen md:sticky top-0 overflow-hidden">
-                    <AnimatePresence>
-                        {displayProject?.imageUrl && (
-                            <motion.div
-                                key={displayProject._id + "-image"}
-                                className="absolute inset-0 z-0"
-                                initial={{ opacity: 0, scale: 1.1 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 1.1 }}
-                                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <Image
-                                    src={urlFor(displayProject.imageUrl)}
-                                    alt={displayProject.title}
-                                    fill
-                                    sizes="50vw"
-                                    className="object-cover"
-                                />
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-                    {/* --- THE FIX: Frosted Glass Content Overlay --- */}
-                    <div className="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-12">
-                        <AnimatePresence mode="wait">
-                            {selectedProject && (
-                                <motion.div
-                                    key={selectedProject._id + "-content"}
-                                    // This container now has the blurred background
-                                    className="relative bg-black/40 text-white p-6 md:p-8 rounded-lg backdrop-blur-lg border border-white/10 shadow-2xl"
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -30 }}
-                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                                >
-                                    <h2 className="text-2xl md:text-3xl font-bold mb-4">{selectedProject.title}</h2>
-                                    <p className="text-base md:text-lg leading-relaxed max-w-xl text-neutral-200">
-                                        {selectedProject.description}
-                                    </p>
-                                    <div className="flex flex-wrap gap-x-4 gap-y-2 mt-6 text-sm text-neutral-300">
-                                        {selectedProject.techStack?.map(tech => <span key={tech}>#{tech}</span>)}
-                                    </div>
-                                    <div className="flex flex-wrap gap-4 mt-8">
-                                        {selectedProject.gitLink && (
-                                            <a href={selectedProject.gitLink} target="_blank" rel="noopener noreferrer" className="inline-block text-lg font-bold group text-yellow-300 hover:text-yellow-200">
-                                                View Project
-                                                <span className="inline-block transition-transform duration-300 group-hover:translate-x-2 ml-2">→</span>
-                                            </a>
-                                        )}
-                                        <Link href={`/bloglist?search=${encodeURIComponent(selectedProject.title)}`} className="inline-block text-lg font-bold group text-blue-300 hover:text-blue-200">
-                                            Related Blog Posts
-                                            <span className="inline-block transition-transform duration-300 group-hover:translate-x-2 ml-2">→</span>
-                                        </Link>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                </div>
-            </main>
+        <div className="a-plates">
+          {projects.map((p) => (
+            <article className="a-plate" key={p._id}>
+              {p.imageUrl && (
+                <Image
+                  src={p.imageUrl}
+                  alt={p.title || 'Project'}
+                  width={1100}
+                  height={733}
+                  sizes="(max-width: 760px) 100vw, 500px"
+                />
+              )}
+              {p.gitLink ? (
+                <a href={p.gitLink} rel="noopener" target="_blank">
+                  {p.title}
+                </a>
+              ) : (
+                <span>{p.title}</span>
+              )}
+              {p.oneLiner && <p className="a-plate-note">{p.oneLiner}</p>}
+            </article>
+          ))}
         </div>
-    );
+      </section>
+
+      <section className="a-section">
+        <p className="a-label">EVERY REPO</p>
+        <ul className="a-rows">
+          {projects.map((p) => (
+            <li className="a-row" key={`row-${p._id}`}>
+              <div className="a-row-main">
+                {p.title}
+                {p.description && (
+                  <span className="a-row-note">{p.description.slice(0, 180)}</span>
+                )}
+              </div>
+              {p.gitLink && (
+                <a className="a-row-meta" href={p.gitLink} rel="noopener" target="_blank">
+                  source
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <ArenaFooter
+        note={
+          <>
+            Written up as they were built. Some of these are three years old and it
+            shows. <Link href="/">Back to the front.</Link>
+          </>
+        }
+      />
+    </main>
+  );
 }

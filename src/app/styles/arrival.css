@@ -1,0 +1,302 @@
+/* ============================================================
+   /me — the arrival record.
+   He moved countries alone at seventeen, so the page is built as
+   the paperwork that move would have generated: typed fields,
+   ticked boxes, entry stamps, a machine-readable strip.
+   Deliberately NOT a copy of any real government form — the
+   serial and headings are invented, so this reads as a personal
+   artifact rather than a forgery. Scoped under `.arrival`.
+   ============================================================ */
+
+.arrival {
+  --paper: #efe9db;
+  --ink: #23201a;
+  --faded: #6d675a;
+  --rule: #b9b1a0;
+  --stamp: #a3271d;
+  --stamp2: #2c4a7c;
+
+  background-color: #cfc7b4;
+  color: var(--ink);
+  font-family: 'Courier New', Courier, ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.55;
+  min-height: 100vh;
+  padding: 40px 18px 80px;
+}
+
+.arrival a {
+  color: var(--stamp2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.arrival a:hover {
+  background: #ffe9a8;
+}
+
+/* The document itself: paper stock with a security tint. */
+.ar-doc {
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(58deg, rgba(120, 105, 70, 0.055) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(-58deg, rgba(120, 105, 70, 0.045) 0 1px, transparent 1px 9px);
+  border: 1px solid #a89f8b;
+  box-shadow: 0 18px 44px -18px rgba(40, 34, 20, 0.55);
+  padding: 40px 46px 30px;
+  overflow: hidden;
+}
+
+/* ---------- masthead ---------- */
+.ar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 3px double var(--ink);
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+}
+.ar-head h1 {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  margin: 0;
+  text-transform: uppercase;
+}
+.ar-head .ar-sub {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--faded);
+  margin: 3px 0 0;
+}
+.ar-serial {
+  font-size: 11px;
+  text-align: right;
+  color: var(--faded);
+  white-space: nowrap;
+  line-height: 1.7;
+}
+
+/* ---------- sections ---------- */
+.ar-sec {
+  margin-top: 26px;
+}
+.ar-sec > h2 {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faded);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 5px;
+  font-weight: 400;
+}
+
+/* ---------- typed fields ---------- */
+.ar-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 40px;
+  margin: 0;
+}
+.ar-field {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 0;
+}
+.ar-field dt {
+  font-size: 10.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--faded);
+  white-space: nowrap;
+}
+.ar-field .ar-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--rule);
+  transform: translateY(-3px);
+  min-width: 8px;
+}
+.ar-field dd {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---------- ticked boxes ---------- */
+.ar-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ar-boxes li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 12.5px;
+}
+.ar-box {
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--ink);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--stamp);
+  font-weight: 700;
+  flex: none;
+}
+.ar-off {
+  color: var(--faded);
+}
+
+/* ---------- declarations ---------- */
+.ar-decl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ar-decl li {
+  display: flex;
+  gap: 14px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.ar-decl .ar-yr {
+  width: 52px;
+  flex: none;
+  color: var(--faded);
+  font-size: 12px;
+}
+.ar-struck {
+  text-decoration: line-through;
+  color: var(--faded);
+}
+
+/* ---------- entry stamps ---------- */
+.ar-stamps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 22px;
+  padding: 14px 0 6px;
+  list-style: none;
+  margin: 0;
+}
+.ar-stamp {
+  border: 2.5px solid var(--stamp);
+  color: var(--stamp);
+  padding: 9px 13px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 10.5px;
+  line-height: 1.35;
+  opacity: 0.82;
+  /* Rubber stamps never land square, and never land evenly inked. */
+  mix-blend-mode: multiply;
+}
+.ar-stamp b {
+  display: block;
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+}
+.ar-stamp span {
+  display: block;
+  font-size: 9.5px;
+  color: inherit;
+  opacity: 0.85;
+}
+.ar-stamps li:nth-child(1) .ar-stamp { transform: rotate(-4deg); }
+.ar-stamps li:nth-child(2) .ar-stamp { transform: rotate(3deg); border-color: var(--stamp2); color: var(--stamp2); }
+.ar-stamps li:nth-child(3) .ar-stamp { transform: rotate(-2deg); }
+.ar-stamps li:nth-child(4) .ar-stamp { transform: rotate(5deg); border-color: var(--stamp2); color: var(--stamp2); }
+.ar-stamps li:nth-child(5) .ar-stamp { transform: rotate(-6deg); }
+.ar-stamps li:nth-child(6) .ar-stamp { transform: rotate(2deg); }
+
+/* The big one, struck across the record at an angle. */
+.ar-admitted {
+  position: absolute;
+  right: 44px;
+  top: 352px;
+  border: 4px double var(--stamp);
+  color: var(--stamp);
+  padding: 10px 16px;
+  text-align: center;
+  transform: rotate(-13deg);
+  opacity: 0.72;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.ar-admitted b {
+  display: block;
+  font-size: 20px;
+  letter-spacing: 0.2em;
+  line-height: 1;
+}
+.ar-admitted span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin-top: 4px;
+}
+
+/* ---------- machine-readable zone ---------- */
+.ar-mrz {
+  margin-top: 34px;
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+  font-size: 15px;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+  word-break: break-all;
+  color: var(--ink);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.ar-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  font-size: 10.5px;
+  color: var(--faded);
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 720px) {
+  .ar-doc {
+    padding: 24px 18px 20px;
+  }
+  .ar-fields {
+    grid-template-columns: 1fr;
+  }
+  .ar-admitted {
+    position: static;
+    transform: rotate(-6deg);
+    display: inline-block;
+    margin: 16px 0 0;
+  }
+  .ar-head {
+    flex-direction: column;
+  }
+  .ar-serial {
+    text-align: left;
+  }
+  .ar-mrz {
+    font-size: 11px;
+  }
+}

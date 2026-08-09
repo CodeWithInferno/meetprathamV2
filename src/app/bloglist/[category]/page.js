@@ -1,131 +1,75 @@
-"use client";
-import sanityClient from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
-import { useEffect, useState } from "react";
-import Header from "../../Components/Header";
-import Footer from "../../Components/Footer";
-import LoadingAnimation from "../../Components/ui/loader/loader";
-import Head from "next/head";
-import Link from "next/link"; // For linking to individual posts
-import Image from "next/image"; // <-- IMPORT NEXT/IMAGE
+// One topic. A filtered view is a list, not a front page — no lead, no images,
+// just the pieces and when they were written.
 
+import Link from 'next/link';
+import { client } from '../../../../sanity/lib/client';
+import ArenaHeader from '../../Components/arena/Header';
+import ArenaFooter from '../../Components/arena/Footer';
 
-// Sanity client initialization
-const client = sanityClient({
-  projectId: "1igdvz19",
-  dataset: "production",
-  useCdn: true,
-});
+export const revalidate = 60;
 
-const builder = imageUrlBuilder(client);
-function urlFor(source) {
-  return builder.image(source);
+async function getData(category) {
+  const [posts, topic] = await Promise.all([
+    client.fetch(
+      `*[_type == "post" && $category in topics[]->slug.current && defined(slug.current)]
+        | order(publishedAt desc){
+          _id, title, "slug": slug.current, publishedAt, shortDescription
+        }`,
+      { category }
+    ),
+    client.fetch(`*[_type == "topic" && slug.current == $category][0]{title}`, {
+      category,
+    }),
+  ]);
+  return { posts, title: topic?.title || category };
 }
 
-// Fetch posts by category
-async function getPostsByCategory(category) {
-  const query = `
-    *[_type == "post" && "${category}" in topics[]->slug.current] {
-      title,
-      slug,
-      publishedAt,
-      banner {
-        asset -> {
-          _id,
-          url
-        }
-      },
-      topics[]->{
-        title,
-        slug
-      },
-      description
-    }
-  `;
-
-  const data = await client.fetch(query);
-
-  // Ensure the banner URL is set correctly
-  return data.map(post => {
-    if (post.banner) {
-      post.banner.url = urlFor(post.banner.asset).url();
-    }
-    return post;
-  });
+export async function generateMetadata({ params }) {
+  const { title } = await getData(params.category);
+  return {
+    title: `${title} | Writing | Pratham Patel`,
+    description: `Posts about ${title}.`,
+    alternates: {
+      canonical: `https://www.meetpratham.me/bloglist/${params.category}`,
+    },
+  };
 }
 
-export default function CategoryBlogList({ params }) {
-  const { category } = params || {};
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch the posts by category
-  useEffect(() => {
-    if (category) {
-      getPostsByCategory(category).then(fetchedPosts => {
-        setPosts(fetchedPosts);
-        setLoading(false);
-      });
-    }
-  }, [category]);
-
-  if (loading) {
-    return (
-      <div className="bg-white text-black min-h-screen flex items-center justify-center">
-        <LoadingAnimation />
-      </div>
-    );
-  }
+export default async function CategoryPage({ params }) {
+  const { posts, title } = await getData(params.category);
 
   return (
-    <>
-      <Head>
-        <title>Category: {category}</title>
-        <meta property="og:title" content={`Category: ${category}`} />
-      </Head>
+    <main className="arena">
+      <ArenaHeader current="/bloglist" />
 
-      <div className="bg-gray-100 text-black font-serif">
-        <Header />
+      <section className="a-section">
+        <p className="a-label">{String(title).toUpperCase()}</p>
+        <p className="a-lede">
+          {posts.length} {posts.length === 1 ? 'piece' : 'pieces'} filed under this.{' '}
+          <Link href="/bloglist">Everything else.</Link>
+        </p>
 
-        <div className="text-center py-4">
-          <h1 className="text-2xl font-bold">Category: {category}</h1>
-        </div>
+        <ul className="a-list">
+          {posts.map((p) => (
+            <li key={p._id}>
+              <span className="a-when">
+                {p.publishedAt
+                  ? new Date(p.publishedAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                    })
+                  : ''}
+              </span>
+              <div className="a-list-main">
+                <Link href={`/blog/${p.slug}`}>{p.title}</Link>
+                {p.shortDescription && <span>{p.shortDescription}</span>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-        <div className="bg-white text-black min-h-screen flex flex-col items-center px-4">
-          {/* Grid to display posts */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
-            {posts.map((post, index) => (
-              <Link key={index} href={`/blogs/${post.slug.current}`}>
-                <div className="card bg-white rounded-xl overflow-hidden shadow-lg h-auto w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto cursor-pointer transform transition-all duration-300 hover:scale-105">
-                  {post.banner && (
-                    <Image
-                      className="h-56 w-full object-cover"
-                      src={post.banner.url}
-                      alt={post.title}
-                    />
-                  )}
-                  <div className="p-4">
-                    <h2 className="mt-2 font-bold text-lg sm:text-xl">{post.title}</h2>
-                    <p className="mt-2 text-sm text-gray-500">{post.description}</p>
-
-                    {/* Display topics */}
-                    <div className="flex flex-wrap mt-2">
-                      {post.topics &&
-                        post.topics.map((topic, i) => (
-                          <span key={i} className="text-xs text-gray-600 mr-2">
-                            {topic.title}
-                          </span>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <Footer />
-      </div>
-    </>
+      <ArenaFooter note={<Link href="/bloglist">All writing →</Link>} />
+    </main>
   );
 }

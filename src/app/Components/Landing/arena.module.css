@@ -1,0 +1,409 @@
+/*
+ * Faux-default-HTML landing page.
+ * The whole point of this style is that it *looks* unstyled, so every value
+ * here is deliberate: the link blue is a hair off the browser default, the
+ * type is small and left-ranged, and nothing has a radius, a shadow or a card.
+ * Tailwind preflight strips link colour and underlines, so both are restored
+ * explicitly below — without these two rules the page loses its only ornament.
+ */
+
+
+/* ---------- header ---------- */
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 34px;
+}
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+.headRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  text-align: right;
+}
+.name {
+  color: var(--muted);
+}
+
+/* ---------- opening statement ----------
+   Set larger than body copy and ranged left at reading width. It is the first
+   thing on the page because it is the only part nobody else could have written. */
+.opening {
+  max-width: 44ch;
+  margin: 0 0 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.opening p {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+.opening p:last-child {
+  color: var(--muted);
+}
+
+/* ---------- image cluster ----------
+   Sizes are deliberately mismatched. This is the load-bearing move of the
+   style: images sit at arbitrary widths on a bare ground, like a moodboard
+   rather than a gallery grid. */
+/* The two groups are pushed to opposite edges of the field. The gulf between
+   them is the composition — a held breath, not leftover space. The stacked
+   pair rides higher than the large plate so the pair reads as a diagonal
+   rather than a row. */
+.cluster {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 132px;
+}
+.clusterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: -66px;
+}
+.cluster img {
+  display: block;
+  height: auto;
+}
+/* Moodboard plates: one large, two small stacked beside it. Widths are fixed
+   in px, not fractions — the images sit at a chosen size on the ground rather
+   than filling a column. */
+.mbWide {
+  width: 452px;
+}
+.mbStack {
+  width: 214px;
+}
+/* Photo strip. Bottoms share a baseline so the ragged tops read as a chosen
+   rhythm; widths step down so no two neighbours match. Fixed heights keep
+   portrait phone photos from towering over the landscape ones. */
+.strip {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.strip img {
+  display: block;
+  width: auto;
+  object-fit: cover;
+}
+.strip1 {
+  height: 250px;
+}
+.strip2 {
+  height: 190px;
+}
+.strip3 {
+  height: 296px;
+}
+.strip4 {
+  height: 168px;
+}
+.strip5 {
+  height: 224px;
+}
+.stripCaption {
+  color: var(--faint);
+  font-size: 11px;
+  margin: 9px 0 0;
+}
+
+/* ---------- sections ---------- */
+.section {
+  margin-bottom: 96px;
+}
+.sectionLink {
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.label {
+  font-weight: 700;
+  margin: 0 0 14px;
+  font-size: 14px;
+}
+
+/* Oversized glyph row: the reference's structural break. Enormous, spread
+   across the full column, doing the job a hero image would do elsewhere. */
+.glyphs {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  margin: 58px 0 62px;
+  font-size: 172px;
+  line-height: 1;
+  user-select: none;
+}
+
+/* A figure dropped in raw at full column width — no frame, no crop, no card.
+   Technical images are left exactly as the paper produced them. */
+.plate {
+  margin: 44px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-width: 1100px;
+}
+.plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* The S2C source figure carries a quarter-page of empty white below the
+   drawing. Clip to the drawn area rather than shipping the hole. */
+.plateCrop img {
+  aspect-ratio: 1600 / 800;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+}
+.plate figcaption {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  max-width: 74ch;
+}
+
+/* links trailing a metadata line need air, not a wall of underlines */
+.rowNote a {
+  margin-left: 10px;
+}
+
+/* indented explanatory body, ranged in from the left edge like the reference */
+/* Body copy is inset from the section link above it, so the link hangs into
+   the left margin and the prose reads as a second register. */
+.body {
+  margin: 0 0 14px;
+  padding-left: 118px;
+  max-width: 84ch;
+}
+.body:last-child {
+  margin-bottom: 0;
+}
+
+/* Dated beats. The date column is fixed so the dates form their own left edge
+   and the prose forms another — two rules holding the block, no table chrome. */
+.timeline {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0 0 0 118px;
+  max-width: 84ch;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.timeline li {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+.when {
+  width: 76px;
+  flex: none;
+  color: var(--faint);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ---------- plain rows ---------- */
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.row {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 7px 0;
+  border-top: 1px solid var(--rule);
+}
+.row:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.rowMain {
+  flex: 1;
+  min-width: 0;
+}
+.rowNote {
+  color: var(--muted);
+  display: block;
+  margin-top: 2px;
+}
+.rowMeta {
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- work ----------
+   No cards. The plates are large, uncropped and at deliberately unequal
+   widths, with a plain blue link and a one-line caption under each — the
+   same treatment the moodboard gets. Fixed-height cropped thumbnails and
+   clamped blurbs are card furniture, and card furniture is the one thing
+   this page is not allowed to have. */
+.work {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 46px 34px;
+  margin-top: 10px;
+}
+.workItem {
+  width: 400px;
+}
+.workItem:nth-child(1) {
+  width: 500px;
+}
+.workItem:nth-child(2) {
+  width: 480px;
+}
+.workItem:nth-child(3) {
+  width: 320px;
+}
+.workItem:nth-child(4) {
+  width: 380px;
+}
+.workItem:nth-child(5) {
+  width: 260px;
+}
+.workItem:nth-child(6) {
+  width: 440px;
+}
+.workItem:nth-child(8) {
+  width: 340px;
+}
+.workItem:nth-child(9) {
+  width: 480px;
+}
+.workItem img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 9px;
+}
+.workDesc {
+  color: var(--faint);
+  margin: 3px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* ---------- inline index of links ---------- */
+.index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills {
+  margin: 0;
+  padding: 0;
+}
+.skillRow {
+  display: flex;
+  gap: 14px;
+  padding: 6px 0;
+  border-top: 1px solid var(--rule);
+}
+.skillRow:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.skillCat {
+  width: 130px;
+  flex: none;
+  color: var(--muted);
+}
+
+.foot {
+  color: var(--faint);
+  margin-top: 120px;
+}
+.credit {
+  color: var(--faint);
+  font-size: 11px;
+  margin: 44px 0 0;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .root {
+    padding: 30px 22px 100px;
+  }
+  .head {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .headRight {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .cluster {
+    margin-bottom: 64px;
+    gap: 12px;
+  }
+  .mbWide {
+    width: 100%;
+  }
+  .mbStack {
+    width: calc(50% - 6px);
+  }
+  .clusterCol {
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+  }
+  .body {
+    padding-left: 0;
+  }
+  .timeline {
+    padding-left: 0;
+  }
+  .timeline li {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .when {
+    width: auto;
+  }
+  .section {
+    margin-bottom: 64px;
+  }
+  .glyphs {
+    font-size: 68px;
+    margin: 34px 0 36px;
+  }
+  .plate {
+    margin-top: 28px;
+  }
+  .skillCat {
+    width: 92px;
+  }
+  .work {
+    gap: 30px 16px;
+  }
+  .workItem,
+  .workItem:nth-child(n) {
+    width: 100%;
+  }
+}

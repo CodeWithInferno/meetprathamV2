@@ -22,6 +22,21 @@ export default {
       type: 'url',
     },
     {
+      name: 'featured',
+      title: 'Featured on landing page',
+      description:
+        'Tick to show this under SELECTED WORK on the home page. Leave off and it still appears on /projects.',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
+      name: 'oneLiner',
+      title: 'One-liner',
+      description:
+        'One line on what it does, leading with the most impressive true fact. Shown under the image on the landing page.',
+      type: 'string',
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'text',
